@@ -1,0 +1,16 @@
+{% if room_list %}
+    <ul>
+    
+    {% for room in room_list %}
+        
+     <h3>{{ room.name }}</h3>
+     <li>REFERENCE: {{ room.reference }}</li>
+     <li>temp: {{ room.temperature }}</li>
+     <li>humidity: {{ room.humidity }}</li>
+     
+    {% endfor %}
+
+    </ul>
+{% else %}
+    <p>No container availabel</p>
+{% endif %}

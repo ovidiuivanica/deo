@@ -1,0 +1,41 @@
+<html>
+<head>
+<meta content="width=device-width; initial-scale=1.25; maximum-scale=2.0; user-scalable=1;" name="viewport"/>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'web/style.css' %}" />
+<script>
+var myVar = setInterval(function(){ loadStatus() }, 1000);
+
+function loadStatus() {
+	 var xmlhttp = new XMLHttpRequest();
+	 xmlhttp.onreadystatechange = function() {
+		 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			 document.getElementById("refresh").innerHTML = xmlhttp.responseText;
+		 }
+	 }
+	 xmlhttp.open("GET", "/web/status", true);
+	 xmlhttp.send();
+}
+</script>
+</head>
+<body>
+
+{% if service_name %}
+    <ul>
+     <h3>{{ service_name }}</h3>
+    </ul>
+{% else %}
+    <p>no service_name available</p>
+{% endif %}
+
+    <h2><a href="/web/cold">COLD</a></h2>
+    <h2><a href="/web/heat">HEAT</a></h2>
+
+
+<p id="refresh"></p>
+
+    <h2><a href="/web/door">DOOR</a></h2>
+
+</body>
+
+</html>

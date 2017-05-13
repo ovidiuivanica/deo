@@ -1,0 +1,72 @@
+<?xml version="1.0" ?><house>
+	<room id="3">
+			<name>Hol</name>
+			<temperature>24.9</temperature>
+			<sensor>/dev/ttyUSB3</sensor>
+            <reference>22</reference>
+            <day>22</day>
+            <night>17</night>
+            <freezing>7</freezing>
+			<humidity>59</humidity>
+			<heater>0</heater>
+	</room>
+	<room id="1">
+			<name>Living</name>
+			<temperature>22.6</temperature>
+			<sensor>/dev/ttyUSB2</sensor>
+            <reference>21</reference>
+            <day>21</day>
+            <night>19</night>
+            <freezing>7</freezing>
+			<humidity>3</humidity>
+			<heater>0</heater>
+	</room>
+	<room id="2">
+			<name>Dormitor</name>
+			<temperature>24.7</temperature>
+			<sensor>/dev/ttyUSB0</sensor>
+            <reference>20</reference>
+            <day>20</day>
+            <night>20</night>
+            <freezing>7</freezing>
+			<humidity>62</humidity>
+			<heater>0</heater>
+	</room>
+	<room id="4">
+			<name>Bucatarie</name>
+			<temperature>23.2</temperature>
+			<sensor>/dev/ttyUSB1</sensor>
+            <reference>22</reference>
+            <day>22</day>
+            <night>16</night>
+            <freezing>7</freezing>
+			<humidity>68</humidity>
+			<heater>0</heater>
+	</room>
+	<furnace id="7">
+			<name>Centrala</name>
+			<state>0</state>
+            <drState>0</drState>
+	</furnace>
+	<yard id="6">
+			<name>Curte</name>
+			<light>0</light>
+	</yard>
+	<operation id="900">
+			<mode>automat</mode>
+	</operation>
+    <outside id="10">
+        <temperature>11.49</temperature>
+    </outside>
+	<door id="1000">
+			<name>Poarta</name>
+            <state>0</state>
+			<value>0</value>
+	</door>
+    <refresh id="20">
+        <time>1494667254</time>
+    </refresh>
+    <pid id="1100">
+    	<value>3897</value>
+    </pid>
+</house>

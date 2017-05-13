@@ -1,0 +1,78 @@
+/* Just some base styles not needed for example to function */
+*, html { font-family: Verdana, Arial, Helvetica, sans-serif; }
+html,body { width: 100%; height: 100%; }
+
+body, form, ul, li, p, h1, h2, h3, h4, h5
+{
+	margin: 0;
+	padding: 0;
+}
+
+body { background-color: #606061; }
+img { border: none; }
+p
+{
+	font-size: 1em;
+	margin: 0 0 1em 0;
+}
+
+heaterOn { 
+    background-color: SandyBrown;
+    color: black;
+}
+
+heaterOff { 
+    background-color: Blue;
+    color: white;
+}
+
+	
+#loader
+{
+	display: table;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 2000000;
+}
+	#loader .loader
+	{
+		display: table-cell;
+		vertical-align: middle;
+		text-align: center;
+		color: #ffffff;
+	}
+	#loader img
+	{
+		width: 31px;
+		height: 31px;
+		padding: 10px;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		background-color: #606061;
+	}
+	
+#TCN_Geo
+{
+	width: 100%; 
+	height: 100%;
+}
+		
+.wml-info-window .wml-info-window-content { -webkit-border-radius: 4px; -moz-border-radius: 4px; text-align: center; }
+		
+/* Detect orientation without javascript */
+/* Portrait */
+@media screen and (max-width: 320px) {
+	#TCN_Geo{ height: 420px !important; }
+}
+/* Landscape */
+@media screen and (min-width: 321px) and (max-width: 480px) {
+	#TCN_Geo, #loader { height: 269px !important; }
+	#loader
+	{
+		background: rgba(0,0,0,0.7);
+		z-index: 2000002;
+	}
+}
+
+

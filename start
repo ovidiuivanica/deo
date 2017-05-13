@@ -1,0 +1,1 @@
+python /home/pi/Desktop/deo/deoServer.py > /dev/null &
