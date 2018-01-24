@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="width=device-width; initial-scale=1.25; maximum-scale=2.0; user-scalable=1;" name="viewport"/>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'web/style.css' %}" />
+<script>
+var myVar = setInterval(function(){ loadStatus() }, 1000);
+
+function loadStatus() {
+	 var xmlhttp = new XMLHttpRequest();
+	 xmlhttp.onreadystatechange = function() {
+		 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			 document.getElementById("refresh").innerHTML = xmlhttp.responseText;
+		 }
+	 }
+	 xmlhttp.open("GET", "/web/status", true);
+	 xmlhttp.send();
+}
+
+function sendRequest(resource) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("action_result").innerHTML = this.responseText;
+    }
+  };
+  xhttp.open("GET", resource, true);
+  xhttp.send();
+}
+
+function sendRequest2() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("action_result").innerHTML = this.responseText;
+    }
+  };
+  xhttp.open("GET", "/web/heat", true);
+  xhttp.send();
+}
+
+</script>
+</head>
+<body>
+
+{% if service_name %}
+    <ul>
+     <h3>{{ service_name }}</h3>
+    </ul>
+{% else %}
+    <p>no service_name available</p>
+{% endif %}
+
+
+
+<p id="action_result">...</p>
+<button class="button" type="button" onclick="sendRequest('/web/door')">DOOR</button>
+
+<p id="refresh"></p>
+
+    
+    <button class="button_blue" type="button" onclick="sendRequest('/web/cold')">COLD</button> 
+    <button class="button_red" type="button" onclick="sendRequest('/web/heat')">HEAT</button> <br />
+    <button class="button_gray" type="button" onclick="sendRequest('/web/light_start')">LIGHT_ON</button>
+    <button class="button_black" type="button" onclick="sendRequest('/web/light_stop')">LIGHT_OFF</button> <br />
+    
+
+</body>
+
+</html>

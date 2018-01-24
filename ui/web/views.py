@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 import logging
 import sysv_ipc
@@ -19,11 +19,24 @@ class Room(object):
 
 def index(request):
     service_name = "Deoplace"
-    
-    context = {'service_name': service_name}
+    roomIdList = ["1","2","3","4"]
+    room_list = []
+    for roomId in roomIdList:
+        room = Room()
+        room.id = roomId
+        room.temperature = getPersistantData(roomId,"room","temperature")
+        room.humidity = getPersistantData(roomId,"room","humidity")
+        room.name = getPersistantData(roomId,"room","name")
+        room.reference = getPersistantData(roomId,"room","reference")
+        room.ref_temp_list = ["10", "12", "13", "14", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"]
+        room_list.append(room)
+
+
+    context = {'service_name': service_name,
+               'room_list' : room_list}
     return render(request, 'web/index.html', context)
 
-        
+
 def status(request):
     string = "this is my string"
     roomIdList = ["1","2","3","4"]    
@@ -38,6 +51,21 @@ def status(request):
         room_list.append(room)
     context = {'room_list': room_list}
     return render(request, 'web/status.html', context)
+
+def data(request):
+    string = "this is my string"
+    roomIdList = ["1","2","3","4"]
+    house_data = {}
+    for roomId in roomIdList:
+        room = {}
+        room['id'] = roomId
+        room['temperature'] = getPersistantData(roomId,"room","temperature")
+        room['humidity'] = getPersistantData(roomId,"room","humidity")
+        room['name'] = getPersistantData(roomId,"room","name")
+        room['reference'] = getPersistantData(roomId,"room","reference")
+        house_data[room.get('name')] = room
+    return JsonResponse(house_data)
+
 
 def stop(request):
     try:
@@ -107,13 +135,39 @@ def heat(request):
     for roomId in roomIdList:
         temp = getPersistantData(roomId,"room","day")
         res = setPersistantData(roomId,"room","reference",temp)  
-    return HttpResponse("<a href='/web/'>BACK</a>")
+    #return HttpResponse("<a href='/web/'>BACK</a>")
+    context = {'action' : 'heat set'}
+    return render(request, 'web/done.html', context)
+
+
+def set_reference(request):
+    roomIdList = ["1","2","3","4"]
+    reference = request.POST.get('new_reference')
+    room_id = request.POST.get('room_id')
+
+    res = setPersistantData(room_id,"room","reference",reference)  
+    #return HttpResponse("<a href='/web/'>BACK</a>")
+    context = {'action' : 'reference set to {} for room id {}'.format(reference, room_id)}
+    return render(request, 'web/done.html', context)
+
 def cold(request):
     roomIdList = ["1","2","3","4"]    
     for roomId in roomIdList:
         temp = getPersistantData(roomId,"room","night")
         res = setPersistantData(roomId,"room","reference",temp)  
-    return render(request, 'web/back.html')
+    #return render(request, 'web/back.html')
+    context = {'action' : 'cold set'}
+    return render(request, 'web/done.html', context)
 def door(request):
     res = setPersistantData('1000',"door","state","1")  
-    return HttpResponse("<a href='/web/'>BACK</a>")
+    context = {'action' : 'door_opened'}
+    return render(request, 'web/done.html', context)
+
+def light_start(request):
+    res = setPersistantData('6',"yard","light","1")  
+    context = {'action' : 'light_on'}
+    return render(request, 'web/done.html', context)
+def light_stop(request):
+    res = setPersistantData('6',"yard","light","0")  
+    context = {'action' : 'light_stopped'}
+    return render(request, 'web/done.html', context)

@@ -1,14 +1,24 @@
 {% if room_list %}
     <ul>
     
-    {% for room in room_list %}
-        
-     <h3>{{ room.name }}</h3>
-     <li>REFERENCE: {{ room.reference }}</li>
-     <li>temp: {{ room.temperature }}</li>
-     <li>humidity: {{ room.humidity }}</li>
+    
+    <table>
+    
+        {% for room in room_list %}
+    <tr>
+     <td>
+        <h3>{{ room.name }}</h3>
+     </td>
+     <td>
+         <tr>
+            <td><li>REFERENCE: {{ room.reference }}</li></td></tr>
+         <tr><td><li>temp: {{ room.temperature }}</li></td></tr>
+         <tr><td><li>humidity: {{ room.humidity }}</li></td></tr>
+     </td>
+     </tr>
      
     {% endfor %}
+    </table>
 
     </ul>
 {% else %}

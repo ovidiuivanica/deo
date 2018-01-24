@@ -1,0 +1,539 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+3threads_deoServer.py	../3threads_deoServer.py	1;"	kind:file	line:1
+ALLOWED_HOSTS	../ui\ui\settings.py	/^ALLOWED_HOSTS = ['192.168.1.136', 'deoplace.go.ro']$/;"	kind:variable	line:28
+AUTH_PASSWORD_VALIDATORS	../ui\ui\settings.py	/^AUTH_PASSWORD_VALIDATORS = [$/;"	kind:variable	line:87
+AppConfig	../ui\web\apps.py	/^from django.apps import AppConfig$/;"	kind:namespace	line:4
+BASE_DIR	../ui\ui\settings.py	/^BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))$/;"	kind:variable	line:16
+BASE_PATH	../3threads_deoServer.py	/^BASE_PATH = os.path.dirname(os.path.realpath(__file__))$/;"	kind:variable	line:29
+BASE_PATH	../deoServer.py	/^BASE_PATH = os.path.dirname(os.path.realpath(__file__))$/;"	kind:variable	line:28
+BASE_PATH	../working_deoServer.py	/^BASE_PATH = os.path.dirname(os.path.realpath(__file__))$/;"	kind:variable	line:28
+BUCATARIE	../3threads_deoServer.py	/^BUCATARIE   = 1$/;"	kind:variable	line:18
+BUCATARIE	../deoServer.py	/^BUCATARIE   = 1$/;"	kind:variable	line:17
+BUCATARIE	../working_deoServer.py	/^BUCATARIE   = 1$/;"	kind:variable	line:17
+Board	../3threads_deoServer.py	/^class Board:$/;"	kind:class	line:397
+Board	../deoServer.py	/^class Board:$/;"	kind:class	line:436
+Board	../working_deoServer.py	/^class Board:$/;"	kind:class	line:408
+Control	../3threads_deoServer.py	/^class Control(threading.Thread):$/;"	kind:class	line:858
+DATABASES	../ui\ui\settings.py	/^DATABASES = {$/;"	kind:variable	line:76
+DEBUG	../ui\ui\settings.py	/^DEBUG = True$/;"	kind:variable	line:26
+DEFAULT_REFERENCE	../3threads_deoServer.py	/^DEFAULT_REFERENCE = 10$/;"	kind:variable	line:27
+DEFAULT_REFERENCE	../deoServer.py	/^DEFAULT_REFERENCE = 10$/;"	kind:variable	line:26
+DEFAULT_REFERENCE	../working_deoServer.py	/^DEFAULT_REFERENCE = 10$/;"	kind:variable	line:26
+DICT_BEGIN_DATE	../3threads_deoServer.py	/^DICT_BEGIN_DATE = 2$/;"	kind:variable	line:36
+DICT_BEGIN_DATE	../deoServer.py	/^DICT_BEGIN_DATE = 2$/;"	kind:variable	line:35
+DICT_BEGIN_DATE	../working_deoServer.py	/^DICT_BEGIN_DATE = 2$/;"	kind:variable	line:35
+DICT_END_DATE	../3threads_deoServer.py	/^DICT_END_DATE = 3$/;"	kind:variable	line:37
+DICT_END_DATE	../deoServer.py	/^DICT_END_DATE = 3$/;"	kind:variable	line:36
+DICT_END_DATE	../working_deoServer.py	/^DICT_END_DATE = 3$/;"	kind:variable	line:36
+DICT_PWD	../3threads_deoServer.py	/^DICT_PWD = 0$/;"	kind:variable	line:34
+DICT_PWD	../deoServer.py	/^DICT_PWD = 0$/;"	kind:variable	line:33
+DICT_PWD	../working_deoServer.py	/^DICT_PWD = 0$/;"	kind:variable	line:33
+DICT_ROLE	../3threads_deoServer.py	/^DICT_ROLE = 1$/;"	kind:variable	line:35
+DICT_ROLE	../deoServer.py	/^DICT_ROLE = 1$/;"	kind:variable	line:34
+DICT_ROLE	../working_deoServer.py	/^DICT_ROLE = 1$/;"	kind:variable	line:34
+Daemon	../deoplace.py	/^class Daemon:$/;"	kind:class	line:6
+Door	../3threads_deoServer.py	/^class Door:$/;"	kind:class	line:630
+Door	../deoServer.py	/^class Door:$/;"	kind:class	line:691
+Door	../working_deoServer.py	/^class Door:$/;"	kind:class	line:626
+DummyBoard	../3threads_deoServer.py	/^class DummyBoard:$/;"	kind:class	line:465
+DummyBoard	../deoServer.py	/^class DummyBoard:$/;"	kind:class	line:507
+DummyBoard	../working_deoServer.py	/^class DummyBoard:$/;"	kind:class	line:476
+Furnace	../3threads_deoServer.py	/^class Furnace:$/;"	kind:class	line:288
+Furnace	../deoServer.py	/^class Furnace:$/;"	kind:class	line:317
+Furnace	../working_deoServer.py	/^class Furnace:$/;"	kind:class	line:276
+GPIO	../3threads_deoServer.py	/^import RPi.GPIO as GPIO$/;"	kind:namespace	line:2
+GPIO	../deoServer.py	/^import RPi.GPIO as GPIO$/;"	kind:namespace	line:2
+GPIO	../working_deoServer.py	/^import RPi.GPIO as GPIO$/;"	kind:namespace	line:2
+Gate	../working_deoServer.py	/^class Gate(threading.Thread):$/;"	kind:class	line:894
+Heating	../working_deoServer.py	/^class Heating(threading.Thread):$/;"	kind:class	line:905
+HttpResponse	../ui\web\views.py	/^from django.http import HttpResponse, JsonResponse$/;"	kind:namespace	line:2
+ID	../3threads_deoServer.py	/^ID          = 3$/;"	kind:variable	line:23
+ID	../deoServer.py	/^ID          = 3$/;"	kind:variable	line:22
+ID	../working_deoServer.py	/^ID          = 3$/;"	kind:variable	line:22
+INSTALLED_APPS	../ui\ui\settings.py	/^INSTALLED_APPS = [$/;"	kind:variable	line:33
+JsonResponse	../ui\web\views.py	/^from django.http import HttpResponse, JsonResponse$/;"	kind:namespace	line:2
+LANGUAGE_CODE	../ui\ui\settings.py	/^LANGUAGE_CODE = 'en-us'$/;"	kind:variable	line:106
+LIVING	../3threads_deoServer.py	/^LIVING      = 2$/;"	kind:variable	line:19
+LIVING	../deoServer.py	/^LIVING      = 2$/;"	kind:variable	line:18
+LIVING	../working_deoServer.py	/^LIVING      = 2$/;"	kind:variable	line:18
+Listener	../3threads_deoServer.py	/^class Listener(threading.Thread):$/;"	kind:class	line:879
+Lock	../deoServer.py	/^from multiprocessing import Process, Lock$/;"	kind:namespace	line:12
+Logging	../3threads_deoServer.py	/^import Logging$/;"	kind:namespace	line:7
+Logging	../working_deoServer.py	/^import Logging$/;"	kind:namespace	line:7
+MIDDLEWARE	../ui\ui\settings.py	/^MIDDLEWARE = [$/;"	kind:variable	line:42
+Measurements	../3threads_deoServer.py	/^class Measurements(threading.Thread):$/;"	kind:class	line:840
+OperationMode	../3threads_deoServer.py	/^class OperationMode():$/;"	kind:class	line:669
+OutsideTemp	../3threads_deoServer.py	/^class OutsideTemp():$/;"	kind:class	line:689
+Process	../deoServer.py	/^from multiprocessing import Process, Lock$/;"	kind:namespace	line:12
+REFERENCE	../3threads_deoServer.py	/^REFERENCE   = 2$/;"	kind:variable	line:22
+REFERENCE	../deoServer.py	/^REFERENCE   = 2$/;"	kind:variable	line:21
+REFERENCE	../working_deoServer.py	/^REFERENCE   = 2$/;"	kind:variable	line:21
+ROOM_ID	../3threads_deoServer.py	/^ROOM_ID     = 0$/;"	kind:variable	line:24
+ROOM_ID	../deoServer.py	/^ROOM_ID     = 0$/;"	kind:variable	line:23
+ROOM_ID	../working_deoServer.py	/^ROOM_ID     = 0$/;"	kind:variable	line:23
+ROOT_URLCONF	../ui\ui\settings.py	/^ROOT_URLCONF = 'ui.urls'$/;"	kind:variable	line:52
+RPi	../3threads_deoServer.py	/^import RPi.GPIO as GPIO$/;"	kind:namespace	line:2
+RPi	../deoServer.py	/^import RPi.GPIO as GPIO$/;"	kind:namespace	line:2
+RPi	../working_deoServer.py	/^import RPi.GPIO as GPIO$/;"	kind:namespace	line:2
+RelayBoard	../3threads_deoServer.py	/^class RelayBoard:$/;"	kind:class	line:434
+RelayBoard	../deoServer.py	/^class RelayBoard:$/;"	kind:class	line:471
+RelayBoard	../working_deoServer.py	/^class RelayBoard:$/;"	kind:class	line:445
+Room	../3threads_deoServer.py	/^class Room:$/;"	kind:class	line:525
+Room	../deoServer.py	/^class Room:$/;"	kind:class	line:572
+Room	../ui\web\views.py	/^class Room(object):$/;"	kind:class	line:12
+Room	../working_deoServer.py	/^class Room:$/;"	kind:class	line:536
+SECRET_KEY	../ui\ui\settings.py	/^SECRET_KEY = 'a4foyrocf+v1f5$hht8es&+-$rfb@c+z0njip0su8%yw53j1e3'$/;"	kind:variable	line:23
+SENSOR	../3threads_deoServer.py	/^SENSOR      = 0$/;"	kind:variable	line:20
+SENSOR	../deoServer.py	/^SENSOR      = 0$/;"	kind:variable	line:19
+SENSOR	../working_deoServer.py	/^SENSOR      = 0$/;"	kind:variable	line:19
+SIGTERM	../deoplace.py	/^from signal import SIGTERM $/;"	kind:namespace	line:4
+STATICFILES_DIRS	../ui\ui\settings.py	/^STATICFILES_DIRS = [$/;"	kind:variable	line:127
+STATICFILES_FINDERS	../ui\ui\settings.py	/^STATICFILES_FINDERS = [$/;"	kind:variable	line:122
+STATIC_URL	../ui\ui\settings.py	/^STATIC_URL = '\/static\/'$/;"	kind:variable	line:120
+Sensor	../3threads_deoServer.py	/^class Sensor:$/;"	kind:class	line:483
+Sensor	../deoServer.py	/^class Sensor:$/;"	kind:class	line:525
+Sensor	../working_deoServer.py	/^class Sensor:$/;"	kind:class	line:494
+ShutdownException	../3threads_deoServer.py	/^class ShutdownException(Exception):$/;"	kind:class	line:67
+ShutdownException	../deoServer.py	/^class ShutdownException(Exception):$/;"	kind:class	line:66
+ShutdownException	../working_deoServer.py	/^class ShutdownException(Exception):$/;"	kind:class	line:66
+ShutdownPart2Exception	../3threads_deoServer.py	/^class ShutdownPart2Exception(Exception):$/;"	kind:class	line:72
+TEMPERATURE	../3threads_deoServer.py	/^TEMPERATURE = 1$/;"	kind:variable	line:21
+TEMPERATURE	../deoServer.py	/^TEMPERATURE = 1$/;"	kind:variable	line:20
+TEMPERATURE	../working_deoServer.py	/^TEMPERATURE = 1$/;"	kind:variable	line:20
+TEMPLATES	../ui\ui\settings.py	/^TEMPLATES = [$/;"	kind:variable	line:54
+TIME_ZONE	../ui\ui\settings.py	/^TIME_ZONE = 'UTC'$/;"	kind:variable	line:108
+TestCase	../ui\web\tests.py	/^from django.test import TestCase$/;"	kind:namespace	line:4
+USE_I18N	../ui\ui\settings.py	/^USE_I18N = True$/;"	kind:variable	line:110
+USE_L10N	../ui\ui\settings.py	/^USE_L10N = True$/;"	kind:variable	line:112
+USE_TZ	../ui\ui\settings.py	/^USE_TZ = True$/;"	kind:variable	line:114
+WSGI_APPLICATION	../ui\ui\settings.py	/^WSGI_APPLICATION = 'ui.wsgi.application'$/;"	kind:variable	line:70
+WebConfig	../ui\web\apps.py	/^class WebConfig(AppConfig):$/;"	kind:class	line:7
+Yard	../3threads_deoServer.py	/^class Yard:$/;"	kind:class	line:328
+Yard	../deoServer.py	/^class Yard:$/;"	kind:class	line:374
+Yard	../working_deoServer.py	/^class Yard:$/;"	kind:class	line:322
+YardGateControl	../deoServer.py	/^def YardGateControl(board, lock):$/;"	kind:function	line:731
+__init__	../3threads_deoServer.py	/^    def __init__(self):$/;"	kind:member	line:435
+__init__	../3threads_deoServer.py	/^    def __init__(self):$/;"	kind:member	line:466
+__init__	../3threads_deoServer.py	/^    def __init__(self):$/;"	kind:member	line:690
+__init__	../3threads_deoServer.py	/^    def __init__(self, message):$/;"	kind:member	line:68
+__init__	../3threads_deoServer.py	/^    def __init__(self, message):$/;"	kind:member	line:73
+__init__	../3threads_deoServer.py	/^    def __init__(self, threadID, rooms):$/;"	kind:member	line:841
+__init__	../3threads_deoServer.py	/^    def __init__(self,board):$/;"	kind:member	line:329
+__init__	../3threads_deoServer.py	/^    def __init__(self,board):$/;"	kind:member	line:670
+__init__	../3threads_deoServer.py	/^    def __init__(self,board,rooms):$/;"	kind:member	line:289
+__init__	../3threads_deoServer.py	/^    def __init__(self,com,baud):$/;"	kind:member	line:398
+__init__	../3threads_deoServer.py	/^    def __init__(self,com,baud):$/;"	kind:member	line:484
+__init__	../3threads_deoServer.py	/^    def __init__(self,controllers):$/;"	kind:member	line:880
+__init__	../3threads_deoServer.py	/^    def __init__(self,doorId,board):$/;"	kind:member	line:631
+__init__	../3threads_deoServer.py	/^    def __init__(self,roomId,board,sensor):$/;"	kind:member	line:526
+__init__	../3threads_deoServer.py	/^    def __init__(self,threadID,controllers):$/;"	kind:member	line:859
+__init__	../deoServer.py	/^    def __init__(self):$/;"	kind:member	line:508
+__init__	../deoServer.py	/^    def __init__(self, lock):$/;"	kind:member	line:472
+__init__	../deoServer.py	/^    def __init__(self, message):$/;"	kind:member	line:67
+__init__	../deoServer.py	/^    def __init__(self,board, lock):$/;"	kind:member	line:375
+__init__	../deoServer.py	/^    def __init__(self,board,rooms,lock):$/;"	kind:member	line:318
+__init__	../deoServer.py	/^    def __init__(self,com,baud):$/;"	kind:member	line:437
+__init__	../deoServer.py	/^    def __init__(self,com,baud):$/;"	kind:member	line:526
+__init__	../deoServer.py	/^    def __init__(self,doorId,board,lock):$/;"	kind:member	line:692
+__init__	../deoServer.py	/^    def __init__(self,roomId,board,sensor,lock):$/;"	kind:member	line:573
+__init__	../deoplace.py	/^    def __init__(self, pidfile, stdin='\/dev\/null', stdout='\/dev\/null', stderr='\/dev\/null'):$/;"	kind:member	line:12
+__init__	../ui\web\views.py	/^    def __init__(self):$/;"	kind:member	line:13
+__init__	../working_deoServer.py	/^    def __init__(self):$/;"	kind:member	line:446
+__init__	../working_deoServer.py	/^    def __init__(self):$/;"	kind:member	line:477
+__init__	../working_deoServer.py	/^    def __init__(self, message):$/;"	kind:member	line:67
+__init__	../working_deoServer.py	/^    def __init__(self, threadID, board):$/;"	kind:member	line:895
+__init__	../working_deoServer.py	/^    def __init__(self, threadID, board8, sensor1,sensor2,sensor3):$/;"	kind:member	line:906
+__init__	../working_deoServer.py	/^    def __init__(self,board):$/;"	kind:member	line:323
+__init__	../working_deoServer.py	/^    def __init__(self,board,rooms):$/;"	kind:member	line:277
+__init__	../working_deoServer.py	/^    def __init__(self,com,baud):$/;"	kind:member	line:409
+__init__	../working_deoServer.py	/^    def __init__(self,com,baud):$/;"	kind:member	line:495
+__init__	../working_deoServer.py	/^    def __init__(self,doorId,board):$/;"	kind:member	line:627
+__init__	../working_deoServer.py	/^    def __init__(self,roomId,board,sensor):$/;"	kind:member	line:537
+__init__.py	../ui\ui\__init__.py	1;"	kind:file	line:1
+__init__.py	../ui\web\__init__.py	1;"	kind:file	line:1
+__init__.py	../ui\web\migrations\__init__.py	1;"	kind:file	line:1
+acceptedLatDiff	../3threads_deoServer.py	/^acceptedLatDiff = 0.01$/;"	kind:variable	line:64
+acceptedLatDiff	../deoServer.py	/^acceptedLatDiff = 0.01$/;"	kind:variable	line:63
+acceptedLatDiff	../working_deoServer.py	/^acceptedLatDiff = 0.01$/;"	kind:variable	line:63
+acceptedLongDiff	../3threads_deoServer.py	/^acceptedLongDiff = 0.01$/;"	kind:variable	line:65
+acceptedLongDiff	../deoServer.py	/^acceptedLongDiff = 0.01$/;"	kind:variable	line:64
+acceptedLongDiff	../working_deoServer.py	/^acceptedLongDiff = 0.01$/;"	kind:variable	line:64
+admin	../ui\ui\urls.py	/^from django.contrib import admin$/;"	kind:namespace	line:17
+admin	../ui\web\admin.py	/^from django.contrib import admin$/;"	kind:namespace	line:4
+admin.py	../ui\web\admin.py	1;"	kind:file	line:1
+appliances	../deoServer.py	/^    appliances = Process(target=YardGateControl, args=(board, status_lock))$/;"	kind:variable	line:989
+application	../ui\ui\wsgi.py	/^application = get_wsgi_application()$/;"	kind:variable	line:16
+apps.py	../ui\web\apps.py	1;"	kind:file	line:1
+atexit	../deoplace.py	/^import sys, os, time, atexit$/;"	kind:namespace	line:3
+board	../3threads_deoServer.py	/^    board = RelayBoard()$/;"	kind:variable	line:940
+board	../deoServer.py	/^    board = RelayBoard(gpio_lock)$/;"	kind:variable	line:979
+board	../working_deoServer.py	/^    board = RelayBoard()$/;"	kind:variable	line:922
+cleanup	../3threads_deoServer.py	/^    def cleanup(self):$/;"	kind:member	line:522
+cleanup	../3threads_deoServer.py	/^    def cleanup(self):$/;"	kind:member	line:612
+cleanup	../deoServer.py	/^    def cleanup(self):$/;"	kind:member	line:569
+cleanup	../deoServer.py	/^    def cleanup(self):$/;"	kind:member	line:688
+cleanup	../working_deoServer.py	/^    def cleanup(self):$/;"	kind:member	line:533
+cleanup	../working_deoServer.py	/^    def cleanup(self):$/;"	kind:member	line:623
+cold	../ui\web\views.py	/^def cold(request):$/;"	kind:function	line:153
+controllerLogic	../deoServer.py	/^def controllerLogic(room,furnace,prag=0.3):$/;"	kind:function	line:414
+controllerLogic	../working_deoServer.py	/^def controllerLogic(room,furnace,prag=0.3):$/;"	kind:function	line:369
+controllerLogic_basic	../3threads_deoServer.py	/^def controllerLogic_basic(room,furnace,prag=0.3):$/;"	kind:function	line:375
+controllerLogic_basic	../working_deoServer.py	/^def controllerLogic_basic(room,furnace,prag=0.3):$/;"	kind:function	line:386
+controllers	../3threads_deoServer.py	/^    controllers = {}$/;"	kind:variable	line:965
+daemonize	../deoplace.py	/^    def daemonize(self):$/;"	kind:member	line:18
+data	../ui\web\views.py	/^def data(request):$/;"	kind:function	line:55
+date	../3threads_deoServer.py	/^from datetime import date$/;"	kind:namespace	line:9
+date	../deoServer.py	/^from datetime import date$/;"	kind:namespace	line:9
+date	../working_deoServer.py	/^from datetime import date$/;"	kind:namespace	line:9
+datetime	../3threads_deoServer.py	/^from datetime import datetime$/;"	kind:namespace	line:8
+datetime	../deoServer.py	/^from datetime import datetime$/;"	kind:namespace	line:8
+datetime	../working_deoServer.py	/^from datetime import datetime$/;"	kind:namespace	line:8
+delpid	../deoplace.py	/^    def delpid(self):$/;"	kind:member	line:63
+deoServer.py	../deoServer.py	1;"	kind:file	line:1
+deoplace.py	../deoplace.py	1;"	kind:file	line:1
+django	../ui\ui\manage.py	/^            import django$/;"	kind:namespace	line:14
+door	../ui\web\views.py	/^def door(request):$/;"	kind:function	line:161
+doorControllerLogic	../3threads_deoServer.py	/^def doorControllerLogic(door):$/;"	kind:function	line:392
+doorControllerLogic	../deoServer.py	/^def doorControllerLogic(door):$/;"	kind:function	line:431
+doorControllerLogic	../working_deoServer.py	/^def doorControllerLogic(door):$/;"	kind:function	line:403
+execute_from_command_line	../ui\ui\manage.py	/^        from django.core.management import execute_from_command_line$/;"	kind:namespace	line:8
+gateControl	../3threads_deoServer.py	/^def gateControl(board):$/;"	kind:function	line:767
+gateControl	../deoServer.py	/^def gateControl(board):$/;"	kind:function	line:858
+gateControl	../working_deoServer.py	/^def gateControl(board):$/;"	kind:function	line:821
+getHeater	../3threads_deoServer.py	/^    def getHeater(self):$/;"	kind:member	line:577
+getHeater	../deoServer.py	/^    def getHeater(self):$/;"	kind:member	line:641
+getHeater	../working_deoServer.py	/^    def getHeater(self):$/;"	kind:member	line:588
+getHumidity	../3threads_deoServer.py	/^    def getHumidity(self):$/;"	kind:member	line:514
+getHumidity	../3threads_deoServer.py	/^    def getHumidity(self):$/;"	kind:member	line:575
+getHumidity	../deoServer.py	/^    def getHumidity(self):$/;"	kind:member	line:561
+getHumidity	../deoServer.py	/^    def getHumidity(self):$/;"	kind:member	line:636
+getHumidity	../working_deoServer.py	/^    def getHumidity(self):$/;"	kind:member	line:525
+getHumidity	../working_deoServer.py	/^    def getHumidity(self):$/;"	kind:member	line:586
+getName	../3threads_deoServer.py	/^    def getName(self):$/;"	kind:member	line:579
+getName	../deoServer.py	/^    def getName(self):$/;"	kind:member	line:646
+getName	../working_deoServer.py	/^    def getName(self):$/;"	kind:member	line:590
+getPersistantData	../3threads_deoServer.py	/^def getPersistantData(objectId,objectType,parameterName,diskFile=os.path.join(BASE_PATH,"status.xml")):$/;"	kind:function	line:81
+getPersistantData	../deoServer.py	/^def getPersistantData(objectId,objectType,parameterName,diskFile=os.path.join(BASE_PATH,"status.xml")):$/;"	kind:function	line:75
+getPersistantData	../ui\web\views.py	/^from deoServer import getPersistantData, setPersistantData$/;"	kind:namespace	line:8
+getPersistantData	../working_deoServer.py	/^def getPersistantData(objectId,objectType,parameterName,diskFile=os.path.join(BASE_PATH,"status.xml")):$/;"	kind:function	line:75
+getPersistantObjectAttribute	../3threads_deoServer.py	/^def getPersistantObjectAttribute(objectType,attributeName,diskFile=os.path.join(BASE_PATH,"status.xml")):$/;"	kind:function	line:117
+getPersistantObjectAttribute	../deoServer.py	/^def getPersistantObjectAttribute(objectType,attributeName,diskFile=os.path.join(BASE_PATH,"status.xml")):$/;"	kind:function	line:107
+getPersistantObjectAttribute	../working_deoServer.py	/^def getPersistantObjectAttribute(objectType,attributeName,diskFile=os.path.join(BASE_PATH,"status.xml")):$/;"	kind:function	line:107
+getStartCode	../3threads_deoServer.py	/^    def getStartCode(self,roomId):$/;"	kind:member	line:413
+getStartCode	../3threads_deoServer.py	/^    def getStartCode(self,roomId):$/;"	kind:member	line:468
+getStartCode	../deoServer.py	/^    def getStartCode(self,roomId):$/;"	kind:member	line:452
+getStartCode	../deoServer.py	/^    def getStartCode(self,roomId):$/;"	kind:member	line:510
+getStartCode	../working_deoServer.py	/^    def getStartCode(self,roomId):$/;"	kind:member	line:424
+getStartCode	../working_deoServer.py	/^    def getStartCode(self,roomId):$/;"	kind:member	line:479
+getState	../3threads_deoServer.py	/^    def getState(self):$/;"	kind:member	line:650
+getState	../deoServer.py	/^    def getState(self):$/;"	kind:member	line:716
+getState	../working_deoServer.py	/^    def getState(self):$/;"	kind:member	line:646
+getStopCode	../3threads_deoServer.py	/^    def getStopCode(self,roomId):$/;"	kind:member	line:416
+getStopCode	../3threads_deoServer.py	/^    def getStopCode(self,roomId):$/;"	kind:member	line:471
+getStopCode	../deoServer.py	/^    def getStopCode(self,roomId):$/;"	kind:member	line:455
+getStopCode	../deoServer.py	/^    def getStopCode(self,roomId):$/;"	kind:member	line:513
+getStopCode	../working_deoServer.py	/^    def getStopCode(self,roomId):$/;"	kind:member	line:427
+getStopCode	../working_deoServer.py	/^    def getStopCode(self,roomId):$/;"	kind:member	line:482
+getTemperature	../3threads_deoServer.py	/^    def getTemperature(self):$/;"	kind:member	line:511
+getTemperature	../3threads_deoServer.py	/^    def getTemperature(self):$/;"	kind:member	line:571
+getTemperature	../3threads_deoServer.py	/^    def getTemperature(self):$/;"	kind:member	line:573
+getTemperature	../deoServer.py	/^    def getTemperature(self):$/;"	kind:member	line:558
+getTemperature	../deoServer.py	/^    def getTemperature(self):$/;"	kind:member	line:626
+getTemperature	../deoServer.py	/^    def getTemperature(self):$/;"	kind:member	line:631
+getTemperature	../working_deoServer.py	/^    def getTemperature(self):$/;"	kind:member	line:522
+getTemperature	../working_deoServer.py	/^    def getTemperature(self):$/;"	kind:member	line:582
+getTemperature	../working_deoServer.py	/^    def getTemperature(self):$/;"	kind:member	line:584
+get_wsgi_application	../ui\ui\wsgi.py	/^from django.core.wsgi import get_wsgi_application$/;"	kind:namespace	line:12
+gpio_lock	../deoServer.py	/^    gpio_lock = Lock()$/;"	kind:variable	line:972
+heat	../ui\web\views.py	/^def heat(request):$/;"	kind:function	line:133
+homeCoordinates	../3threads_deoServer.py	/^homeCoordinates = {"Latitude":44.47816,"Longitude":26.034602}$/;"	kind:variable	line:57
+homeCoordinates	../deoServer.py	/^homeCoordinates = {"Latitude":44.47816,"Longitude":26.034602}$/;"	kind:variable	line:56
+homeCoordinates	../working_deoServer.py	/^homeCoordinates = {"Latitude":44.47816,"Longitude":26.034602}$/;"	kind:variable	line:56
+homeLat	../3threads_deoServer.py	/^homeLat = 44.47816$/;"	kind:variable	line:59
+homeLat	../deoServer.py	/^homeLat = 44.47816$/;"	kind:variable	line:58
+homeLat	../working_deoServer.py	/^homeLat = 44.47816$/;"	kind:variable	line:58
+homeLong	../3threads_deoServer.py	/^homeLong = 26.034602$/;"	kind:variable	line:60
+homeLong	../deoServer.py	/^homeLong = 26.034602$/;"	kind:variable	line:59
+homeLong	../working_deoServer.py	/^homeLong = 26.034602$/;"	kind:variable	line:59
+humidityParse	../3threads_deoServer.py	/^    def humidityParse(self,rawResponse):$/;"	kind:member	line:499
+humidityParse	../deoServer.py	/^    def humidityParse(self,rawResponse):$/;"	kind:member	line:543
+humidityParse	../working_deoServer.py	/^    def humidityParse(self,rawResponse):$/;"	kind:member	line:510
+include	../ui\ui\urls.py	/^from django.conf.urls import include, url$/;"	kind:namespace	line:16
+index	../ui\web\views.py	/^def index(request):$/;"	kind:function	line:20
+inspect	../3threads_deoServer.py	/^import inspect$/;"	kind:namespace	line:13
+light_start	../ui\web\views.py	/^def light_start(request):$/;"	kind:function	line:166
+light_stop	../ui\web\views.py	/^def light_stop(request):$/;"	kind:function	line:170
+logging	../deoServer.py	/^import logging$/;"	kind:namespace	line:7
+logging	../ui\web\views.py	/^import logging$/;"	kind:namespace	line:4
+manage.py	../ui\ui\manage.py	1;"	kind:file	line:1
+measurements	../deoServer.py	/^    measurements = Process(target=temperatureControl, args=(board, status_lock))$/;"	kind:variable	line:988
+minidom	../3threads_deoServer.py	/^from xml.dom import minidom$/;"	kind:namespace	line:6
+minidom	../deoServer.py	/^from xml.dom import minidom$/;"	kind:namespace	line:6
+minidom	../working_deoServer.py	/^from xml.dom import minidom$/;"	kind:namespace	line:6
+models	../ui\web\models.py	/^from django.db import models$/;"	kind:namespace	line:4
+models.py	../ui\web\models.py	1;"	kind:file	line:1
+name	../ui\web\apps.py	/^    name = 'web'$/;"	kind:variable	line:8
+openDoor	../3threads_deoServer.py	/^    def openDoor(self,sleepTime=1):$/;"	kind:member	line:655
+openDoor	../deoServer.py	/^    def openDoor(self,sleepTime=1):$/;"	kind:member	line:723
+openDoor	../working_deoServer.py	/^    def openDoor(self,sleepTime=1):$/;"	kind:member	line:651
+os	../3threads_deoServer.py	/^import os$/;"	kind:namespace	line:4
+os	../deoServer.py	/^import os$/;"	kind:namespace	line:4
+os	../deoplace.py	/^import sys, os, time, atexit$/;"	kind:namespace	line:3
+os	../ui\ui\manage.py	/^import os$/;"	kind:namespace	line:2
+os	../ui\ui\settings.py	/^import os$/;"	kind:namespace	line:13
+os	../ui\ui\wsgi.py	/^import os$/;"	kind:namespace	line:10
+os	../working_deoServer.py	/^import os$/;"	kind:namespace	line:4
+outsideTemp	../working_deoServer.py	/^import outsideTemp$/;"	kind:namespace	line:11
+parseConfig	../deoServer.py	/^def parseConfig(roomDict,diskFile=os.path.join(BASE_PATH,"status.xml")):$/;"	kind:function	line:932
+parseXmlData	../3threads_deoServer.py	/^    def parseXmlData(self,data,objectType,parameterName):$/;"	kind:member	line:695
+peripherals	../3threads_deoServer.py	/^    peripherals = {}$/;"	kind:variable	line:937
+persistantChek	../3threads_deoServer.py	/^def persistantChek(room):$/;"	kind:function	line:357
+persistantChek	../working_deoServer.py	/^def persistantChek(room):$/;"	kind:function	line:351
+pid	../deoServer.py	/^    pid = os.getpid()$/;"	kind:variable	line:975
+read	../3threads_deoServer.py	/^    def read(self):$/;"	kind:member	line:713
+readAndStoreHumidity	../3threads_deoServer.py	/^    def readAndStoreHumidity(self):$/;"	kind:member	line:595
+readAndStoreHumidity	../deoServer.py	/^    def readAndStoreHumidity(self):$/;"	kind:member	line:671
+readAndStoreHumidity	../working_deoServer.py	/^    def readAndStoreHumidity(self):$/;"	kind:member	line:606
+readAndStoreTemperature	../3threads_deoServer.py	/^    def readAndStoreTemperature(self):$/;"	kind:member	line:587
+readAndStoreTemperature	../deoServer.py	/^    def readAndStoreTemperature(self):$/;"	kind:member	line:663
+readAndStoreTemperature	../working_deoServer.py	/^    def readAndStoreTemperature(self):$/;"	kind:member	line:598
+readDrState	../3threads_deoServer.py	/^    def readDrState(self):$/;"	kind:member	line:295
+readDrState	../deoServer.py	/^    def readDrState(self):$/;"	kind:member	line:327
+readDrState	../working_deoServer.py	/^    def readDrState(self):$/;"	kind:member	line:283
+readFile	../3threads_deoServer.py	/^def readFile(filePath):$/;"	kind:function	line:223
+readFile	../deoServer.py	/^def readFile(filePath):$/;"	kind:function	line:252
+readFile	../working_deoServer.py	/^def readFile(filePath):$/;"	kind:function	line:211
+readHumidity	../3threads_deoServer.py	/^    def readHumidity(self):$/;"	kind:member	line:568
+readHumidity	../deoServer.py	/^    def readHumidity(self):$/;"	kind:member	line:623
+readHumidity	../working_deoServer.py	/^    def readHumidity(self):$/;"	kind:member	line:579
+readLight	../3threads_deoServer.py	/^    def readLight(self):$/;"	kind:member	line:333
+readLight	../deoServer.py	/^    def readLight(self):$/;"	kind:member	line:382
+readLight	../working_deoServer.py	/^    def readLight(self):$/;"	kind:member	line:327
+readReference	../3threads_deoServer.py	/^    def readReference(self):$/;"	kind:member	line:549
+readReference	../deoServer.py	/^    def readReference(self):$/;"	kind:member	line:600
+readReference	../working_deoServer.py	/^    def readReference(self):$/;"	kind:member	line:560
+readTemperature	../3threads_deoServer.py	/^    def readTemperature(self):$/;"	kind:member	line:565
+readTemperature	../deoServer.py	/^    def readTemperature(self):$/;"	kind:member	line:620
+readTemperature	../working_deoServer.py	/^    def readTemperature(self):$/;"	kind:member	line:576
+refresh	../3threads_deoServer.py	/^    def refresh(self):$/;"	kind:member	line:314
+refresh	../3threads_deoServer.py	/^    def refresh(self):$/;"	kind:member	line:348
+refresh	../3threads_deoServer.py	/^    def refresh(self):$/;"	kind:member	line:662
+refresh	../3threads_deoServer.py	/^    def refresh(self):$/;"	kind:member	line:673
+refresh	../3threads_deoServer.py	/^    def refresh(self):$/;"	kind:member	line:718
+refresh	../3threads_deoServer.py	/^    def refresh(self,prag=0.3):$/;"	kind:member	line:614
+refresh	../deoServer.py	/^    def refresh(self):$/;"	kind:member	line:353
+refresh	../deoServer.py	/^    def refresh(self):$/;"	kind:member	line:404
+refresh	../working_deoServer.py	/^    def refresh(self):$/;"	kind:member	line:300
+refresh	../working_deoServer.py	/^    def refresh(self):$/;"	kind:member	line:342
+render	../ui\web\views.py	/^from django.shortcuts import render$/;"	kind:namespace	line:1
+request	../3threads_deoServer.py	/^    def request(self,request):$/;"	kind:member	line:418
+request	../3threads_deoServer.py	/^    def request(self,request):$/;"	kind:member	line:473
+request	../3threads_deoServer.py	/^    def request(self,request):$/;"	kind:member	line:508
+request	../deoServer.py	/^    def request(self,request):$/;"	kind:member	line:457
+request	../deoServer.py	/^    def request(self,request):$/;"	kind:member	line:515
+request	../deoServer.py	/^    def request(self,request):$/;"	kind:member	line:555
+request	../working_deoServer.py	/^    def request(self,request):$/;"	kind:member	line:429
+request	../working_deoServer.py	/^    def request(self,request):$/;"	kind:member	line:484
+request	../working_deoServer.py	/^    def request(self,request):$/;"	kind:member	line:519
+requests	../3threads_deoServer.py	/^import requests $/;"	kind:namespace	line:12
+resetRoom	../3threads_deoServer.py	/^    def resetRoom(self):$/;"	kind:member	line:544
+resetRoom	../deoServer.py	/^    def resetRoom(self):$/;"	kind:member	line:592
+resetRoom	../working_deoServer.py	/^    def resetRoom(self):$/;"	kind:member	line:555
+restart	../deoplace.py	/^    def restart(self):$/;"	kind:member	line:118
+result	../deoServer.py	/^    result = setPersistantData("1100","pid","value",pid)$/;"	kind:variable	line:977
+roomDict	../deoServer.py	/^    roomDict = {}$/;"	kind:variable	line:974
+roomList	../deoServer.py	/^    roomList = []$/;"	kind:variable	line:973
+roomNames	../3threads_deoServer.py	/^    roomNames = ['living','dormitor','bucatarie']$/;"	kind:variable	line:970
+rooms	../3threads_deoServer.py	/^    rooms = []$/;"	kind:variable	line:973
+run	../3threads_deoServer.py	/^    def run(self):$/;"	kind:member	line:845
+run	../3threads_deoServer.py	/^    def run(self):$/;"	kind:member	line:863
+run	../3threads_deoServer.py	/^    def run(self):$/;"	kind:member	line:882
+run	../deoplace.py	/^    def run(self):$/;"	kind:member	line:125
+run	../working_deoServer.py	/^    def run(self):$/;"	kind:member	line:899
+run	../working_deoServer.py	/^    def run(self):$/;"	kind:member	line:909
+selfTest	../3threads_deoServer.py	/^    def selfTest(self):$/;"	kind:member	line:409
+selfTest	../3threads_deoServer.py	/^    def selfTest(self):$/;"	kind:member	line:452
+selfTest	../deoServer.py	/^    def selfTest(self):$/;"	kind:member	line:448
+selfTest	../deoServer.py	/^    def selfTest(self):$/;"	kind:member	line:490
+selfTest	../working_deoServer.py	/^    def selfTest(self):$/;"	kind:member	line:420
+selfTest	../working_deoServer.py	/^    def selfTest(self):$/;"	kind:member	line:463
+sensor	../3threads_deoServer.py	/^    sensor = Sensor("\/dev\/ttyUSB0",9600)$/;"	kind:variable	line:945
+sensor	../3threads_deoServer.py	/^    sensor = Sensor("\/dev\/ttyUSB1",9600)$/;"	kind:variable	line:949
+sensor	../3threads_deoServer.py	/^    sensor = Sensor("\/dev\/ttyUSB2",9600)$/;"	kind:variable	line:953
+sensor1	../working_deoServer.py	/^    sensor1 = Sensor("\/dev\/ttyUSB0",9600)$/;"	kind:variable	line:924
+sensor2	../working_deoServer.py	/^    sensor2 = Sensor("\/dev\/ttyUSB1",9600)$/;"	kind:variable	line:926
+sensor3	../working_deoServer.py	/^    sensor3 = Sensor("\/dev\/ttyUSB2",9600)$/;"	kind:variable	line:928
+sensorResponseParser	../3threads_deoServer.py	/^    def sensorResponseParser(self,rawResponse):$/;"	kind:member	line:487
+sensorResponseParser	../deoServer.py	/^    def sensorResponseParser(self,rawResponse):$/;"	kind:member	line:531
+sensorResponseParser	../working_deoServer.py	/^    def sensorResponseParser(self,rawResponse):$/;"	kind:member	line:498
+serial	../3threads_deoServer.py	/^import serial, time$/;"	kind:namespace	line:3
+serial	../deoServer.py	/^import serial, time$/;"	kind:namespace	line:3
+serial	../working_deoServer.py	/^import serial, time$/;"	kind:namespace	line:3
+serialCleanup	../3threads_deoServer.py	/^def serialCleanup(ser):$/;"	kind:function	line:218
+serialCleanup	../deoServer.py	/^def serialCleanup(ser):$/;"	kind:function	line:247
+serialCleanup	../working_deoServer.py	/^def serialCleanup(ser):$/;"	kind:function	line:206
+serialInit	../3threads_deoServer.py	/^def serialInit(ser,comPort,baudRate):$/;"	kind:function	line:190
+serialInit	../deoServer.py	/^def serialInit(ser,comPort,baudRate):$/;"	kind:function	line:219
+serialInit	../working_deoServer.py	/^def serialInit(ser,comPort,baudRate):$/;"	kind:function	line:178
+serialRequest	../3threads_deoServer.py	/^def serialRequest(ser,request,retryMax=5):$/;"	kind:function	line:247
+serialRequest	../deoServer.py	/^def serialRequest(ser,request,retryMax=5):$/;"	kind:function	line:276
+serialRequest	../working_deoServer.py	/^def serialRequest(ser,request,retryMax=5):$/;"	kind:function	line:235
+serviceMode	../working_deoServer.py	/^def serviceMode(board,sensor1,sensor2,sensor3):$/;"	kind:function	line:660
+setPersistantData	../3threads_deoServer.py	/^def setPersistantData(objectId,objectType,parameter,value="initValue",diskFile=os.path.join(BASE_PATH,"status.xml")):$/;"	kind:function	line:147
+setPersistantData	../deoServer.py	/^def setPersistantData(objectId,objectType,parameter,value="initValue",diskFile=os.path.join(BASE_PATH,"status.xml")):$/;"	kind:function	line:135
+setPersistantData	../ui\web\views.py	/^from deoServer import getPersistantData, setPersistantData$/;"	kind:namespace	line:8
+setPersistantData	../working_deoServer.py	/^def setPersistantData(objectId,objectType,parameter,value="initValue",diskFile=os.path.join(BASE_PATH,"status.xml")):$/;"	kind:function	line:135
+setPersistantData2	../deoServer.py	/^def setPersistantData2(objectType,parameter,value,diskFile=os.path.join(BASE_PATH,"status.xml")):$/;"	kind:function	line:178
+setReference	../3threads_deoServer.py	/^    def setReference(self,value):$/;"	kind:member	line:556
+setReference	../deoServer.py	/^    def setReference(self,value):$/;"	kind:member	line:609
+setReference	../working_deoServer.py	/^    def setReference(self,value):$/;"	kind:member	line:567
+setSlewrate	../3threads_deoServer.py	/^    def setSlewrate(self,value):$/;"	kind:member	line:517
+setSlewrate	../deoServer.py	/^    def setSlewrate(self,value):$/;"	kind:member	line:564
+setSlewrate	../working_deoServer.py	/^    def setSlewrate(self,value):$/;"	kind:member	line:528
+setState	../3threads_deoServer.py	/^    def setState(self,value):$/;"	kind:member	line:637
+setState	../deoServer.py	/^    def setState(self,value):$/;"	kind:member	line:699
+setState	../working_deoServer.py	/^    def setState(self,value):$/;"	kind:member	line:633
+setStateWithValidation	../3threads_deoServer.py	/^    def setStateWithValidation(self,value):$/;"	kind:member	line:641
+setStateWithValidation	../deoServer.py	/^    def setStateWithValidation(self,value):$/;"	kind:member	line:705
+setStateWithValidation	../working_deoServer.py	/^    def setStateWithValidation(self,value):$/;"	kind:member	line:637
+set_reference	../ui\web\views.py	/^def set_reference(request):$/;"	kind:function	line:143
+settings.py	../ui\ui\settings.py	1;"	kind:file	line:1
+signal	../3threads_deoServer.py	/^import signal$/;"	kind:namespace	line:11
+signal	../deoServer.py	/^import signal$/;"	kind:namespace	line:11
+signal	../working_deoServer.py	/^import signal$/;"	kind:namespace	line:12
+signal_handler	../3threads_deoServer.py	/^def signal_handler(signum, stack):$/;"	kind:function	line:76
+signal_handler	../deoServer.py	/^def signal_handler(signum, stack):$/;"	kind:function	line:70
+signal_handler	../working_deoServer.py	/^def signal_handler(signum, stack):$/;"	kind:function	line:70
+start	../3threads_deoServer.py	/^    def start(self):$/;"	kind:member	line:302
+start	../3threads_deoServer.py	/^    def start(self):$/;"	kind:member	line:340
+start	../deoServer.py	/^    def start(self):$/;"	kind:member	line:339
+start	../deoServer.py	/^    def start(self):$/;"	kind:member	line:394
+start	../deoplace.py	/^    def start(self):$/;"	kind:member	line:66
+start	../ui\web\views.py	/^def start(request):$/;"	kind:function	line:102
+start	../working_deoServer.py	/^    def start(self):$/;"	kind:member	line:290
+start	../working_deoServer.py	/^    def start(self):$/;"	kind:member	line:334
+startAll	../3threads_deoServer.py	/^    def startAll(self):$/;"	kind:member	line:403
+startAll	../3threads_deoServer.py	/^    def startAll(self):$/;"	kind:member	line:446
+startAll	../deoServer.py	/^    def startAll(self):$/;"	kind:member	line:442
+startAll	../deoServer.py	/^    def startAll(self):$/;"	kind:member	line:484
+startAll	../working_deoServer.py	/^    def startAll(self):$/;"	kind:member	line:414
+startAll	../working_deoServer.py	/^    def startAll(self):$/;"	kind:member	line:457
+startCodeDict	../3threads_deoServer.py	/^startCodeDict = {1:"a",2:"b",3:"c",4:"d",5:"e",6:"f",7:"g",8:"h"}$/;"	kind:variable	line:30
+startCodeDict	../deoServer.py	/^startCodeDict = {1:"a",2:"b",3:"c",4:"d",5:"e",6:"f",7:"g",8:"h"}$/;"	kind:variable	line:29
+startCodeDict	../working_deoServer.py	/^startCodeDict = {1:"a",2:"b",3:"c",4:"d",5:"e",6:"f",7:"g",8:"h"}$/;"	kind:variable	line:29
+startHeater	../3threads_deoServer.py	/^    def startHeater(self):$/;"	kind:member	line:602
+startHeater	../deoServer.py	/^    def startHeater(self):$/;"	kind:member	line:678
+startHeater	../working_deoServer.py	/^    def startHeater(self):$/;"	kind:member	line:613
+startRelay	../3threads_deoServer.py	/^    def startRelay(self,id):$/;"	kind:member	line:456
+startRelay	../3threads_deoServer.py	/^    def startRelay(self,roomId):$/;"	kind:member	line:423
+startRelay	../3threads_deoServer.py	/^    def startRelay(self,roomId):$/;"	kind:member	line:475
+startRelay	../deoServer.py	/^    def startRelay(self,id):$/;"	kind:member	line:494
+startRelay	../deoServer.py	/^    def startRelay(self,roomId):$/;"	kind:member	line:460
+startRelay	../deoServer.py	/^    def startRelay(self,roomId):$/;"	kind:member	line:517
+startRelay	../working_deoServer.py	/^    def startRelay(self,id):$/;"	kind:member	line:467
+startRelay	../working_deoServer.py	/^    def startRelay(self,roomId):$/;"	kind:member	line:434
+startRelay	../working_deoServer.py	/^    def startRelay(self,roomId):$/;"	kind:member	line:486
+status	../ui\web\views.py	/^def status(request):$/;"	kind:function	line:40
+status_lock	../deoServer.py	/^    status_lock = Lock()$/;"	kind:variable	line:971
+stop	../3threads_deoServer.py	/^    def stop(self):$/;"	kind:member	line:307
+stop	../3threads_deoServer.py	/^    def stop(self):$/;"	kind:member	line:343
+stop	../deoServer.py	/^    def stop(self):$/;"	kind:member	line:344
+stop	../deoServer.py	/^    def stop(self):$/;"	kind:member	line:397
+stop	../deoplace.py	/^    def stop(self):$/;"	kind:member	line:87
+stop	../ui\web\views.py	/^def stop(request):$/;"	kind:function	line:70
+stop	../working_deoServer.py	/^    def stop(self):$/;"	kind:member	line:294
+stop	../working_deoServer.py	/^    def stop(self):$/;"	kind:member	line:337
+stopAll	../3threads_deoServer.py	/^    def stopAll(self):$/;"	kind:member	line:406
+stopAll	../3threads_deoServer.py	/^    def stopAll(self):$/;"	kind:member	line:449
+stopAll	../deoServer.py	/^    def stopAll(self):$/;"	kind:member	line:445
+stopAll	../deoServer.py	/^    def stopAll(self):$/;"	kind:member	line:487
+stopAll	../working_deoServer.py	/^    def stopAll(self):$/;"	kind:member	line:417
+stopAll	../working_deoServer.py	/^    def stopAll(self):$/;"	kind:member	line:460
+stopCodeDict	../3threads_deoServer.py	/^stopCodeDict = {1:"i",2:"j",3:"k",4:"l",5:"m",6:"n",7:"o",8:"p"}$/;"	kind:variable	line:31
+stopCodeDict	../deoServer.py	/^stopCodeDict = {1:"i",2:"j",3:"k",4:"l",5:"m",6:"n",7:"o",8:"p"}$/;"	kind:variable	line:30
+stopCodeDict	../working_deoServer.py	/^stopCodeDict = {1:"i",2:"j",3:"k",4:"l",5:"m",6:"n",7:"o",8:"p"}$/;"	kind:variable	line:30
+stopHeater	../3threads_deoServer.py	/^    def stopHeater(self):$/;"	kind:member	line:607
+stopHeater	../deoServer.py	/^    def stopHeater(self):$/;"	kind:member	line:683
+stopHeater	../working_deoServer.py	/^    def stopHeater(self):$/;"	kind:member	line:618
+stopRelay	../3threads_deoServer.py	/^    def stopRelay(self,id):$/;"	kind:member	line:460
+stopRelay	../3threads_deoServer.py	/^    def stopRelay(self,roomId):$/;"	kind:member	line:428
+stopRelay	../3threads_deoServer.py	/^    def stopRelay(self,roomId):$/;"	kind:member	line:478
+stopRelay	../deoServer.py	/^    def stopRelay(self,id):$/;"	kind:member	line:500
+stopRelay	../deoServer.py	/^    def stopRelay(self,roomId):$/;"	kind:member	line:465
+stopRelay	../deoServer.py	/^    def stopRelay(self,roomId):$/;"	kind:member	line:520
+stopRelay	../working_deoServer.py	/^    def stopRelay(self,id):$/;"	kind:member	line:471
+stopRelay	../working_deoServer.py	/^    def stopRelay(self,roomId):$/;"	kind:member	line:439
+stopRelay	../working_deoServer.py	/^    def stopRelay(self,roomId):$/;"	kind:member	line:489
+storeFurnace	../3threads_deoServer.py	/^    def storeFurnace(self):$/;"	kind:member	line:312
+storeFurnace	../deoServer.py	/^    def storeFurnace(self):$/;"	kind:member	line:349
+storeFurnace	../working_deoServer.py	/^    def storeFurnace(self):$/;"	kind:member	line:298
+storeHeater	../3threads_deoServer.py	/^    def storeHeater(self):$/;"	kind:member	line:585
+storeHeater	../deoServer.py	/^    def storeHeater(self):$/;"	kind:member	line:659
+storeHeater	../working_deoServer.py	/^    def storeHeater(self):$/;"	kind:member	line:596
+storeHumidity	../3threads_deoServer.py	/^    def storeHumidity(self):$/;"	kind:member	line:583
+storeHumidity	../deoServer.py	/^    def storeHumidity(self):$/;"	kind:member	line:655
+storeHumidity	../working_deoServer.py	/^    def storeHumidity(self):$/;"	kind:member	line:594
+storeTemperature	../3threads_deoServer.py	/^    def storeTemperature(self):$/;"	kind:member	line:581
+storeTemperature	../deoServer.py	/^    def storeTemperature(self):$/;"	kind:member	line:651
+storeTemperature	../working_deoServer.py	/^    def storeTemperature(self):$/;"	kind:member	line:592
+storeYard	../3threads_deoServer.py	/^    def storeYard(self):$/;"	kind:member	line:346
+storeYard	../deoServer.py	/^    def storeYard(self):$/;"	kind:member	line:400
+storeYard	../working_deoServer.py	/^    def storeYard(self):$/;"	kind:member	line:340
+sys	../3threads_deoServer.py	/^import sys$/;"	kind:namespace	line:5
+sys	../deoServer.py	/^import sys$/;"	kind:namespace	line:5
+sys	../deoplace.py	/^import sys, os, time, atexit$/;"	kind:namespace	line:3
+sys	../ui\ui\manage.py	/^import sys$/;"	kind:namespace	line:3
+sys	../ui\web\views.py	/^import sys$/;"	kind:namespace	line:6
+sys	../working_deoServer.py	/^import sys$/;"	kind:namespace	line:5
+sysv_ipc	../3threads_deoServer.py	/^import sysv_ipc$/;"	kind:namespace	line:16
+sysv_ipc	../deoServer.py	/^import sysv_ipc$/;"	kind:namespace	line:15
+sysv_ipc	../ui\web\views.py	/^import sysv_ipc$/;"	kind:namespace	line:5
+sysv_ipc	../working_deoServer.py	/^import sysv_ipc$/;"	kind:namespace	line:15
+temperatureAndGateControl	../working_deoServer.py	/^def temperatureAndGateControl(board,sensor1,sensor2,sensor3):$/;"	kind:function	line:713
+temperatureControl	../deoServer.py	/^def temperatureControl(board, lock):$/;"	kind:function	line:765
+temperatureControl	../working_deoServer.py	/^def temperatureControl(board,sensor1,sensor2,sensor3):$/;"	kind:function	line:677
+tests.py	../ui\web\tests.py	1;"	kind:file	line:1
+threadControl	../3threads_deoServer.py	/^    threadControl = Control(2,controllers)$/;"	kind:variable	line:1007
+threadMeasuring	../3threads_deoServer.py	/^    threadMeasuring = Measurements(1,rooms)$/;"	kind:variable	line:1004
+threadRLock	../3threads_deoServer.py	/^    threadRLock = threading.RLock()$/;"	kind:variable	line:934
+threading	../3threads_deoServer.py	/^import threading$/;"	kind:namespace	line:10
+threading	../deoServer.py	/^import threading$/;"	kind:namespace	line:10
+threading	../working_deoServer.py	/^import threading$/;"	kind:namespace	line:10
+time	../3threads_deoServer.py	/^import serial, time$/;"	kind:namespace	line:3
+time	../deoServer.py	/^import serial, time$/;"	kind:namespace	line:3
+time	../deoplace.py	/^import sys, os, time, atexit$/;"	kind:namespace	line:3
+time	../working_deoServer.py	/^import serial, time$/;"	kind:namespace	line:3
+unicode_literals	../ui\web\admin.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:2
+unicode_literals	../ui\web\apps.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:2
+unicode_literals	../ui\web\models.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:2
+unicode_literals	../ui\web\tests.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:2
+url	../ui\ui\urls.py	/^from django.conf.urls import include, url$/;"	kind:namespace	line:16
+url	../ui\web\urls.py	/^from django.conf.urls import url$/;"	kind:namespace	line:1
+urlpatterns	../ui\ui\urls.py	/^urlpatterns = [$/;"	kind:variable	line:19
+urlpatterns	../ui\web\urls.py	/^urlpatterns = [$/;"	kind:variable	line:5
+urls.py	../ui\ui\urls.py	1;"	kind:file	line:1
+urls.py	../ui\web\urls.py	1;"	kind:file	line:1
+userDict	../3threads_deoServer.py	/^userDict = {$/;"	kind:variable	line:39
+userDict	../deoServer.py	/^userDict = {$/;"	kind:variable	line:38
+userDict	../working_deoServer.py	/^userDict = {$/;"	kind:variable	line:38
+validateUserDate	../3threads_deoServer.py	/^def validateUserDate(start,stop):$/;"	kind:function	line:756
+validateUserDate	../deoServer.py	/^def validateUserDate(start,stop):$/;"	kind:function	line:847
+validateUserDate	../working_deoServer.py	/^def validateUserDate(start,stop):$/;"	kind:function	line:810
+validateUserLocation	../3threads_deoServer.py	/^def validateUserLocation(userLat,userLong):$/;"	kind:function	line:739
+validateUserLocation	../deoServer.py	/^def validateUserLocation(userLat,userLong):$/;"	kind:function	line:830
+validateUserLocation	../working_deoServer.py	/^def validateUserLocation(userLat,userLong):$/;"	kind:function	line:793
+validateUserTime	../3threads_deoServer.py	/^def validateUserTime(userOkDay,userOkHour):$/;"	kind:function	line:749
+validateUserTime	../deoServer.py	/^def validateUserTime(userOkDay,userOkHour):$/;"	kind:function	line:840
+validateUserTime	../working_deoServer.py	/^def validateUserTime(userOkDay,userOkHour):$/;"	kind:function	line:803
+views	../ui\web\urls.py	/^from . import views$/;"	kind:namespace	line:3
+views.py	../ui\web\views.py	1;"	kind:file	line:1
+working_deoServer.py	../working_deoServer.py	1;"	kind:file	line:1
+writeFile	../3threads_deoServer.py	/^def writeFile(filePath,text):$/;"	kind:function	line:235
+writeFile	../deoServer.py	/^def writeFile(filePath,text):$/;"	kind:function	line:264
+writeFile	../working_deoServer.py	/^def writeFile(filePath,text):$/;"	kind:function	line:223
+wsgi.py	../ui\ui\wsgi.py	1;"	kind:file	line:1
