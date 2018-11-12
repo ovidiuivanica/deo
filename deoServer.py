@@ -10,6 +10,7 @@ from datetime import date
 import threading
 import signal
 from multiprocessing import Process, Lock
+from subprocess import Popen, PIPE
 
 # 3rd party modules
 import sysv_ipc
@@ -762,6 +763,25 @@ def YardGateControl(board, lock):
         logging.info("preparing to exit")
         GPIO.cleanup() # cleanup all GPIO
 
+def get_usb_from_serial(serial):
+    result = None
+    for usb in os.listdir('/sys/bus/usb-serial/devices'):
+        cmd = 'udevadm info -a -p /sys/bus/usb-serial/devices/{usb} | grep ATTRS{{serial}}'.format(usb=usb)
+        proc = Popen(cmd,
+                     stdout=PIPE,
+                     stderr=PIPE,
+                     shell=True)
+        out, err = proc.communicate()
+        if out:
+            data = out.splitlines()
+            if len(data) >=1:
+                device_serial = data[0].split('==')[1].strip('"')
+                if serial == device_serial:
+                    result = usb
+                    break
+    return result
+
+
 def temperatureControl(board, lock):
 
     roomDict = {}
@@ -772,7 +792,10 @@ def temperatureControl(board, lock):
     for roomName in roomDict.keys():
         
         id = int(roomDict[roomName]['id'])
-        serialAddr = roomDict[roomName]['sensor']
+
+        sensor_id = roomDict[roomName]['sensor_id']
+        usb_id = get_usb_from_serial(sensor_id)
+        serialAddr = '/dev/{}'.format(usb_id)
         logging.info("preparing room:{} id:{} serialAddress:{}".format(roomName,id,serialAddr))
         sensor = Sensor(serialAddr,9600)
         if not sensor.initialized:
@@ -951,10 +974,10 @@ def parseConfig(roomDict,diskFile=os.path.join(BASE_PATH,"status.xml")):
     for room in rooms:
         parameter = room.getElementsByTagName("name") 
         name = parameter[0].childNodes[0].data
-        parameter = room.getElementsByTagName("sensor") 
-        sensor = parameter[0].childNodes[0].data
+        parameter = room.getElementsByTagName("sensor_id") 
+        sensor_id = parameter[0].childNodes[0].data
         id = room.getAttribute("id")
-        roomDict[name] = {'id':id,'sensor':sensor}
+        roomDict[name] = {'id':id,'sensor_id':sensor_id}
         
     #cleanup
     house.unlink()

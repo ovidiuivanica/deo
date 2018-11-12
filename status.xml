@@ -3,17 +3,19 @@
             <name>Hol</name>
             <temperature>21.5</temperature>
             <sensor>/dev/ttyUSB3</sensor>
-            <reference>22</reference>
+            <sensor_id>V44126089-0</sensor_id>
+            <reference>21</reference>
             <day>21</day>
             <night>18</night>
             <freezing>7</freezing>
-            <humidity>60</humidity>
-            <heater>1</heater>
+            <humidity>58</humidity>
+            <heater>0</heater>
     </room>
     <room id="1">
             <name>Living</name>
-            <temperature>21.8</temperature>
+            <temperature>22.0</temperature>
             <sensor>/dev/ttyUSB2</sensor>
+            <sensor_id>V44764017-0</sensor_id>
             <reference>22</reference>
             <day>22</day>
             <night>19</night>
@@ -23,24 +25,26 @@
     </room>
     <room id="2">
             <name>Dormitor</name>
-            <temperature>22.1</temperature>
+            <temperature>22.3</temperature>
             <sensor>/dev/ttyUSB0</sensor>
-            <reference>21</reference>
+            <sensor_id>V50206672-0</sensor_id>
+            <reference>22</reference>
             <day>21</day>
             <night>21</night>
             <freezing>7</freezing>
-            <humidity>59</humidity>
-            <heater>0</heater>
+            <humidity>57</humidity>
+            <heater>1</heater>
     </room>
     <room id="4">
             <name>Bucatarie</name>
-            <temperature>22.2</temperature>
+            <temperature>21.1</temperature>
             <sensor>/dev/ttyUSB1</sensor>
-            <reference>22</reference>
+            <sensor_id>V50421571-0</sensor_id>
+            <reference>21</reference>
             <day>21</day>
             <night>18</night>
             <freezing>7</freezing>
-            <humidity>56</humidity>
+            <humidity>61</humidity>
             <heater>0</heater>
     </room>
     <furnace id="7">
@@ -64,9 +68,9 @@
             <value>0</value>
     </door>
     <refresh id="20">
-        <time>1516790164</time>
+        <time>1517065498</time>
     </refresh>
     <pid id="1100">
-        <value>639</value>
+        <value>22521</value>
     </pid>
 </house>
