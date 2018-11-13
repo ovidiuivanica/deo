@@ -797,9 +797,11 @@ def temperatureControl(board, lock):
         serialAddr = '/dev/{}'.format(usb_id)
         logging.info("preparing room:{} id:{} serialAddress:{}".format(roomName,id,serialAddr))
         sensor = Sensor(serialAddr,9600)
-        if not sensor.initialized:
+        if sensor.initialized:
+            logging.info("sensor: {} init OK".format(roomName))
+        else:
             logging.info("sensor: {} init failed".format(roomName))
-            return
+            continue
         room = Room(id, board, sensor, lock)
         logging.info("Sensor: {} init stus:{}".format(id,sensor.initialized))
         roomList.append(room)
