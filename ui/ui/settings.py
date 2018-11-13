@@ -25,7 +25,7 @@ SECRET_KEY = 'a4foyrocf+v1f5$hht8es&+-$rfb@c+z0njip0su8%yw53j1e3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.136', 'deoplace.go.ro']
+ALLOWED_HOSTS = ['192.168.0.114', 'deoplace.go.ro']
 
 
 # Application definition
@@ -54,7 +54,7 @@ ROOT_URLCONF = 'ui.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['/home/pi/Desktop/deo/ui/web/templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'web/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
