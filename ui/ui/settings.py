@@ -125,6 +125,6 @@ STATICFILES_FINDERS = [
 ]
 
 STATICFILES_DIRS = [
-    os.path.join("/home/pi/Desktop/deo/ui/web", "static"),
+    "/home/pi/deo/ui/web/static",
     '/var/www/static/',
 ]
