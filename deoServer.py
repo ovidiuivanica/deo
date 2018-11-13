@@ -41,11 +41,11 @@ userDict = {
             "evimic":["","admin"],
             "relu":["","admin"],
             "octavian":["","admin"],
-            #thursday evening club section 
+            #thursday evening club section
             "dani":["","club"],
             "tibi":["","club"],
             "andrei":["","club"],
-            #family section 
+            #family section
             "simona":["","family"],
             "stefan":["","family"],
             "vali":["","family"],
@@ -70,11 +70,11 @@ class ShutdownException(Exception):
 
 def signal_handler(signum, stack):
     logging.logINFO("received signal {}".format(signum))
-    raise ShutdownException("shutdown") 
+    raise ShutdownException("shutdown")
 
-   
+
 def getPersistantData(objectId,objectType,parameterName,diskFile=os.path.join(BASE_PATH,"status.xml")):
-    # save information on disk 
+    # save information on disk
     returnValue = None
     try:
         inFile = open(diskFile, 'r')
@@ -94,19 +94,19 @@ def getPersistantData(objectId,objectType,parameterName,diskFile=os.path.join(BA
     rooms = house.getElementsByTagName(objectType)
     for room in rooms:
         if str(objectId) == room.getAttribute("id"):
-            parameter = room.getElementsByTagName(parameterName) 
+            parameter = room.getElementsByTagName(parameterName)
             returnValue = parameter[0].childNodes[0].data
             break
     #cleanup
     house.unlink()
     #xmlContent.unlink()
     del(house)
-    del(xmlContent) 
-            
+    del(xmlContent)
+
     logging.debug("returnValue={}".format(returnValue))
-    return returnValue   
+    return returnValue
 def getPersistantObjectAttribute(objectType,attributeName,diskFile=os.path.join(BASE_PATH,"status.xml")):
-    # save information on disk 
+    # save information on disk
     returnValue = None
     try:
         inFile = open(diskFile, 'r')
@@ -123,19 +123,19 @@ def getPersistantObjectAttribute(objectType,attributeName,diskFile=os.path.join(
         logging.error("cannot parse xml: " + str(e))
         return returnValue
     house = xmlContent.documentElement
-    returnValue = house.getElementsByTagName(objectType)[0].getAttribute(attributeName) 
-    
+    returnValue = house.getElementsByTagName(objectType)[0].getAttribute(attributeName)
+
     #cleanup
     house.unlink()
     #xmlContent.unlink()
     del(house)
-    del(xmlContent) 
-    
+    del(xmlContent)
+
     logging.debug("returnValue={}".format(returnValue))
-    return returnValue   
+    return returnValue
 def setPersistantData(objectId,objectType,parameter,value="initValue",diskFile=os.path.join(BASE_PATH,"status.xml")):
-    # save information on disk 
-    
+    # save information on disk
+
     try:
         inFile = open(diskFile, 'r')
         data = inFile.read()
@@ -160,13 +160,13 @@ def setPersistantData(objectId,objectType,parameter,value="initValue",diskFile=o
             item[0].childNodes[0].data = value
             break
     data = xmlContent.toxml()
-    
+
     #cleanup
     house.unlink()
     #xmlContent.unlink()
     del(house)
-    del(xmlContent) 
-    
+    del(xmlContent)
+
     try:
         outFile = open(diskFile, 'w')
         outFile.write(data)
@@ -174,11 +174,11 @@ def setPersistantData(objectId,objectType,parameter,value="initValue",diskFile=o
     except Exception, e:
         logging.debug("error open/close when writing to persisting file: " + str(e))
         return False
-    return True    
-    
+    return True
+
 def setPersistantData2(objectType,parameter,value,diskFile=os.path.join(BASE_PATH,"status.xml")):
-    # save information on disk 
-    
+    # save information on disk
+
     try:
         inFile = open(diskFile, 'r')
         data = inFile.read()
@@ -201,13 +201,13 @@ def setPersistantData2(objectType,parameter,value,diskFile=os.path.join(BASE_PAT
 		item[0].childNodes[0].data = value
 		break
     data = xmlContent.toxml()
-    
+
     #cleanup
     house.unlink()
     #xmlContent.unlink()
     del(house)
-    del(xmlContent) 
-    
+    del(xmlContent)
+
     try:
         outFile = open(diskFile, 'w')
         outFile.write(data)
@@ -215,7 +215,7 @@ def setPersistantData2(objectType,parameter,value,diskFile=os.path.join(BASE_PAT
     except Exception, e:
         logging.debug("error open/close when writing to persisting file: " + str(e))
         return False
-    return True  
+    return True
 
 def serialInit(ser,comPort,baudRate):
     isInitialized = False
@@ -236,7 +236,7 @@ def serialInit(ser,comPort,baudRate):
     ser.rtscts = False     #disable hardware (RTS/CTS) flow control
     ser.dsrdtr = False       #disable hardware (DSR/DTR) flow control
     ser.writeTimeout = 2     #timeout for write
-    try: 
+    try:
         ser.open()
     except IOError, e:
         logging.error("error open serial port: {0}".format(str(e)))
@@ -244,7 +244,7 @@ def serialInit(ser,comPort,baudRate):
         #ser.close()
         isInitialized = True
     return isInitialized
-    
+
 def serialCleanup(ser):
     if ser.isOpen():
         ser.close()
@@ -260,8 +260,8 @@ def readFile(filePath):
         line = theFile.readline()
     theFile.close()
     return line
-        
-        
+
+
 def writeFile(filePath,text):
     logging.debug("store: {0}".format(text))
     retCode = 0
@@ -270,14 +270,14 @@ def writeFile(filePath,text):
         retCode = 0
     else:
         theFile.write(text)
-        retCode = 1 
+        retCode = 1
     theFile.close()
     return retCode
 
 def serialRequest(ser,request,retryMax=5):
     response = None
     #threadLock.acquire()
-    try: 
+    try:
         if not ser.isOpen():
             logging.error("serial port not available")
             return None
@@ -287,7 +287,7 @@ def serialRequest(ser,request,retryMax=5):
         return None
     try:
         ser.flushInput() #flush input buffer, discarding all its contents
-        ser.flushOutput()#flush output buffer, aborting current output 
+        ser.flushOutput()#flush output buffer, aborting current output
                         #and discard all that is in buffer
         #write data
         nrOfRetries = 0
@@ -357,21 +357,21 @@ class Furnace:
             logging.debug("{}{}".format(room.id,room.heater))
             if room.heater:
                 newState = 1
-                break        
+                break
         self.readDrState()
 
         if not newState and self.drState:
             newState = 1
-            logging.debug("directRequest")               
-        
+            logging.debug("directRequest")
+
         if newState != self.state:
-            self.state = newState 
+            self.state = newState
             if self.state:
                 self.start()
             else:
                 self.stop()
-                
-                
+
+
 class Yard:
     def __init__(self,board, lock):
         self.lock = lock
@@ -405,30 +405,30 @@ class Yard:
     def refresh(self):
         newLight = self.readLight()
         if newLight != self.light:
-            self.light = newLight 
+            self.light = newLight
             if self.light:
                 self.start()
             else:
                 self.stop()
-    
+
 
 def controllerLogic(room,furnace,prag=0.3):
-    
+
     #persistantChek(room)
-    
+
     if (room.temperature + prag) < room.reference:
         if room.heater == 1:
             logging.debug("heater already ON")
         else:
             room.startHeater()
-    elif (room.reference + prag) < room.temperature: 
+    elif (room.reference + prag) < room.temperature:
         if room.heater == 0:
             logging.debug("heater already OFF")
         else:
             room.stopHeater()
     furnace.refresh()
 
-        
+
 def doorControllerLogic(door):
     if door.state == "1":
         print "Open door request"
@@ -468,15 +468,15 @@ class Board:
         self.request(self.getStopCode(roomId))
         self.request(self.getStopCode(roomId))
         return self.request(self.getStopCode(roomId))
-        
+
 class RelayBoard:
     def __init__(self, lock):
         self.lock = lock
-        self.pinout = {1:2,2:3,3:4,4:17,5:27,6:22,7:10,8:9} # Broadcom 
+        self.pinout = {1:2,2:3,3:4,4:17,5:27,6:22,7:10,8:9} # Broadcom
         GPIO.setmode(GPIO.BCM) # Broadcom pin-numbering scheme
         for pin in self.pinout.keys():
             # pin set as output
-            GPIO.setup(self.pinout[pin], GPIO.OUT) 
+            GPIO.setup(self.pinout[pin], GPIO.OUT)
             # Initial state for pin:
             GPIO.output(self.pinout[pin], GPIO.HIGH)
         self.selfTest()
@@ -504,7 +504,7 @@ class RelayBoard:
         GPIO.output(self.pinout[id], GPIO.HIGH)
         self.lock.release()
         return True
-        
+
 class DummyBoard:
     def __init__(self):
         pass
@@ -615,7 +615,7 @@ class Room:
         if retCode:
             self.reference = value
             self.resultMessage = "OK"
-        else: 
+        else:
             self.resultMessage = "KO!"
         return retCode
     def readTemperature(self):
@@ -728,7 +728,7 @@ class Door:
         time.sleep(sleepTime)
         if self.board.stopRelay(self.relay):
             logging.info("relay off")
-       
+
 def YardGateControl(board, lock):
 
     parseConfig(roomDict)
@@ -736,7 +736,7 @@ def YardGateControl(board, lock):
     door1 = Door(1000,board, lock)
     prevTime = 0.0
     prevDateTime = 0.0
-    
+
     try:
         logging.info("yard service started")
         while True:
@@ -747,9 +747,9 @@ def YardGateControl(board, lock):
                 door1.setStateWithValidation("0")
 
             # limit outisde temp request to one per hour minutes
-            
+
             timeNow = time.time()
-            
+
             # loop refresh time
             if timeNow - prevDateTime > 60.0:
                 prevDateTime = timeNow
@@ -790,22 +790,21 @@ def temperatureControl(board, lock):
     parseConfig(roomDict)
     lock.release()
     for roomName in roomDict.keys():
-        
-        id = int(roomDict[roomName]['id'])
 
+        id = int(roomDict[roomName]['id'])
         sensor_id = roomDict[roomName]['sensor_id']
         usb_id = get_usb_from_serial(sensor_id)
         serialAddr = '/dev/{}'.format(usb_id)
         logging.info("preparing room:{} id:{} serialAddress:{}".format(roomName,id,serialAddr))
         sensor = Sensor(serialAddr,9600)
         if not sensor.initialized:
-            logging.info("sensor: {} init failed".format( xcsc))
+            logging.info("sensor: {} init failed".format(roomName))
             return
         room = Room(id, board, sensor, lock)
         logging.info("Sensor: {} init stus:{}".format(id,sensor.initialized))
         roomList.append(room)
         logging.info("Room: {} added".format(roomName))
-        
+
 
     furnace = Furnace(board,roomList,lock)
     currentOpMode = ""
@@ -829,7 +828,7 @@ def temperatureControl(board, lock):
             else:
                 logging.error("unknown operation mode, choosing auto")
                 board.startRelay(8)
-                    
+
             if currentOpMode == "manual":
                 time.sleep(1)
                 logging.debug("manual operation ...");
@@ -842,7 +841,7 @@ def temperatureControl(board, lock):
                 logging.debug("Temperature = {0}".format(room.readAndStoreTemperature()))
                 logging.debug("Heater = {0}".format(room.heater))
                 logging.debug("Humidity = {0}".format(room.readAndStoreHumidity()))
-                controllerLogic(room,furnace) 
+                controllerLogic(room,furnace)
 
     except ShutdownException: # If CTRL+C is pressed, exit cleanly:
         logging.info("preparing to exit")
@@ -870,11 +869,11 @@ def validateUserTime(userOkDay,userOkHour):
 def validateUserDate(start,stop):
     validate = False
     today = date.today()
-    if today.year >= start[2] and today.year <= stop[2]: 
+    if today.year >= start[2] and today.year <= stop[2]:
         if today.month >= start[1] and today.month <= stop[1]:
             if today.day >= start[0] and today.day <=stop[0]:
                 validate = True
-    
+
     return validate
 
 
@@ -882,7 +881,7 @@ def gateControl(board):
     door1 = Door(4,board)
     doorList = [door1]
     openDoorFlag = False
-    
+
     # Create the message queue.
     try:
         mq = sysv_ipc.MessageQueue(42, sysv_ipc.IPC_CREX, 0777)
@@ -923,12 +922,12 @@ def gateControl(board):
                             openDoorFlag = True
                         else:
                             returnString = "<h1>action restricted from this location</h1>"
-                    else: 
+                    else:
                         returnString = "<h1>action restricted at this time</h1>"
                 if keyValue[DICT_ROLE] == "friend":
                     if validateUserDate(start=keyValue[DICT_BEGIN_DATE],stop=keyValue[DICT_END_DATE]):
                         openDoorFlag = True
-                    else: 
+                    else:
                         returnString = "<h1>action restricted at this time</h1>"
             else:
                 returnString = "<h1>access restricted</h1>"
@@ -949,11 +948,11 @@ def gateControl(board):
 
     logging.debug("Destroying the message queue.")
     mq.remove()
-    
-    
+
+
 
 def parseConfig(roomDict,diskFile=os.path.join(BASE_PATH,"status.xml")):
-    # save information on disk 
+    # save information on disk
     returnValue = None
     try:
         inFile = open(diskFile, 'r')
@@ -972,22 +971,22 @@ def parseConfig(roomDict,diskFile=os.path.join(BASE_PATH,"status.xml")):
     house = xmlContent.documentElement
     rooms = house.getElementsByTagName("room")
     for room in rooms:
-        parameter = room.getElementsByTagName("name") 
+        parameter = room.getElementsByTagName("name")
         name = parameter[0].childNodes[0].data
-        parameter = room.getElementsByTagName("sensor_id") 
+        parameter = room.getElementsByTagName("sensor_id")
         sensor_id = parameter[0].childNodes[0].data
         id = room.getAttribute("id")
         roomDict[name] = {'id':id,'sensor_id':sensor_id}
-        
+
     #cleanup
     house.unlink()
     #xmlContent.unlink()
     del(house)
-    del(xmlContent) 
-            
+    del(xmlContent)
+
     logging.debug("returnValue={}".format(returnValue))
-    return returnValue           
-        
+    return returnValue
+
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format='%(relativeCreated)6d %(threadName)s %(message)s')
@@ -998,7 +997,7 @@ if __name__ == '__main__':
     pid = os.getpid()
     logging.info("starting service on pid{}".format(pid))
     result = setPersistantData("1100","pid","value",pid)
-    
+
     board = RelayBoard(gpio_lock)
     if not board.initialized:
         logging.error("board init fail")
@@ -1007,7 +1006,7 @@ if __name__ == '__main__':
     signal.signal(signal.SIGUSR1, signal_handler)
 
     logging.info("starting threads")
-    
+
     measurements = Process(target=temperatureControl, args=(board, status_lock))
     appliances = Process(target=YardGateControl, args=(board, status_lock))
 
