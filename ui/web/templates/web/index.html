@@ -49,7 +49,7 @@ function setReference(room_id, room_name){
       var new_reference = document.getElementById(room_name + "_ref_selector");
       var form_data = {"new_reference" : new_reference.value,
                        "room_id" : room_id};
-  
+
       console.log(form_data);
       $.post( post_url, form_data, function( response ) {
           $("#action_result").html( response );
@@ -116,11 +116,13 @@ function setReference(room_id, room_name){
 </table>
 </div>
 
-    <button class="button_blue" type="button" onclick="sendRequest('/web/cold')">COLD</button> 
+    <button class="button_blue" type="button" onclick="sendRequest('/web/cold')">COLD</button>
     <button class="button_red" type="button" onclick="sendRequest('/web/heat')">HEAT</button> <br />
     <button class="button_gray" type="button" onclick="sendRequest('/web/light_start')">LIGHT_ON</button>
     <button class="button_black" type="button" onclick="sendRequest('/web/light_stop')">LIGHT_OFF</button> <br />
-    
+    <button class="button_black" type="button" onclick="sendRequest('/web/on')">ON</button> <br />
+    <button class="button_black" type="button" onclick="sendRequest('/web/off')">OFF</button> <br />
+
 
 </body>
 

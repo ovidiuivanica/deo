@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 
+from deoServer import RelayBoard
+from multiprocessing import Lock
+
 import logging
 import sysv_ipc
 import sys
@@ -39,7 +42,7 @@ def index(request):
 
 def status(request):
     string = "this is my string"
-    roomIdList = ["1","2","3","4"]    
+    roomIdList = ["1","2","3","4"]
     room_list = []
     for roomId in roomIdList:
         room = Room()
@@ -76,7 +79,7 @@ def stop(request):
 
     returnString = ""
     s = "closeLight--"
-        
+
     logging.debug("Sending %s" % s)
     s = s.encode()
     mq.send(s)
@@ -93,7 +96,7 @@ def stop(request):
     elif s=="openKO":
         logging.debug("light open failed")
         rs = "failed"
-    else: 
+    else:
         logging.debug("broken message")
         rs = "broken message"
     return HttpResponse("Hello, world. You're at the polls index. {}".format(rs))
@@ -108,7 +111,7 @@ def start(request):
 
     returnString = ""
     s = "openLight--"
-        
+
     logging.debug("Sending %s" % s)
     s = s.encode()
     mq.send(s)
@@ -126,15 +129,15 @@ def start(request):
         logging.debug("light open failed")
         rs = "open failed"
 
-    else: 
+    else:
         logging.debug("broken message")
         rs = "broken message"
     return HttpResponse("Hello, world. You're at the polls index. {}".format(rs))
 def heat(request):
-    roomIdList = ["1","2","3","4"]    
+    roomIdList = ["1","2","3","4"]
     for roomId in roomIdList:
         temp = getPersistantData(roomId,"room","day")
-        res = setPersistantData(roomId,"room","reference",temp)  
+        res = setPersistantData(roomId,"room","reference",temp)
     #return HttpResponse("<a href='/web/'>BACK</a>")
     context = {'action' : 'heat set'}
     return render(request, 'web/done.html', context)
@@ -145,29 +148,53 @@ def set_reference(request):
     reference = request.POST.get('new_reference')
     room_id = request.POST.get('room_id')
 
-    res = setPersistantData(room_id,"room","reference",reference)  
+    res = setPersistantData(room_id,"room","reference",reference)
     #return HttpResponse("<a href='/web/'>BACK</a>")
     context = {'action' : 'reference set to {} for room id {}'.format(reference, room_id)}
     return render(request, 'web/done.html', context)
 
 def cold(request):
-    roomIdList = ["1","2","3","4"]    
+    roomIdList = ["1","2","3","4"]
     for roomId in roomIdList:
         temp = getPersistantData(roomId,"room","night")
-        res = setPersistantData(roomId,"room","reference",temp)  
+        res = setPersistantData(roomId,"room","reference",temp)
     #return render(request, 'web/back.html')
     context = {'action' : 'cold set'}
     return render(request, 'web/done.html', context)
 def door(request):
-    res = setPersistantData('1000',"door","state","1")  
+    res = setPersistantData('1000',"door","state","1")
     context = {'action' : 'door_opened'}
     return render(request, 'web/done.html', context)
 
 def light_start(request):
-    res = setPersistantData('6',"yard","light","1")  
+    res = setPersistantData('6',"yard","light","1")
     context = {'action' : 'light_on'}
     return render(request, 'web/done.html', context)
 def light_stop(request):
-    res = setPersistantData('6',"yard","light","0")  
+    res = setPersistantData('6',"yard","light","0")
     context = {'action' : 'light_stopped'}
     return render(request, 'web/done.html', context)
+
+def on(request):
+
+    lck = Lock()
+    board = RelayBoard(lck)
+    # activate raspberry control over main power relays
+    board.startRelay(8)
+
+    # enable 3 rooms expcept kitchen
+    board.startRelay(1)
+    board.startRelay(2)
+    board.startRelay(3)
+
+def off(request):
+
+    lck = Lock()
+    board = RelayBoard(lck)
+    # activate raspberry control over main power relays
+    board.stopRelay(8)
+
+    # enable 3 rooms expcept kitchen
+    board.stopRelay(1)
+    board.stopRelay(2)
+    board.stopRelay(3)
