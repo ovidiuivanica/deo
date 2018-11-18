@@ -7,7 +7,7 @@ from multiprocessing import Lock
 import logging
 import sysv_ipc
 import sys
-sys.path.insert(0, "/home/pi/Desktop/deo")
+sys.path.insert(0, "/home/pi/deo")
 from deoServer import getPersistantData, setPersistantData
 
 # Create your views here.

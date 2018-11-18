@@ -472,7 +472,7 @@ class Board:
 class RelayBoard:
     def __init__(self, lock):
         self.lock = lock
-        self.pinout = {1:2,2:3,3:4,4:17,5:27,6:22,7:10,8:9} # Broadcom
+        self.pinout = {1:2,2:3,3:4,4:17,5:27,6:22,7:10,8:9,9:18} # Broadcom
         GPIO.setmode(GPIO.BCM) # Broadcom pin-numbering scheme
         for pin in self.pinout.keys():
             # pin set as output
