@@ -1,13 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 
-from deo.deoServer import RelayBoard
 from multiprocessing import Lock
 
 import logging
 import sysv_ipc
 import sys
-from deo.deoServer import getPersistantData, setPersistantData
+from deo import deoServer
 
 # Create your views here.
 
@@ -26,10 +25,10 @@ def index(request):
     for roomId in roomIdList:
         room = Room()
         room.id = roomId
-        room.temperature = getPersistantData(roomId,"room","temperature")
-        room.humidity = getPersistantData(roomId,"room","humidity")
-        room.name = getPersistantData(roomId,"room","name")
-        room.reference = getPersistantData(roomId,"room","reference")
+        room.temperature = deoServer.getPersistantData(roomId,"room","temperature")
+        room.humidity = deoServer.getPersistantData(roomId,"room","humidity")
+        room.name = deoServer.getPersistantData(roomId,"room","name")
+        room.reference = deoServer.getPersistantData(roomId,"room","reference")
         room.ref_temp_list = ["10", "12", "13", "14", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"]
         room_list.append(room)
 
@@ -46,10 +45,10 @@ def status(request):
     for roomId in roomIdList:
         room = Room()
         room.id = roomId
-        room.temperature = getPersistantData(roomId,"room","temperature")
-        room.humidity = getPersistantData(roomId,"room","humidity")
-        room.name = getPersistantData(roomId,"room","name")
-        room.reference = getPersistantData(roomId,"room","reference")
+        room.temperature = deoServer.getPersistantData(roomId,"room","temperature")
+        room.humidity = deoServer.getPersistantData(roomId,"room","humidity")
+        room.name = deoServer.getPersistantData(roomId,"room","name")
+        room.reference = deoServer.getPersistantData(roomId,"room","reference")
         room_list.append(room)
     context = {'room_list': room_list}
     return render(request, 'web/status.html', context)
@@ -61,10 +60,10 @@ def data(request):
     for roomId in roomIdList:
         room = {}
         room['id'] = roomId
-        room['temperature'] = getPersistantData(roomId,"room","temperature")
-        room['humidity'] = getPersistantData(roomId,"room","humidity")
-        room['name'] = getPersistantData(roomId,"room","name")
-        room['reference'] = getPersistantData(roomId,"room","reference")
+        room['temperature'] = deoServer.getPersistantData(roomId,"room","temperature")
+        room['humidity'] = deoServer.getPersistantData(roomId,"room","humidity")
+        room['name'] = deoServer.getPersistantData(roomId,"room","name")
+        room['reference'] = deoServer.getPersistantData(roomId,"room","reference")
         house_data[room.get('name')] = room
     return JsonResponse(house_data)
 
@@ -135,8 +134,8 @@ def start(request):
 def heat(request):
     roomIdList = ["1","2","3","4"]
     for roomId in roomIdList:
-        temp = getPersistantData(roomId,"room","day")
-        res = setPersistantData(roomId,"room","reference",temp)
+        temp = deoServer.getPersistantData(roomId,"room","day")
+        res = deoServer.setPersistantData(roomId,"room","reference",temp)
     #return HttpResponse("<a href='/web/'>BACK</a>")
     context = {'action' : 'heat set'}
     return render(request, 'web/done.html', context)
@@ -147,7 +146,7 @@ def set_reference(request):
     reference = request.POST.get('new_reference')
     room_id = request.POST.get('room_id')
 
-    res = setPersistantData(room_id,"room","reference",reference)
+    res = deoServer.setPersistantData(room_id,"room","reference",reference)
     #return HttpResponse("<a href='/web/'>BACK</a>")
     context = {'action' : 'reference set to {} for room id {}'.format(reference, room_id)}
     return render(request, 'web/done.html', context)
@@ -155,29 +154,29 @@ def set_reference(request):
 def cold(request):
     roomIdList = ["1","2","3","4"]
     for roomId in roomIdList:
-        temp = getPersistantData(roomId,"room","night")
-        res = setPersistantData(roomId,"room","reference",temp)
+        temp = deoServer.getPersistantData(roomId,"room","night")
+        res = deoServer.setPersistantData(roomId,"room","reference",temp)
     #return render(request, 'web/back.html')
     context = {'action' : 'cold set'}
     return render(request, 'web/done.html', context)
 def door(request):
-    res = setPersistantData('1000',"door","state","1")
+    res = deoServer.setPersistantData('1000',"door","state","1")
     context = {'action' : 'door_opened'}
     return render(request, 'web/done.html', context)
 
 def light_start(request):
-    res = setPersistantData('6',"yard","light","1")
+    res = deoServer.setPersistantData('6',"yard","light","1")
     context = {'action' : 'light_on'}
     return render(request, 'web/done.html', context)
 def light_stop(request):
-    res = setPersistantData('6',"yard","light","0")
+    res = deoServer.setPersistantData('6',"yard","light","0")
     context = {'action' : 'light_stopped'}
     return render(request, 'web/done.html', context)
 
 def on(request):
 
     lck = Lock()
-    board = RelayBoard(lck)
+    board = deoServer.RelayBoard(lck)
     # activate raspberry control over main power relays
     board.startRelay(8)
 
