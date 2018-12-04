@@ -10,6 +10,7 @@
             <freezing>7</freezing>
             <humidity>58</humidity>
             <heater>0</heater>
+            <id2>4</id2>
     </room>
     <room id="1">
             <name>Living</name>

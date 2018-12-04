@@ -797,6 +797,7 @@ def temperatureControl(board, lock):
     for roomName in roomDict.keys():
 
         id = int(roomDict[roomName]['id'])
+        id2 = roomDict.get(roomName, {}).get('id2') # the second heater to control
         sensor_id = roomDict[roomName]['sensor_id']
         usb_id = get_usb_from_serial(sensor_id)
         serialAddr = '/dev/{}'.format(usb_id)
@@ -807,7 +808,7 @@ def temperatureControl(board, lock):
         else:
             logging.info("sensor: {} init failed".format(roomName))
             continue
-        room = Room(id, board, sensor, lock)
+        room = Room(id, board, sensor, lock, id2)
         logging.info("Sensor: {} init stus:{}".format(id,sensor.initialized))
         roomList.append(room)
         logging.info("Room: {} added".format(roomName))
@@ -978,12 +979,18 @@ def parseConfig(roomDict,diskFile=os.path.join(BASE_PATH,"status.xml")):
     house = xmlContent.documentElement
     rooms = house.getElementsByTagName("room")
     for room in rooms:
-        parameter = room.getElementsByTagName("name")
-        name = parameter[0].childNodes[0].data
-        parameter = room.getElementsByTagName("sensor_id")
-        sensor_id = parameter[0].childNodes[0].data
         id = room.getAttribute("id")
-        roomDict[name] = {'id':id,'sensor_id':sensor_id}
+        name = room.getElementsByTagName("name")[0].childNodes[0].data
+        sensor_id = room.getElementsByTagName("sensor_id")[0].childNodes[0].data
+        try:
+            id2 = int(room.getElementsByTagName("id2")[0].childNodes[0].data)
+        except:
+            id2 = None
+        roomDict[name] = {
+            'id' : id,
+            'sensor_id' : sensor_id,
+            'id2' : id2
+        }
 
     #cleanup
     house.unlink()
