@@ -20,7 +20,7 @@ class Room(object):
 
 def index(request):
     service_name = "Deoplace"
-    roomIdList = ["1","2","3","4"]
+    roomIdList = ["1","2","3","6"]
     room_list = []
     for roomId in roomIdList:
         room = Room()
@@ -40,7 +40,7 @@ def index(request):
 
 def status(request):
     string = "this is my string"
-    roomIdList = ["1","2","3","4"]
+    roomIdList = ["1","2","3","6"]
     room_list = []
     for roomId in roomIdList:
         room = Room()
@@ -55,7 +55,7 @@ def status(request):
 
 def data(request):
     string = "this is my string"
-    roomIdList = ["1","2","3","4"]
+    roomIdList = ["1","2","3","6"]
     house_data = {}
     for roomId in roomIdList:
         room = {}
@@ -132,7 +132,7 @@ def start(request):
         rs = "broken message"
     return HttpResponse("Hello, world. You're at the polls index. {}".format(rs))
 def heat(request):
-    roomIdList = ["1","2","3","4"]
+    roomIdList = ["1","2","3","6"]
     for roomId in roomIdList:
         temp = deoServer.getPersistantData(roomId,"room","day")
         res = deoServer.setPersistantData(roomId,"room","reference",temp)
@@ -142,7 +142,7 @@ def heat(request):
 
 
 def set_reference(request):
-    roomIdList = ["1","2","3","4"]
+    roomIdList = ["1","2","3","6"]
     reference = request.POST.get('new_reference')
     room_id = request.POST.get('room_id')
 
@@ -152,7 +152,7 @@ def set_reference(request):
     return render(request, 'web/done.html', context)
 
 def cold(request):
-    roomIdList = ["1","2","3","4"]
+    roomIdList = ["1","2","3","6"]
     for roomId in roomIdList:
         temp = deoServer.getPersistantData(roomId,"room","night")
         res = deoServer.setPersistantData(roomId,"room","reference",temp)
