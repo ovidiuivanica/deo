@@ -35,8 +35,20 @@
             <humidity>57</humidity>
             <heater>1</heater>
     </room>
-    <room id="4">
+    <!-- <room id="4">
             <name>Bucatarie</name>
+            <temperature>21.1</temperature>
+            <sensor>/dev/ttyUSB1</sensor>
+            <sensor_id>V50421571-0</sensor_id>
+            <reference>21</reference>
+            <day>21</day>
+            <night>18</night>
+            <freezing>7</freezing>
+            <humidity>61</humidity>
+            <heater>0</heater>
+    </room> -->
+    <room id="6">
+            <name>Copii</name>
             <temperature>21.1</temperature>
             <sensor>/dev/ttyUSB1</sensor>
             <sensor_id>V50421571-0</sensor_id>

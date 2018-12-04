@@ -571,9 +571,10 @@ class Sensor:
         serialCleanup(self.port)
 
 class Room:
-    def __init__(self,roomId,board,sensor,lock):
+    def __init__(self,roomId,board,sensor,lock,id2=None):
         self.lock = lock
         self.id = roomId
+        self.id2 = id2
         self.name = self.getName()
         self.readReference()
         self.temperature = 0.0
@@ -681,11 +682,15 @@ class Room:
         if self.board.startRelay(self.id):
             self.heater = 1
             self.storeHeater()
+        if self.id2:
+            self.board.startRelay(self.id2)
     def stopHeater(self):
         logging.info("Heater stopped")
         if self.board.stopRelay(self.id):
             self.heater = 0
             self.storeHeater()
+        if self.id2:
+            self.board.stopRelay(self.id2)
     def cleanup(self):
         self.sensor.cleanup()
 
@@ -732,7 +737,7 @@ class Door:
 def YardGateControl(board, lock):
 
     parseConfig(roomDict)
-    yard = Yard(board, lock)
+    # yard = Yard(board, lock)
     door1 = Door(1000,board, lock)
     prevTime = 0.0
     prevDateTime = 0.0
@@ -757,7 +762,7 @@ def YardGateControl(board, lock):
                 setPersistantData(20,"refresh","time",int(prevDateTime))
 
             #yard light
-            yard.refresh()
+            # yard.refresh()
 
     except ShutdownException: # If CTRL+C is pressed, exit cleanly:
         logging.info("preparing to exit")
