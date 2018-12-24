@@ -412,7 +412,7 @@ class Yard:
                 self.stop()
 
 
-def controllerLogic(room,furnace,prag=0.3):
+def controllerLogic(room,furnace,prag=0.0):
 
     #persistantChek(room)
 
@@ -421,7 +421,7 @@ def controllerLogic(room,furnace,prag=0.3):
             logging.debug("heater already ON")
         else:
             room.startHeater()
-    elif (room.reference + prag) < room.temperature:
+    elif (room.reference + prag) <= room.temperature:
         if room.heater == 0:
             logging.debug("heater already OFF")
         else:
