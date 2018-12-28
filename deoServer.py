@@ -69,7 +69,7 @@ class ShutdownException(Exception):
         super(ShutdownException, self).__init__(message)
 
 def signal_handler(signum, stack):
-    logging.logINFO("received signal {}".format(signum))
+    logging.info("received signal {}".format(signum))
     raise ShutdownException("shutdown")
 
 
@@ -248,7 +248,7 @@ def serialInit(ser,comPort,baudRate):
 def serialCleanup(ser):
     if ser.isOpen():
         ser.close()
-        logging.logINFO("closed serial port")
+        logging.info("closed serial port")
 
 def readFile(filePath):
     line = "notAvailable"
@@ -625,11 +625,6 @@ class Room:
     def readHumidity(self):
         humidity = self.sensor.getHumidity()
         return humidity
-    def getTemperature(self):
-        self.lock.acquire()
-        data = getPersistantData(self.id,"room","name")
-        self.lock.release()
-        return data
     def getTemperature(self):
         self.lock.acquire()
         data = getPersistantData(self.id,"room","temperature")
