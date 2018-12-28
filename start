@@ -1,1 +1,1 @@
-python /home/pi/Desktop/deo/deoServer.py > /dev/null &
+python /home/pi/deo/deoServer.py > /dev/null &
