@@ -531,7 +531,7 @@ class Sensor:
         logging.info('sensor OK %s', com)
     def sensorResponseParser(self,rawResponse):
         response = ""
-        floatResponse = 0.0
+        floatResponse = 99.0
         if rawResponse and rawResponse != "":
             #response = rawResponse[:-5]
             response = rawResponse[1:5]
