@@ -1,0 +1,51 @@
+{
+    "hol" : {
+        "relay" : 3,
+        "type" : "room",
+        "sensor_id" : "V44764017-0",
+        "reference" : 0.0,
+        "day" : 21,
+        "night" : 18,
+        "freezing" : 7
+    },
+    "living" : {
+        "relay" : 1,
+        "type" : "room",
+        "sensor_id" : "V44764017-0",
+        "reference" : 0.0,
+        "day" : 21,
+        "night" : 18,
+        "freezing" : 7
+    },
+    "dormitor" : {
+        "relay" : 2,
+        "type" : "room",
+        "sensor_id" : "V50206672-0",
+        "reference" : 0.0,
+        "day" : 21,
+        "night" : 18,
+        "freezing" : 7
+    },
+    "copii" : {
+        "relay" : 6,
+        "type" : "room",
+        "sensor_id" : "V50421571-0",
+        "reference" : 0.0,
+        "day" : 21,
+        "night" : 18,
+        "freezing" : 7
+    },
+    "bucatarie" : {
+        "relay" : 4,
+        "type" : "room",
+        "sensor_id" : "V44126089-0",
+        "reference" : 0.0,
+        "day" : 21,
+        "night" : 18,
+        "freezing" : 7
+    },
+    "centrala" : {
+        "type" : "furnace",
+        "relay" : 7
+    }
+}
