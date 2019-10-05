@@ -418,7 +418,7 @@ if __name__ == '__main__':
     manager = Manager()
     # create file handler which logs even debug messages
     fh = logging.FileHandler('deo.log')
-    fh.setLevel(logging.DEBUG)
+    fh.setLevel(logging.INFO)
     # create console handler with a higher log level
     ch = logging.StreamHandler()
     ch.setLevel(logging.INFO)
