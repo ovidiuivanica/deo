@@ -9,8 +9,10 @@ from datetime import datetime
 from datetime import date
 import threading
 import signal
-from multiprocessing import Process, Lock
+from multiprocessing import Process, Lock, Manager
 from subprocess import Popen, PIPE
+import rpyc
+import json
 
 # 3rd party modules
 import sysv_ipc
@@ -27,37 +29,8 @@ ROOM_ID     = 0
 DEFAULT_REFERENCE = 10
 
 BASE_PATH = os.path.dirname(os.path.realpath(__file__))
-startCodeDict = {1:"a",2:"b",3:"c",4:"d",5:"e",6:"f",7:"g",8:"h"}
-stopCodeDict = {1:"i",2:"j",3:"k",4:"l",5:"m",6:"n",7:"o",8:"p"}
-
-
-DICT_PWD = 0
-DICT_ROLE = 1
-DICT_BEGIN_DATE = 2
-DICT_END_DATE = 3
-
-userDict = {
-            #admin section
-            "evimic":["","admin"],
-            "relu":["","admin"],
-            "octavian":["","admin"],
-            #thursday evening club section
-            "dani":["","club"],
-            "tibi":["","club"],
-            "andrei":["","club"],
-            #family section
-            "simona":["","family"],
-            "stefan":["","family"],
-            "vali":["","family"],
-            "fibia":["","family"],
-            #friend section
-            "filip":["","friend",[6,11,2015],[7,11,2015]],
-            }
 
 homeCoordinates = {"Latitude":44.47816,"Longitude":26.034602}
-
-homeLat = 44.47816
-homeLong = 26.034602
 
 # work location coordinates: 44.413919, 26.1051352
 
@@ -71,151 +44,6 @@ class ShutdownException(Exception):
 def signal_handler(signum, stack):
     logging.info("received signal {}".format(signum))
     raise ShutdownException("shutdown")
-
-
-def getPersistantData(objectId,objectType,parameterName,diskFile=os.path.join(BASE_PATH,"status.xml")):
-    # save information on disk
-    returnValue = None
-    try:
-        inFile = open(diskFile, 'r')
-        data = inFile.read()
-        inFile.close()
-        logging.debug("xml file open OK")
-        #print data
-    except Exception, e:
-        logging.debug("error open/close when reading persisting file: " + str(e))
-        return False
-    try:
-        xmlContent = minidom.parseString(data)
-    except Exception, e:
-        logging.error("cannot parse xml: " + str(e))
-        return returnValue
-    house = xmlContent.documentElement
-    rooms = house.getElementsByTagName(objectType)
-    for room in rooms:
-        if str(objectId) == room.getAttribute("id"):
-            parameter = room.getElementsByTagName(parameterName)
-            returnValue = parameter[0].childNodes[0].data
-            break
-    #cleanup
-    house.unlink()
-    #xmlContent.unlink()
-    del(house)
-    del(xmlContent)
-
-    logging.debug("returnValue={}".format(returnValue))
-    return returnValue
-def getPersistantObjectAttribute(objectType,attributeName,diskFile=os.path.join(BASE_PATH,"status.xml")):
-    # save information on disk
-    returnValue = None
-    try:
-        inFile = open(diskFile, 'r')
-        data = inFile.read()
-        inFile.close()
-        logging.debug("xml file open OK")
-        #print data
-    except Exception, e:
-        logging.error("error open/close when reading persisting file: " + str(e))
-        return False
-    try:
-        xmlContent = minidom.parseString(data)
-    except Exception, e:
-        logging.error("cannot parse xml: " + str(e))
-        return returnValue
-    house = xmlContent.documentElement
-    returnValue = house.getElementsByTagName(objectType)[0].getAttribute(attributeName)
-
-    #cleanup
-    house.unlink()
-    #xmlContent.unlink()
-    del(house)
-    del(xmlContent)
-
-    logging.debug("returnValue={}".format(returnValue))
-    return returnValue
-def setPersistantData(objectId,objectType,parameter,value="initValue",diskFile=os.path.join(BASE_PATH,"status.xml")):
-    # save information on disk
-
-    try:
-        inFile = open(diskFile, 'r')
-        data = inFile.read()
-        inFile.close()
-        logging.debug("opened file {0}".format(diskFile))
-    except Exception, e:
-        logging.debug("error open/close when reading persisting file: " + str(e))
-        return False
-
-    logging.debug("setting id{0}: {1}-{2}-{3}".format(objectId,objectType,parameter,value))
-    try:
-        xmlContent = minidom.parseString(data)
-    except Exception, e:
-        logging.error("cannot parse xml: " + str(e))
-        return False
-    house = xmlContent.documentElement
-    objects = house.getElementsByTagName(objectType)
-    for object in objects:
-        if str(objectId) == object.getAttribute("id"):
-            item = object.getElementsByTagName(parameter)
-            #parameter.getElementsByTagName("value")[0].childNodes[0].data = setValue
-            item[0].childNodes[0].data = value
-            break
-    data = xmlContent.toxml()
-
-    #cleanup
-    house.unlink()
-    #xmlContent.unlink()
-    del(house)
-    del(xmlContent)
-
-    try:
-        outFile = open(diskFile, 'w')
-        outFile.write(data)
-        outFile.close()
-    except Exception, e:
-        logging.debug("error open/close when writing to persisting file: " + str(e))
-        return False
-    return True
-
-def setPersistantData2(objectType,parameter,value,diskFile=os.path.join(BASE_PATH,"status.xml")):
-    # save information on disk
-
-    try:
-        inFile = open(diskFile, 'r')
-        data = inFile.read()
-        inFile.close()
-        logging.debug("opened file {0}".format(diskFile))
-    except Exception, e:
-        logging.debug("error open/close when reading persisting file: " + str(e))
-        return False
-
-    logging.debug("setting: {0}-{1}-{2}".format(objectType,parameter,value))
-    try:
-        xmlContent = minidom.parseString(data)
-    except Exception, e:
-        logging.error("cannot parse xml: " + str(e))
-        return False
-    house = xmlContent.documentElement
-    objects = house.getElementsByTagName(objectType)
-    for object in objects:
-		item = object.getElementsByTagName(parameter)
-		item[0].childNodes[0].data = value
-		break
-    data = xmlContent.toxml()
-
-    #cleanup
-    house.unlink()
-    #xmlContent.unlink()
-    del(house)
-    del(xmlContent)
-
-    try:
-        outFile = open(diskFile, 'w')
-        outFile.write(data)
-        outFile.close()
-    except Exception, e:
-        logging.debug("error open/close when writing to persisting file: " + str(e))
-        return False
-    return True
 
 def serialInit(ser,comPort,baudRate):
     isInitialized = False
@@ -249,30 +77,6 @@ def serialCleanup(ser):
     if ser.isOpen():
         ser.close()
         logging.info("closed serial port")
-
-def readFile(filePath):
-    line = "notAvailable"
-    theFile = open(filePath,"r")
-    if not theFile:
-        logging.debug("could not open file")
-        return line
-    else:
-        line = theFile.readline()
-    theFile.close()
-    return line
-
-
-def writeFile(filePath,text):
-    logging.debug("store: {0}".format(text))
-    retCode = 0
-    theFile = open(filePath,"w")
-    if not file:
-        retCode = 0
-    else:
-        theFile.write(text)
-        retCode = 1
-    theFile.close()
-    return retCode
 
 def serialRequest(ser,request,retryMax=5):
     response = None
@@ -316,73 +120,36 @@ def serialRequest(ser,request,retryMax=5):
     return response
 
 class Furnace:
-    def __init__(self,board,rooms,lock):
-        self.lock = lock
-        self.lock.acquire()
-        self.id = int(getPersistantObjectAttribute("furnace","id"))
-        self.lock.release()
+    def __init__(self, relay, board):
+        self.id = relay
         self.board = board
         self.stop()
-        self.rooms = rooms
-        self.drState = 0
-    def readDrState(self):
-        self.lock.acquire()
-        raw = getPersistantData(self.id,"furnace","drState")
-        self.lock.release()
-        if raw:
-            try:
-                self.drState = int(raw)
-            except Exception as e:
-                self.drState = 0
-        else:
-            self.drState = 0
-        return self.drState
     def start(self):
-         logging.info("starting furnace")
-         self.storeFurnace()
+         logging.info("[Furnace] starting")
          self.state = 1
          return self.board.startRelay(self.id)
     def stop(self):
-        logging.info("stopping furnace")
+        logging.info("[Furnace] stopping")
         self.state = 0
-        self.storeFurnace()
         return self.board.stopRelay(self.id)
-    def storeFurnace(self):
-        self.lock.acquire()
-        setPersistantData(self.id,"furnace","state",self.state)
-        self.lock.release()
-    def refresh(self):
-        newState = 0
-        for room in self.rooms:
-            logging.debug("{}{}".format(room.id,room.heater))
-            if room.heater:
-                newState = 1
-                break
-        self.readDrState()
-
-        if not newState and self.drState:
-            newState = 1
-            logging.debug("directRequest")
-
-        if newState != self.state:
-            self.state = newState
-            if self.state:
-                self.start()
-            else:
-                self.stop()
-
 
 class Yard:
-    def __init__(self,board, lock):
+    def __init__(self,
+                id,
+                board,
+                lock,
+                status_conf):
         self.lock = lock
         self.light = 0
         self.lock.acquire()
-        self.id = int(getPersistantObjectAttribute("yard","id"))
+        self.id = id
         self.lock.release()
         self.board = board
+        self.status_conf = status_conf
+
     def readLight(self):
         self.lock.acquire()
-        raw = getPersistantData(self.id,"yard","light")
+        raw = self.status_conf["yard"]["light"]
         self.lock.release()
         if raw:
             try:
@@ -400,7 +167,7 @@ class Yard:
         return self.board.stopRelay(self.id)
     def storeYard(self):
         self.lock.acquire()
-        setPersistantData(self.id,"yard","light",self.light)
+        self.status_conf["yard"]["light"] = self.light
         self.lock.release()
     def refresh(self):
         newLight = self.readLight()
@@ -412,21 +179,23 @@ class Yard:
                 self.stop()
 
 
-def controllerLogic(room,furnace,prag=0.0):
+def controllerLogic(room, board, prag=0.0):
 
     #persistantChek(room)
 
-    if (room.temperature + prag) < room.reference:
-        if room.heater == 1:
+    if (room.get("temperature") + prag) < room.get("reference"):
+        if room.get("heater") == True:
             logging.debug("heater already ON")
         else:
-            room.startHeater()
-    elif (room.reference + prag) <= room.temperature:
-        if room.heater == 0:
+            board.startRelay(room["id"])
+            board["heater"] = True
+    elif (room.get("reference") + prag) <= room.get("temperature"):
+        if room.get("heater") == False:
             logging.debug("heater already OFF")
         else:
-            room.stopHeater()
-    furnace.refresh()
+            board.stopRelay(room["id"])
+            board["heater"] = False
+
 
 
 def doorControllerLogic(door):
@@ -505,30 +274,12 @@ class RelayBoard:
         self.lock.release()
         return True
 
-class DummyBoard:
-    def __init__(self):
-        pass
-    def getStartCode(self,roomId):
-        logging.debug("id= {}".format(roomId))
-        return startCodeDict[roomId]
-    def getStopCode(self,roomId):
-        return stopCodeDict[roomId]
-    def request(self,request):
-        return "OK"
-    def startRelay(self,roomId):
-        logging.debug("StartRelay")
-        return 1
-    def stopRelay(self,roomId):
-        logging.debug("StopRelay")
-        return 1
-
-
 class Sensor:
     def __init__(self,com,baud):
-        logging.info('initializing sensor %s', com)
+        logging.info('[%s] initializing sensor with baud: %s', com, baud)
         self.port = serial.Serial()
         self.initialized = serialInit(self.port,com,baud)
-        logging.info('sensor OK %s', com)
+        logging.info('[%s][%s] init OK', com, baud)
     def sensorResponseParser(self,rawResponse):
         response = ""
         floatResponse = 99.0
@@ -571,11 +322,17 @@ class Sensor:
         serialCleanup(self.port)
 
 class Room:
-    def __init__(self,roomId,board,sensor,lock,id2=None):
+    def __init__(self,
+                    name,
+                    roomId,
+                    board,
+                    sensor,
+                    lock,
+                    status_table):
         self.lock = lock
+        self.status_table = status_table
         self.id = roomId
-        self.id2 = id2
-        self.name = self.getName()
+        self.name = name
         self.readReference()
         self.temperature = 0.0
         self.humidity = 0
@@ -590,78 +347,52 @@ class Room:
         if not self.board:
             logging.error("board init failure")
             sys.exit(1)
-        self.resetRoom()
-    def resetRoom(self):
-        self.lock.acquire()
-        setPersistantData(self.id,"room","heater",self.heater)
-        setPersistantData(self.id,"room","temperature",self.temperature)
-        setPersistantData(self.id,"room","humidity",self.humidity)
-        self.lock.release()
-        self.stopHeater()
 
     def readReference(self):
         self.lock.acquire()
-        rawReference = getPersistantData(self.id,"room","reference")
+        rawReference = self.status_table.get(self.name, {}).get("reference")
         self.lock.release()
-        if rawReference:
-            self.reference = float(rawReference)
-        else:
-            self.reference = float(DEFAULT_REFERENCE)
+        self.reference = float(rawReference) if rawReference else float(DEFAULT_REFERENCE)
         return self.reference
-    def setReference(self,value):
-        retCode = 0
-        self.lock.acquire()
-        setPersistantData(self.id,"room","reference",value)
-        self.lock.release()
-        if retCode:
-            self.reference = value
-            self.resultMessage = "OK"
-        else:
-            self.resultMessage = "KO!"
-        return retCode
     def readTemperature(self):
-        temperature = self.sensor.getTemperature()
-        return temperature
+        return self.sensor.getTemperature()
     def readHumidity(self):
-        humidity = self.sensor.getHumidity()
-        return humidity
+        return self.sensor.getHumidity()
     def getTemperature(self):
         self.lock.acquire()
-        data = getPersistantData(self.id,"room","temperature")
+        data = self.status_table.get(self.name, {}).get("temperature")
         self.lock.release()
         return data
     def getHumidity(self):
         self.lock.acquire()
-        data = getPersistantData(self.id,"room","humidity")
+        data = self.status_table.get(self.name, {}).get("humidity")
         self.lock.release()
         return data
     def getHeater(self):
         self.lock.acquire()
-        data = getPersistantData(self.id,"room","heater")
+        data = self.status_table.get(self.name, {}).get("heater")
         self.lock.release()
         return data
     def getName(self):
-        self.lock.acquire()
-        data = getPersistantData(self.id,"room","name")
-        self.lock.release()
-        return data
+        return self.name
     def storeTemperature(self):
         self.lock.acquire()
-        setPersistantData(self.id,"room","temperature",self.temperature)
+        self.status_table[self.name]["temperature"] = self.temperature
         self.lock.release()
     def storeHumidity(self):
         self.lock.acquire()
-        setPersistantData(self.id,"room","humidity",self.humidity)
+        self.status_table[self.name]["humidity"] = self.humidity
         self.lock.release()
     def storeHeater(self):
         self.lock.acquire()
-        setPersistantData(self.id,"room","heater",self.heater)
+        self.status_table[self.name]["heater"] = self.heater
         self.lock.release()
     def readAndStoreTemperature(self):
         noiseMinAmplitude = 0.1
         noiseMaxAmplitude = 10
         temperature = self.readTemperature()
-        if (abs(temperature - self.temperature) > noiseMinAmplitude) and (abs(temperature - self.temperature) < noiseMaxAmplitude):
+        if (abs(temperature - self.temperature) > noiseMinAmplitude) and \
+            (abs(temperature - self.temperature) < noiseMaxAmplitude):
             self.temperature = temperature
             self.storeTemperature()
         return self.temperature
@@ -677,91 +408,13 @@ class Room:
         if self.board.startRelay(self.id):
             self.heater = 1
             self.storeHeater()
-        if self.id2:
-            self.board.startRelay(self.id2)
     def stopHeater(self):
         logging.info("Heater stopped")
         if self.board.stopRelay(self.id):
             self.heater = 0
             self.storeHeater()
-        if self.id2:
-            self.board.stopRelay(self.id2)
     def cleanup(self):
         self.sensor.cleanup()
-
-class Door:
-    def __init__(self,doorId,board,lock):
-        self.lock = lock
-        self.doorId = doorId
-        self.relay = 5
-        self.state = 0
-        self.resultMessage = "na"
-        self.board = board
-    def setState(self,value):
-        self.lock.acquire()
-        result = setPersistantData(self.doorId,"door","state",value)
-        self.lock.release()
-        self.state = value
-        return result
-    def setStateWithValidation(self,value):
-        validation = False
-        self.lock.acquire()
-        result = setPersistantData(self.doorId,"door","state",value)
-        self.state = value
-        temp = getPersistantData(self.doorId,"door","state")
-        self.lock.release()
-        logging.info("written : {}".format(temp))
-        if temp == value:
-            validation = True
-        return validation
-    def getState(self):
-        self.lock.acquire()
-        self.state = getPersistantData(self.doorId,"door","state")
-        self.lock.release()
-        logging.debug("door internal state = {}".format(self.state))
-        return self.state
-
-    def openDoor(self,sleepTime=1):
-        logging.info("Door open request")
-        if self.board.startRelay(self.relay):
-            logging.info("relay on")
-        time.sleep(sleepTime)
-        if self.board.stopRelay(self.relay):
-            logging.info("relay off")
-
-def YardGateControl(board, lock):
-
-    parseConfig(roomDict)
-    # yard = Yard(board, lock)
-    door1 = Door(1000,board, lock)
-    prevTime = 0.0
-    prevDateTime = 0.0
-
-    try:
-        logging.info("yard service started")
-        while True:
-            door1.getState()
-            logging.debug("Gate = {0}".format(door1.state))
-            if door1.state == "1":
-                door1.openDoor()
-                door1.setStateWithValidation("0")
-
-            # limit outisde temp request to one per hour minutes
-
-            timeNow = time.time()
-
-            # loop refresh time
-            if timeNow - prevDateTime > 60.0:
-                prevDateTime = timeNow
-                dateNow = datetime.now()
-                setPersistantData(20,"refresh","time",int(prevDateTime))
-
-            #yard light
-            # yard.refresh()
-
-    except ShutdownException: # If CTRL+C is pressed, exit cleanly:
-        logging.info("preparing to exit")
-        GPIO.cleanup() # cleanup all GPIO
 
 def get_usb_from_serial(serial):
     result = None
@@ -782,230 +435,87 @@ def get_usb_from_serial(serial):
     return result
 
 
-def temperatureControl(board, lock):
+def temperatureControl(config, board, lock):
 
-    roomDict = {}
-    roomList = []
-    lock.acquire()
-    parseConfig(roomDict)
-    lock.release()
-    for roomName in roomDict.keys():
+    permissive_init = True
 
-        id = int(roomDict[roomName]['id'])
-        id2 = roomDict.get(roomName, {}).get('id2') # the second heater to control
-        sensor_id = roomDict[roomName]['sensor_id']
-        usb_id = get_usb_from_serial(sensor_id)
-        serialAddr = '/dev/{}'.format(usb_id)
-        logging.info("preparing room:{} id:{} serialAddress:{}".format(roomName,id,serialAddr))
-        sensor = Sensor(serialAddr,9600)
-        if sensor.initialized:
-            logging.info("sensor: {} init OK".format(roomName))
-        else:
-            logging.info("sensor: {} init failed".format(roomName))
-            continue
-        room = Room(id, board, sensor, lock, id2)
-        logging.info("Sensor: {} init stus:{}".format(id,sensor.initialized))
-        roomList.append(room)
-        logging.info("Room: {} added".format(roomName))
+    # switch the legacy manual/automatic mode relay to automatic
+    board.startRelay(8)
 
+    # temp sensors init. (a sensor is a resource that could be used by multiple rooms)
+    for name, data in config.iteritems():
+        sensor_data = data.get('sensor')
+        if sensor_data:
+            # sensor init
+            try:
+                sensor_data["port"] = get_usb_from_serial(sensor_data.get("id"))
+                sensor_data["reader"] = Sensor('/dev/{}'.format(sensor_data["port"]),
+                                                config["sensors"][sensor_data.get("type")]["connection"]["baud"])
+            except Exception as msg:
+                logging.warning('[%s] sensor: %s init fail: %s', name, sensor_data.get("id"), msg)
+                if permissive_init:
+                    logging.warning('ignoring')
+                    continue
+                else:
+                    break
 
-    furnace = Furnace(board,roomList,lock)
-    currentOpMode = ""
+    # furnace init
+    furnace = Furnace(board,
+                      config['power_supplier']['actuator']['id'])
+    logging.info("%s : %s init ok", name, data.get('type'))
+
     outTemp = 0.0
     newOutTemp = 0.0
     prevTime = 0.0
     prevDateTime = 0.0
 
+    # main loop
     try:
         logging.info("service started")
         while True:
-            lock.acquire()
-            operationMode = getPersistantData(900,"operation","mode")
-            lock.release()
-            if operationMode == "manual":
-                logging.debug("switching to maual..")
-                board.stopRelay(8)
-            elif operationMode == "automat":
-                logging.debug("switching to auto..")
-                board.startRelay(8)
-            else:
-                logging.error("unknown operation mode, choosing auto")
-                board.startRelay(8)
 
-            if currentOpMode == "manual":
-                time.sleep(1)
-                logging.debug("manual operation ...");
-                continue
-
-            for room in roomList:
+            heat_request = False
+            for name, data in config["rooms"].iteritems():
                 logging.debug("\n----------------------------------")
-                logging.debug("-- ROOM: {}".format(room.name))
-                logging.debug("Reference= {0}".format(room.readReference()))
-                logging.debug("Temperature = {0}".format(room.readAndStoreTemperature()))
-                logging.debug("Heater = {0}".format(room.heater))
-                logging.debug("Humidity = {0}".format(room.readAndStoreHumidity()))
-                controllerLogic(room,furnace)
+                logging.debug("-- ROOM: %s", name)
+                reader = data["reader"]
+                logging.debug("Reference=%s", data.get("reference"))
+                data["temperature"] = reader.readTemperature()
+                data["humidity"] = reader.readHumidity()
+                logging.debug("Temperature =%s", data["temperature"])
+                logging.debug("Humidity =%s", data["humidity"])
+                logging.debug("Heater = %s", data.get("heater"))
+                controllerLogic(data, board)
+                if data.get("heater"):
+                    heat_request = True
+            if heat_request:
+                furnace.start()
+            else:
+                furnace.stop()
 
     except ShutdownException: # If CTRL+C is pressed, exit cleanly:
         logging.info("preparing to exit")
         GPIO.cleanup() # cleanup all GPIO
-        for room in roomList:
-            room.cleanup()
-
-def validateUserLocation(userLat,userLong):
-    validate = False
-    latDiff = abs(userLat - homeLat)
-    longDiff = abs(userLong - homeLong)
-    #print "latDiff  ={} <br />".format(latDiff)
-    #print "longDiff ={} <br />".format(longDiff)
-    if  latDiff < acceptedLatDiff and  longDiff < acceptedLongDiff:
-        validate = True
-    return validate
-
-def validateUserTime(userOkDay,userOkHour):
-    validate = False
-    now = datetime.now()
-    if now.weekday() == userOkDay and now.hour >= userOkHour:
-        validate = True
-    return validate
-
-def validateUserDate(start,stop):
-    validate = False
-    today = date.today()
-    if today.year >= start[2] and today.year <= stop[2]:
-        if today.month >= start[1] and today.month <= stop[1]:
-            if today.day >= start[0] and today.day <=stop[0]:
-                validate = True
-
-    return validate
-
-
-def gateControl(board):
-    door1 = Door(4,board)
-    doorList = [door1]
-    openDoorFlag = False
-
-    # Create the message queue.
-    try:
-        mq = sysv_ipc.MessageQueue(42, sysv_ipc.IPC_CREX, 0777)
-    except Exception, e:
-        logging.error("cannot create message queue: " + str(e))
-        return
-
-    whatISent = ""
-    while True:
-        logging.debug("waiting to receive..")
-        s, _ = mq.receive()
-        s = s.decode()
-        parts = s.split("--")
-        logging.debug("received: {}".format(s))
-        if s == whatISent:
-            s = s.encode()
-            logging.debug("message not consumed by client, sending back %s" % s)
-            mq.send(s)
-        elif parts[0] == "openGate":
-            logging.debug("opening gate")
-            returnString = ""
-            # ----------------------
-            user = parts[1]
-            latitude = float(parts[2])
-            longitude = float(parts[3])
-            if user in userDict.keys():
-                keyValue = userDict[user]
-                if keyValue[DICT_ROLE] == "admin":
-                    openDoorFlag = True
-                if keyValue[DICT_ROLE] == "family":
-                    if validateUserLocation(latitude,longitude):
-                        openDoorFlag = True
-                    else:
-                        returnString = "<h1>action restricted from this location</h1>"
-                if keyValue[DICT_ROLE] == "club":
-                    if validateUserTime(userOkDay=3,userOkHour=20):
-                        if validateUserLocation(latitude,longitude):
-                            openDoorFlag = True
-                        else:
-                            returnString = "<h1>action restricted from this location</h1>"
-                    else:
-                        returnString = "<h1>action restricted at this time</h1>"
-                if keyValue[DICT_ROLE] == "friend":
-                    if validateUserDate(start=keyValue[DICT_BEGIN_DATE],stop=keyValue[DICT_END_DATE]):
-                        openDoorFlag = True
-                    else:
-                        returnString = "<h1>action restricted at this time</h1>"
-            else:
-                returnString = "<h1>access restricted</h1>"
-            # ----------------------
-            if openDoorFlag == True:
-                door1.openDoor()
-                status = "openOK"
-                openDoorFlag = False
-            else:
-                status = "openKO"
-            s = "{}--{}".format(status,returnString)
-            whatISent = s
-            s = s.encode()
-            logging.debug("Sending %s" % s)
-            mq.send(s)
-        else:
-            logging.error("unrecognized message")
-
-    logging.debug("Destroying the message queue.")
-    mq.remove()
-
-
-
-def parseConfig(roomDict,diskFile=os.path.join(BASE_PATH,"status.xml")):
-    # save information on disk
-    returnValue = None
-    try:
-        inFile = open(diskFile, 'r')
-        data = inFile.read()
-        inFile.close()
-        logging.debug("xml file open OK")
-        #print data
-    except Exception, e:
-        logging.debug("error open/close when reading persisting file: " + str(e))
-        return False
-    try:
-        xmlContent = minidom.parseString(data)
-    except Exception, e:
-        logging.error("cannot parse xml: " + str(e))
-        return returnValue
-    house = xmlContent.documentElement
-    rooms = house.getElementsByTagName("room")
-    for room in rooms:
-        id = room.getAttribute("id")
-        name = room.getElementsByTagName("name")[0].childNodes[0].data
-        sensor_id = room.getElementsByTagName("sensor_id")[0].childNodes[0].data
-        try:
-            id2 = int(room.getElementsByTagName("id2")[0].childNodes[0].data)
-        except:
-            id2 = None
-        roomDict[name] = {
-            'id' : id,
-            'sensor_id' : sensor_id,
-            'id2' : id2
-        }
-
-    #cleanup
-    house.unlink()
-    #xmlContent.unlink()
-    del(house)
-    del(xmlContent)
-
-    logging.debug("returnValue={}".format(returnValue))
-    return returnValue
-
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format='%(relativeCreated)6d %(threadName)s %(message)s')
+    manager = Manager()
+    status_table = manager.dict()
     status_lock = Lock()
     gpio_lock = Lock()
     roomList = []
     roomDict = {}
     pid = os.getpid()
     logging.info("starting service on pid{}".format(pid))
-    result = setPersistantData("1100","pid","value",pid)
+
+    config_file_path = "status.json"
+
+    try:
+        with open(config_file_path) as conf_handler:
+            config = json.load(conf_handler)
+    except Exception as msg:
+        logging.error('config load error: %s', msg)
+        sys.exit(1)
 
     board = RelayBoard(gpio_lock)
     if not board.initialized:
@@ -1014,15 +524,15 @@ if __name__ == '__main__':
 
     signal.signal(signal.SIGUSR1, signal_handler)
 
-    logging.info("starting threads")
 
-    measurements = Process(target=temperatureControl, args=(board, status_lock))
-    appliances = Process(target=YardGateControl, args=(board, status_lock))
+    logging.info("starting workers")
+    measurements = Process(target=temperatureControl, args=(config, board, status_lock))
+    # appliances = Process(target=YardGateControl, args=(config, board, status_lock))
 
-    appliances.start()
+    # appliances.start()
     measurements.start()
 
-    appliances.join()
+    # appliances.join()
     measurements.join()
 
     exit(0)

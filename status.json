@@ -1,51 +1,156 @@
 {
-    "hol" : {
-        "relay" : 3,
-        "type" : "room",
-        "sensor_id" : "V44764017-0",
-        "reference" : 0.0,
-        "day" : 21,
-        "night" : 18,
-        "freezing" : 7
+    "sensors" : {
+        "watchport" : {
+            "type" : "temperature_humidity",
+            "connection" : {
+                "interface" : "serial",
+                "baud" : 9600
+            },
+            "data" : {
+                "temp" : "T\r",
+                "humidity" : "H\r"
+            }
+        },
+        "spi_temp" : {
+            "type" : "temperature_humidity",
+            "connection" : {
+                "interface" : "spi"
+            },
+            "data" : {
+                "temp" : "",
+                "humidity" : ""
+            }
+        }
     },
-    "living" : {
-        "relay" : 1,
-        "type" : "room",
-        "sensor_id" : "V44764017-0",
-        "reference" : 0.0,
-        "day" : 21,
-        "night" : 18,
-        "freezing" : 7
+
+    "actuators" : {
+        "relay_board" : {
+            "relay_to_rpy_pinout_mapping" : {
+                "1" : 2,
+                "2" : 3,
+                "3" : 4,
+                "4" : 17,
+                "5" : 27,
+                "6" : 22,
+                "7" : 10,
+                "8" : 9,
+                "9" : 18
+            }
+        },
+        "usb_relay_board" : {
+            "startCodeDict" : {"1":"a","2":"b","3":"c","4":"d","5":"e","6":"f","7":"g","8":"h"},
+            "stopCodeDict" : {"1":"i","2":"j","3":"k","4":"l","5":"m","6":"n","7":"o","8":"p"}
+        }
     },
-    "dormitor" : {
-        "relay" : 2,
-        "type" : "room",
-        "sensor_id" : "V50206672-0",
-        "reference" : 0.0,
-        "day" : 21,
-        "night" : 18,
-        "freezing" : 7
+
+    "rooms" : {
+        "hol" : {
+            "type" : "room",
+            "sensor" : {
+                "type" : "watchport",
+                "id" : "V44764017-0"
+            },
+            "actuator" : {
+                "type" : "relay_board",
+                "id" : 3
+            },
+            "control" : {
+                "type" : "hysteresis",
+                "treshold" : 0.0,
+                "presets" : {
+                    "day" : 21,
+                    "night" : 18,
+                    "freezing" : 7
+                }
+            }
+        },
+        "living" : {
+            "type" : "room",
+            "sensor" : {
+                "type" : "watchport",
+                "id" : "V44764017-0"
+            },
+            "actuator" : {
+                "type" : "relay_board",
+                "id" : 3
+            },
+            "control" : {
+                "type" : "hysteresis",
+                "treshold" : 0.0,
+                "presets" : {
+                    "day" : 21,
+                    "night" : 18,
+                    "freezing" : 7
+                }
+            }
+        },
+        "dormitor" : {
+            "type" : "room",
+            "sensor" : {
+                "type" : "watchport",
+                "id" : "V50206672-0"
+            },
+            "actuator" : {
+                "type" : "relay_board",
+                "id" : 2
+            },
+            "control" : {
+                "type" : "hysteresis",
+                "treshold" : 0.0,
+                "presets" : {
+                    "day" : 21,
+                    "night" : 18,
+                    "freezing" : 7
+                }
+            }
+        },
+        "copii" : {
+            "type" : "room",
+            "sensor" : {
+                "type" : "watchport",
+                "id" : "V50421571-0"
+            },
+            "actuator" : {
+                "type" : "relay_board",
+                "id" : 6
+            },
+            "control" : {
+                "type" : "hysteresis",
+                "treshold" : 0.0,
+                "presets" : {
+                    "day" : 21,
+                    "night" : 18,
+                    "freezing" : 7
+                }
+            }
+        },
+        "bucatarie" : {
+            "type" : "room",
+            "sensor" : {
+                "type" : "watchport",
+                "id" : "V44126089-0"
+            },
+            "actuator" : {
+                "type" : "relay_board",
+                "id" : 4
+            },
+            "control" : {
+                "type" : "hysteresis",
+                "treshold" : 0.0,
+                "presets" : {
+                    "day" : 21,
+                    "night" : 18,
+                    "freezing" : 7
+                }
+            }
+        }
     },
-    "copii" : {
-        "relay" : 6,
-        "type" : "room",
-        "sensor_id" : "V50421571-0",
-        "reference" : 0.0,
-        "day" : 21,
-        "night" : 18,
-        "freezing" : 7
-    },
-    "bucatarie" : {
-        "relay" : 4,
-        "type" : "room",
-        "sensor_id" : "V44126089-0",
-        "reference" : 0.0,
-        "day" : 21,
-        "night" : 18,
-        "freezing" : 7
-    },
-    "centrala" : {
+
+    "power_supplier" : {
         "type" : "furnace",
-        "relay" : 7
+        "actuator" : {
+            "type" : "relay_board",
+            "id" : 7
+        }
     }
 }
