@@ -182,6 +182,7 @@ class Yard:
 def controllerLogic(room, board, prag=0.0):
 
     #persistantChek(room)
+    logging.debug("room: %s", json.dumps(room, indent=4))
 
     if (room.get("temperature") + prag) < room.get("reference"):
         if room.get("heater") == True:
