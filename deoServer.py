@@ -187,13 +187,13 @@ def controllerLogic(room, board, prag=0.0):
         if room.get("heater") == True:
             logging.debug("heater already ON")
         else:
-            board.startRelay(room["id"])
+            board.startRelay(room["actuator"]["id"])
             room["heater"] = True
     else:
         if room.get("heater") == False:
             logging.debug("heater already OFF")
         else:
-            board.stopRelay(room["id"])
+            board.stopRelay(room["actuator"]["id"])
             room["heater"] = False
 
 
