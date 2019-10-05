@@ -341,7 +341,7 @@ def get_usb_from_serial(serial):
 
 def temperatureControl(config, board, lock):
 
-    logging.getLogger().setLevel(logging.DEBUG)
+    logging.getLogger().setLevel(logging.INFO)
     permissive_init = True
 
     # switch the legacy manual/automatic mode relay to automatic
@@ -471,3 +471,4 @@ if __name__ == '__main__':
 # -----------------------------------------------------------
 # -----------------------------------------------------------
 
++
