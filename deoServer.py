@@ -487,8 +487,8 @@ def temperatureControl(config, board, lock):
                 logging.debug("-- ROOM: %s", name)
                 reader = data["sensor"]["reader"]
                 logging.debug("Reference=%s", data.get("reference"))
-                data["temperature"] = reader.readTemperature()
-                data["humidity"] = reader.readHumidity()
+                data["temperature"] = reader.getTemperature()
+                data["humidity"] = reader.getHumidity()
                 logging.debug("Temperature =%s", data["temperature"])
                 logging.debug("Humidity =%s", data["humidity"])
                 logging.debug("Heater = %s", data.get("heater"))
