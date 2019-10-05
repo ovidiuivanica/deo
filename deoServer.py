@@ -444,7 +444,7 @@ def temperatureControl(config, board, lock):
     board.startRelay(8)
 
     # temp sensors init. (a sensor is a resource that could be used by multiple rooms)
-    for name, data in config.iteritems():
+    for name, data in config.get("rooms").iteritems():
         sensor_data = data.get('sensor')
         if sensor_data:
             # sensor init
