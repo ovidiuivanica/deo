@@ -465,6 +465,8 @@ def temperatureControl(config, board, lock):
                     continue
                 else:
                     break
+    data["reference"] = data["control"]["presets"]["day"]
+    logging.debug("[%s][reference] set preset day value: %d", name, data["reference"])
 
     # furnace init
     furnace = Furnace(config['power_supplier']['actuator']['id'],
