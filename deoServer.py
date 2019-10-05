@@ -478,7 +478,7 @@ def temperatureControl(config, board, lock):
             for name, data in config["rooms"].iteritems():
                 logging.debug("\n----------------------------------")
                 logging.debug("-- ROOM: %s", name)
-                reader = data["reader"]
+                reader = data["sensor"]["reader"]
                 logging.debug("Reference=%s", data.get("reference"))
                 data["temperature"] = reader.readTemperature()
                 data["humidity"] = reader.readHumidity()
