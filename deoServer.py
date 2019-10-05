@@ -190,13 +190,12 @@ def controllerLogic(room, board, prag=0.0):
         else:
             board.startRelay(room["id"])
             board["heater"] = True
-    elif (room.get("reference") + prag) <= room.get("temperature"):
+    else:
         if room.get("heater") == False:
             logging.debug("heater already OFF")
         else:
             board.stopRelay(room["id"])
             board["heater"] = False
-
 
 
 def doorControllerLogic(door):
@@ -321,101 +320,6 @@ class Sensor:
         return rawResponse
     def cleanup(self):
         serialCleanup(self.port)
-
-class Room:
-    def __init__(self,
-                    name,
-                    roomId,
-                    board,
-                    sensor,
-                    lock,
-                    status_table):
-        self.lock = lock
-        self.status_table = status_table
-        self.id = roomId
-        self.name = name
-        self.readReference()
-        self.temperature = 0.0
-        self.humidity = 0
-        self.heater = 0
-        self.resultMessage = "na"
-        self.board = board
-        self.sensor = sensor
-        self.temperature = self.readTemperature()
-        if not self.sensor:
-            logging.error("sensor init failure")
-            sys.exit(1)
-        if not self.board:
-            logging.error("board init failure")
-            sys.exit(1)
-
-    def readReference(self):
-        self.lock.acquire()
-        rawReference = self.status_table.get(self.name, {}).get("reference")
-        self.lock.release()
-        self.reference = float(rawReference) if rawReference else float(DEFAULT_REFERENCE)
-        return self.reference
-    def readTemperature(self):
-        return self.sensor.getTemperature()
-    def readHumidity(self):
-        return self.sensor.getHumidity()
-    def getTemperature(self):
-        self.lock.acquire()
-        data = self.status_table.get(self.name, {}).get("temperature")
-        self.lock.release()
-        return data
-    def getHumidity(self):
-        self.lock.acquire()
-        data = self.status_table.get(self.name, {}).get("humidity")
-        self.lock.release()
-        return data
-    def getHeater(self):
-        self.lock.acquire()
-        data = self.status_table.get(self.name, {}).get("heater")
-        self.lock.release()
-        return data
-    def getName(self):
-        return self.name
-    def storeTemperature(self):
-        self.lock.acquire()
-        self.status_table[self.name]["temperature"] = self.temperature
-        self.lock.release()
-    def storeHumidity(self):
-        self.lock.acquire()
-        self.status_table[self.name]["humidity"] = self.humidity
-        self.lock.release()
-    def storeHeater(self):
-        self.lock.acquire()
-        self.status_table[self.name]["heater"] = self.heater
-        self.lock.release()
-    def readAndStoreTemperature(self):
-        noiseMinAmplitude = 0.1
-        noiseMaxAmplitude = 10
-        temperature = self.readTemperature()
-        if (abs(temperature - self.temperature) > noiseMinAmplitude) and \
-            (abs(temperature - self.temperature) < noiseMaxAmplitude):
-            self.temperature = temperature
-            self.storeTemperature()
-        return self.temperature
-    def readAndStoreHumidity(self):
-        noiseAmplitude = 1
-        humidity = self.readHumidity()
-        if (abs(humidity - self.humidity) > noiseAmplitude):
-            self.humidity = humidity
-            self.storeHumidity()
-        return humidity
-    def startHeater(self):
-        logging.info("Heater started")
-        if self.board.startRelay(self.id):
-            self.heater = 1
-            self.storeHeater()
-    def stopHeater(self):
-        logging.info("Heater stopped")
-        if self.board.stopRelay(self.id):
-            self.heater = 0
-            self.storeHeater()
-    def cleanup(self):
-        self.sensor.cleanup()
 
 def get_usb_from_serial(serial):
     result = None
