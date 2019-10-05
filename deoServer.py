@@ -460,8 +460,8 @@ def temperatureControl(config, board, lock):
                     break
 
     # furnace init
-    furnace = Furnace(board,
-                      config['power_supplier']['actuator']['id'])
+    furnace = Furnace(config['power_supplier']['actuator']['id']
+                     board)
     logging.info("%s : %s init ok", name, data.get('type'))
 
     outTemp = 0.0
