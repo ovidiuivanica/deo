@@ -448,9 +448,15 @@ def temperatureControl(config, board, lock):
         if sensor_data:
             # sensor init
             try:
+
                 sensor_data["port"] = get_usb_from_serial(sensor_data.get("id"))
                 sensor_data["reader"] = Sensor('/dev/{}'.format(sensor_data["port"]),
                                                 config["sensors"][sensor_data.get("type")]["connection"]["baud"])
+                logging.debug("[name:%s][id:%s][port:%s][baud:%d] added reader",
+                                name,
+                                sensor_data.get("id"),
+                                sensor_data["port"],
+                                config["sensors"][sensor_data.get("type")]["connection"]["baud"])
             except Exception as msg:
                 logging.warning('[%s] sensor: %s init fail: %s', name, sensor_data.get("id"), msg)
                 if permissive_init:
@@ -500,6 +506,20 @@ def temperatureControl(config, board, lock):
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format='%(relativeCreated)6d %(threadName)s %(message)s')
     manager = Manager()
+    # create file handler which logs even debug messages
+    fh = logging.FileHandler('deo.log')
+    fh.setLevel(logging.DEBUG)
+    # create console handler with a higher log level
+    ch = logging.StreamHandler()
+    ch.setLevel(logging.INFO)
+    # create formatter and add it to the handlers
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    fh.setFormatter(formatter)
+    ch.setFormatter(formatter)
+    # add the handlers to the logger
+    logging.getLogger().addHandler(fh)
+    logging.getLogger().addHandler(ch)
+
     status_table = manager.dict()
     status_lock = Lock()
     gpio_lock = Lock()
