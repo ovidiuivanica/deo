@@ -13,6 +13,7 @@ from multiprocessing import Process, Lock, Manager
 from subprocess import Popen, PIPE
 import rpyc
 import json
+from collections import defaultdict
 
 # 3rd party modules
 import sysv_ipc
@@ -341,6 +342,9 @@ def get_usb_from_serial(serial):
 
 def temperatureControl(config, board, lock):
 
+    loop_status = defaultdict(lambda: defaultdict(lambda: None))
+    status = defaultdict(lambda: defaultdict(lambda: None))
+
     logging.getLogger().setLevel(logging.INFO)
     permissive_init = True
 
@@ -380,16 +384,10 @@ def temperatureControl(config, board, lock):
                      board)
     logging.info("%s : %s init ok", name, data.get('type'))
 
-    outTemp = 0.0
-    newOutTemp = 0.0
-    prevTime = 0.0
-    prevDateTime = 0.0
-
     # main loop
     try:
         logging.info("service started")
         while True:
-
             heat_request = False
             for name, data in config["rooms"].iteritems():
                 logging.debug("\n----------------------------------")
@@ -404,10 +402,20 @@ def temperatureControl(config, board, lock):
                 controllerLogic(data, board)
                 if data.get("heater"):
                     heat_request = True
+                loop_status[name]["temperature"] = data["temperature"]
+                loop_status[name]["humidity"] = data["humidity"]
+                loop_status[name]["heater"] = heat_request
             if heat_request:
                 furnace.start()
             else:
                 furnace.stop()
+            if loop_status != status:
+                status.update(loop_status)
+                try:
+                    with open("measurements.json", "w") as fd:
+                        json.dump(status, fd, indent=4)
+                except Exception as msg:
+                    logging.error("failed to write status data")
 
     except ShutdownException: # If CTRL+C is pressed, exit cleanly:
         logging.info("preparing to exit")
