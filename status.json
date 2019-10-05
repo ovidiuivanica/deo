@@ -58,7 +58,7 @@
                 "type" : "hysteresis",
                 "treshold" : 0.0,
                 "presets" : {
-                    "day" : 21,
+                    "day" : 22,
                     "night" : 18,
                     "freezing" : 7
                 }
@@ -78,7 +78,7 @@
                 "type" : "hysteresis",
                 "treshold" : 0.0,
                 "presets" : {
-                    "day" : 21,
+                    "day" : 22,
                     "night" : 18,
                     "freezing" : 7
                 }
@@ -98,7 +98,7 @@
                 "type" : "hysteresis",
                 "treshold" : 0.0,
                 "presets" : {
-                    "day" : 21,
+                    "day" : 22,
                     "night" : 18,
                     "freezing" : 7
                 }
@@ -118,7 +118,7 @@
                 "type" : "hysteresis",
                 "treshold" : 0.0,
                 "presets" : {
-                    "day" : 21,
+                    "day" : 22,
                     "night" : 18,
                     "freezing" : 7
                 }
@@ -138,7 +138,7 @@
                 "type" : "hysteresis",
                 "treshold" : 0.0,
                 "presets" : {
-                    "day" : 21,
+                    "day" : 22,
                     "night" : 18,
                     "freezing" : 7
                 }
