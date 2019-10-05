@@ -181,7 +181,6 @@ class Yard:
 
 def controllerLogic(room, board, prag=0.0):
 
-    #persistantChek(room)
     logging.debug("room: %s", json.dumps(room, indent=4))
 
     if (room.get("temperature") + prag) < room.get("reference"):
@@ -189,13 +188,13 @@ def controllerLogic(room, board, prag=0.0):
             logging.debug("heater already ON")
         else:
             board.startRelay(room["id"])
-            board["heater"] = True
+            room["heater"] = True
     else:
         if room.get("heater") == False:
             logging.debug("heater already OFF")
         else:
             board.stopRelay(room["id"])
-            board["heater"] = False
+            room["heater"] = False
 
 
 def doorControllerLogic(door):
