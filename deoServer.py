@@ -358,34 +358,36 @@ def temperatureControl(config, board, lock):
 
     # switch the legacy manual/automatic mode relay to automatic
     board.startRelay(8)
+    sensors = {}
 
-    # temp sensors init. (a sensor is a resource that could be used by multiple rooms)
-    for name, data in config.get("rooms").iteritems():
-        # sensor init
-        sensor_data = data.get('sensor')
-        if sensor_data:
-            # sensor init
-            try:
-
-                sensor_data["port"] = get_usb_from_serial(sensor_data.get("id"))
-                sensor_data["reader"] = Sensor('/dev/{}'.format(sensor_data["port"]),
-                                                config["sensors"][sensor_data.get("type")]["connection"]["baud"])
-                logging.debug("[name:%s][id:%s][port:%s][baud:%d] added reader",
-                                name,
-                                sensor_data.get("id"),
-                                sensor_data["port"],
-                                config["sensors"][sensor_data.get("type")]["connection"]["baud"])
-            except Exception as msg:
-                logging.warning('[%s] sensor: %s init fail: %s', name, sensor_data.get("id"), msg)
+    logging.info("sensors init..")
+    for id, data in config.get("sensors").iteritems():
+        port = get_usb_from_serial(id)
+        try:
+            sensors[id] = Sensor('/dev/{}'.format(port),
+                                config["sensor_lib"][data.get("type")]["connection"]["baud"])
+            logging.info("[id:%s][port:%s][baud:%d] reader initialized",
+                        id,
+                        port,
+                        config["sensor_lib"][data.get("type")]["connection"]["baud"])
+        except Exception as msg:
+                logging.warning('[%s] sensor init fail: %s', id, msg)
                 if permissive_init:
-                    logging.warning('ignoring')
+                    logging.warning('[%s] ignoring', id)
                     continue
                 else:
-                    break
+                    logging.error("sensor init fail, aborting..")
+                    sys.exit(1)
 
+    # temp sensors init. (a sensor is a resource that could be used by multiple rooms)
+    logging.info("room init..")
+    for name, data in config.get("rooms").iteritems():
+        # attach sensor reader
+        data["sensor"]["reader"] = sensors.get(data["sensor"]["id"])
+        logging.info("[%s] attached sensor: %s", name, data["sensor"]["id"])
         # set reference
         data["reference"] = data["control"]["presets"]["day"]
-        logging.debug("[%s][reference] set preset day value: %d", name, data["reference"])
+        logging.info("[%s][reference] set preset day value: %d", name, data["reference"])
 
     # furnace init
     furnace = Furnace(config['power_supplier']['actuator']['id'],
@@ -400,7 +402,13 @@ def temperatureControl(config, board, lock):
             for name, data in config["rooms"].iteritems():
                 logging.debug("\n----------------------------------")
                 logging.debug("-- ROOM: %s", name)
-                reader = data["sensor"]["reader"]
+                reader = data["sensor"].get("reader")
+                if not reader:
+                    # skip room with no reader
+                    logging.debug("skipping since no reader attached")
+                    continue
+
+
                 logging.debug("Reference=%s", data.get("reference"))
                 data["temperature"] = reader.getTemperature()
                 data["humidity"] = reader.getHumidity()

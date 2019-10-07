@@ -1,5 +1,5 @@
 {
-    "sensors" : {
+    "sensor_lib" : {
         "watchport" : {
             "type" : "temperature_humidity",
             "connection" : {
@@ -20,6 +20,21 @@
                 "temp" : "",
                 "humidity" : ""
             }
+        }
+    },
+
+    "sensors" : {
+        "V44764017-0" : {
+            "type" : "watchport"
+        },
+        "V50206672-0" : {
+            "type" : "watchport"
+        },
+        "V50421571-0" : {
+            "type" : "watchport"
+        },
+        "V44126089-0" : {
+            "type" : "watchport"
         }
     },
 
@@ -47,7 +62,6 @@
         "hol" : {
             "type" : "room",
             "sensor" : {
-                "type" : "watchport",
                 "id" : "V44764017-0"
             },
             "actuator" : {
@@ -67,7 +81,6 @@
         "living" : {
             "type" : "room",
             "sensor" : {
-                "type" : "watchport",
                 "id" : "V44764017-0"
             },
             "actuator" : {
@@ -87,7 +100,6 @@
         "dormitor" : {
             "type" : "room",
             "sensor" : {
-                "type" : "watchport",
                 "id" : "V50206672-0"
             },
             "actuator" : {
@@ -107,7 +119,6 @@
         "copii" : {
             "type" : "room",
             "sensor" : {
-                "type" : "watchport",
                 "id" : "V50421571-0"
             },
             "actuator" : {
@@ -127,7 +138,6 @@
         "bucatarie" : {
             "type" : "room",
             "sensor" : {
-                "type" : "watchport",
                 "id" : "V44126089-0"
             },
             "actuator" : {
