@@ -194,16 +194,18 @@ def controllerLogic(room, board, prag=0.0):
 
     if (room.get("temperature") + prag) < room.get("reference"):
         if room.get("heater") == True:
-            logging.debug("heater already ON")
+            logging.info("heater already ON")
         else:
             board.startRelay(room["actuator"]["id"])
             room["heater"] = True
+            logging.info("heater ON")
     else:
         if room.get("heater") == False:
-            logging.debug("heater already OFF")
+            logging.info("heater already OFF")
         else:
             board.stopRelay(room["actuator"]["id"])
             room["heater"] = False
+            logging.info("heater OFF")
 
 
 def doorControllerLogic(door):
@@ -444,8 +446,8 @@ def temperatureControl(config, board, lock):
         GPIO.cleanup() # cleanup all GPIO
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO, format='%(relativeCreated)6d %(threadName)s %(message)s')
-    manager = Manager()
+    # logging.basicConfig(level=logging.INFO, format='%(relativeCreated)6d %(threadName)s %(message)s')
+    # manager = Manager()
     # create file handler which logs even debug messages
     fh = logging.FileHandler('deo.log')
     fh.setLevel(logging.INFO)
@@ -460,7 +462,7 @@ if __name__ == '__main__':
     logging.getLogger().addHandler(fh)
     logging.getLogger().addHandler(ch)
 
-    status_table = manager.dict()
+    # status_table = manager.dict()
     status_lock = Lock()
     gpio_lock = Lock()
     roomList = []
