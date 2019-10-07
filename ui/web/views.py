@@ -4,8 +4,9 @@ from django.http import HttpResponse, JsonResponse
 from multiprocessing import Lock
 
 import logging
-import sysv_ipc
 import sys
+if "win32" not in sys.platform:
+    import sysv_ipc
 from deo import deoServer
 
 # Create your views here.
