@@ -128,14 +128,14 @@ class Furnace:
         self.active = False
 
     def start(self):
-        __active = True if GPIO.input(self.board.pinout[self.id]) else False
+        __active = False if GPIO.input(self.board.pinout[self.id]) else True
         if not __active:
             self.board.startRelay(self.id)
             logging.info("[Furnace] starting")
         self.active = True
 
     def stop(self):
-        __active = True if GPIO.input(self.board.pinout[self.id]) else False
+        __active = False if GPIO.input(self.board.pinout[self.id]) else True
         if __active:
             self.board.stopRelay(self.id)
             logging.info("[Furnace] stopping")
