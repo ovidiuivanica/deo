@@ -62,7 +62,7 @@
         "hol" : {
             "type" : "room",
             "sensor" : {
-                "id" : "V44764017-0"
+                "id" : "V44126089-0"
             },
             "actuator" : {
                 "type" : "relay_board",
