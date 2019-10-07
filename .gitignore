@@ -4,3 +4,5 @@ Scripts
 tcl
 .vscode
 .vs
+*.pyc
+

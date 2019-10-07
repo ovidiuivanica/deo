@@ -125,14 +125,22 @@ class Furnace:
         self.id = relay
         self.board = board
         self.stop()
+        self.active = False
+
     def start(self):
-         logging.info("[Furnace] starting")
-         self.state = 1
-         return self.board.startRelay(self.id)
+        __active = True if GPIO.input(self.id) else False
+        if not __active:
+            self.board.startRelay(self.id)
+            logging.info("[Furnace] starting")
+        self.active = True
+
     def stop(self):
-        logging.info("[Furnace] stopping")
-        self.state = 0
-        return self.board.stopRelay(self.id)
+        __active = True if GPIO.input(self.id) else False
+        if __active:
+            self.board.stopRelay(self.id)
+            logging.info("[Furnace] stopping")
+        self.active = False
+
 
 class Yard:
     def __init__(self,
@@ -404,11 +412,13 @@ def temperatureControl(config, board, lock):
                     heat_request = True
                 loop_status[name]["temperature"] = data["temperature"]
                 loop_status[name]["humidity"] = data["humidity"]
-                loop_status[name]["heater"] = heat_request
+                loop_status[name]["heater"] = data["heater"]
+
             if heat_request:
                 furnace.start()
             else:
                 furnace.stop()
+            loop_status["power_supplier"]["active"] = heat_request
             if loop_status != status:
                 status.update(loop_status)
                 try:
