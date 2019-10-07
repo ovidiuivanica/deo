@@ -418,13 +418,16 @@ def temperatureControl(config, board, lock):
                 controllerLogic(data, board)
                 if data.get("heater"):
                     heat_request = True
+                    logging.info("[%s] Heat request.. T:%s <> R:%s", name, data["temperature"], data["reference"])
                 loop_status[name]["temperature"] = data["temperature"]
                 loop_status[name]["humidity"] = data["humidity"]
                 loop_status[name]["heater"] = data["heater"]
 
             if heat_request:
+                logging.info("Heat on..")
                 furnace.start()
             else:
+                logging.info("Heat off..")
                 furnace.stop()
             loop_status["power_supplier"]["active"] = heat_request
             if loop_status != status:
