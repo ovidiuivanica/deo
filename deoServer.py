@@ -431,6 +431,7 @@ def temperatureControl(config, board, lock):
                 furnace.stop()
             loop_status["power_supplier"]["active"] = heat_request
             if loop_status != status:
+                logging.info("updating status..")
                 status.update(loop_status)
                 try:
                     with open("measurements.json", "w") as fd:
