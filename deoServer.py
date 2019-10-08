@@ -430,12 +430,12 @@ def temperatureControl(config, board, lock):
             loop_status["power_supplier"]["active"] = furnace.active
             if loop_status != status:
                 logging.info("updating status..")
-                status.update(loop_status)
-                try:
-                    with open("measurements.json", "w") as fd:
-                        json.dump(status, fd, indent=4)
-                except Exception as msg:
-                    logging.error("failed to write status data")
+            status.update(loop_status)
+            try:
+                with open("measurements.json", "w") as fd:
+                    json.dump(status, fd, indent=4)
+            except Exception as msg:
+                logging.error("failed to write status data")
 
     except ShutdownException: # If CTRL+C is pressed, exit cleanly:
         logging.info("preparing to exit")
