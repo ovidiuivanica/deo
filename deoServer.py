@@ -124,8 +124,9 @@ class Furnace:
     def __init__(self, relay, board):
         self.id = relay
         self.board = board
-        self.stop()
         self.active = False
+        self.stop()
+
         # __active = False if GPIO.input(self.board.pinout[self.id]) else True
     def start(self):
         if not self.active:
