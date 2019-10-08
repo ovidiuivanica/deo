@@ -85,7 +85,7 @@
             },
             "actuator" : {
                 "type" : "relay_board",
-                "id" : 3
+                "id" : 1
             },
             "control" : {
                 "type" : "hysteresis",
