@@ -10,6 +10,7 @@ from datetime import date
 import threading
 import signal
 from multiprocessing import Process, Lock, Manager
+from threading import Thread
 from subprocess import Popen, PIPE
 import rpyc
 import json
@@ -193,14 +194,14 @@ def controllerLogic(room, board, prag=0.0):
 
     if (room.get("temperature") + prag) < room.get("reference"):
         if room.get("heater") == True:
-            logging.info("heater already ON")
+            logging.debug("heater already ON")
         else:
             board.startRelay(room["actuator"]["id"])
             room["heater"] = True
             logging.info("heater ON")
     else:
         if room.get("heater") == False:
-            logging.info("heater already OFF")
+            logging.debug("heater already OFF")
         else:
             board.stopRelay(room["actuator"]["id"])
             room["heater"] = False
@@ -349,12 +350,10 @@ def get_usb_from_serial(serial):
     return result
 
 
-def temperatureControl(config, board, lock):
+def temperatureControl(config, board, status, lock):
 
+    logging.info("starting temperature control thread")
     loop_status = defaultdict(lambda: defaultdict(lambda: None))
-    status = defaultdict(lambda: defaultdict(lambda: None))
-
-    logging.getLogger().setLevel(logging.INFO)
     permissive_init = True
 
     # switch the legacy manual/automatic mode relay to automatic
@@ -430,7 +429,9 @@ def temperatureControl(config, board, lock):
             loop_status["power_supplier"]["active"] = furnace.active
             if loop_status != status:
                 logging.info("updating status..")
+            lock.acquire()
             status.update(loop_status)
+            lock.release()
             try:
                 with open("measurements.json", "w") as fd:
                     json.dump(status, fd, indent=4)
@@ -440,6 +441,54 @@ def temperatureControl(config, board, lock):
     except ShutdownException: # If CTRL+C is pressed, exit cleanly:
         logging.info("preparing to exit")
         GPIO.cleanup() # cleanup all GPIO
+
+def dispatcher(measurements_table, lock):
+        # Create the message queue.
+    logging.info("starting msg dispatcher thread")
+    try:
+        mq = sysv_ipc.MessageQueue(42, sysv_ipc.IPC_CREX, 0777)
+    except Exception, e:
+        logging.error("cannot create message queue: " + str(e))
+        return
+
+    logging.info("successfully created msg queue %s", mq.id)
+
+    while True:
+
+        try:
+            rcv_msg, _ = mq.receive(type=1)
+            rcv_data = rcv_msg.decode()
+            logging.info("read_request:%s", rcv_data)
+            lock.acquire()
+            try:
+                snd_data = json.dumps(measurements_table)
+            except Exception as msg:
+                logging.error("json conversion error %s", msg)
+                snd_data = "{}"
+            lock.release()
+            snd_msg = snd_data.encode()
+            mq.send(snd_msg, type=2)
+        except Exception:
+            break
+    if mq:
+        mq.remove()
+
+def heat_solution(config, board, lock):
+
+    signal.signal(signal.SIGUSR1, signal_handler)
+
+    logging.getLogger().setLevel(logging.INFO)
+    logging.info("starting heating solution process")
+    measurements_table = defaultdict(lambda: defaultdict(lambda: None))
+    heating = Thread(target=temperatureControl, args=(config, board, measurements_table, lock,))
+    cmd_listener = Thread(target=dispatcher, args=(measurements_table, lock,))
+
+    heating.start()
+    cmd_listener.start()
+
+    heating.join()
+    cmd_listener.join()
+
 
 if __name__ == '__main__':
     # logging.basicConfig(level=logging.INFO, format='%(relativeCreated)6d %(threadName)s %(message)s')
@@ -480,11 +529,11 @@ if __name__ == '__main__':
         logging.error("board init fail")
         sys.exit(1)
 
-    signal.signal(signal.SIGUSR1, signal_handler)
+
 
 
     logging.info("starting workers")
-    measurements = Process(target=temperatureControl, args=(config, board, status_lock))
+    measurements = Process(target=heat_solution, args=(config, board, status_lock))
     # appliances = Process(target=YardGateControl, args=(config, board, status_lock))
 
     # appliances.start()
