@@ -3,6 +3,7 @@ from django.http import HttpResponse, JsonResponse
 
 from multiprocessing import Lock
 
+import json
 import logging
 import sys
 if "win32" not in sys.platform:
@@ -21,52 +22,32 @@ class Room(object):
 
 def index(request):
     service_name = "Deoplace"
-    roomIdList = ["1","2","3","6"]
     room_list = []
-    for roomId in roomIdList:
-        room = Room()
-        room.id = roomId
-        room.temperature = deoServer.getPersistantData(roomId,"room","temperature")
-        room.humidity = deoServer.getPersistantData(roomId,"room","humidity")
-        room.name = deoServer.getPersistantData(roomId,"room","name")
-        room.reference = deoServer.getPersistantData(roomId,"room","reference")
-        room.ref_temp_list = ["10", "12", "13", "14", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"]
-        room_list.append(room)
-
 
     context = {'service_name': service_name,
                'room_list' : room_list}
     return render(request, 'web/index.html', context)
 
 
-def status(request):
-    string = "this is my string"
-    roomIdList = ["1","2","3","6"]
-    room_list = []
-    for roomId in roomIdList:
-        room = Room()
-        room.id = roomId
-        room.temperature = deoServer.getPersistantData(roomId,"room","temperature")
-        room.humidity = deoServer.getPersistantData(roomId,"room","humidity")
-        room.name = deoServer.getPersistantData(roomId,"room","name")
-        room.reference = deoServer.getPersistantData(roomId,"room","reference")
-        room_list.append(room)
-    context = {'room_list': room_list}
-    return render(request, 'web/status.html', context)
-
 def data(request):
-    string = "this is my string"
-    roomIdList = ["1","2","3","6"]
-    house_data = {}
-    for roomId in roomIdList:
-        room = {}
-        room['id'] = roomId
-        room['temperature'] = deoServer.getPersistantData(roomId,"room","temperature")
-        room['humidity'] = deoServer.getPersistantData(roomId,"room","humidity")
-        room['name'] = deoServer.getPersistantData(roomId,"room","name")
-        room['reference'] = deoServer.getPersistantData(roomId,"room","reference")
-        house_data[room.get('name')] = room
-    return JsonResponse(house_data)
+    try:
+        mq = sysv_ipc.MessageQueue(42)
+    except Exception,e:
+        logging.error("cannot acquire message queue: {}".format(e))
+        return HttpResponse("cannot acquire message queue")
+    data = {"django" : "read request"}
+    snd_data = json.dumps(data)
+    snd_msg = snd_data.encode()
+    mq.send(snd_msg, type=1) # type 1 = data read request
+
+    rcv_msg, _ = mq.receive(type=2)
+    rcv_data = rcv_msg.decode()
+    try:
+        data = json.loads(rcv_data)
+    except Exception as msg:
+        logging.error("json conversion error %s", msg)
+
+    return JsonResponse(data)
 
 
 def stop(request):
