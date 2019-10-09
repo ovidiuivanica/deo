@@ -481,10 +481,16 @@ def dispatcher(measurements_table, lock):
             lock.release()
             snd_msg = snd_data.encode()
             mq.send(snd_msg, type=2)
-        except Exception:
+        except (KeyboardInterrupt, SystemExit, ShutdownException):
             if mq:
-                mq.remove()
+                try:
+                    mq.remove()
+                except:
+                    pass
             break
+        except Exception as msg:
+            logging.error("[dispatcher] %s", msg)
+
 
 
 def heat_solution(config, board, lock):
