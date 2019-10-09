@@ -15,6 +15,7 @@ from subprocess import Popen, PIPE
 import rpyc
 import json
 from collections import defaultdict
+import psutil
 
 # 3rd party modules
 import sysv_ipc
@@ -46,6 +47,17 @@ class ShutdownException(Exception):
 def signal_handler(signum, stack):
     logging.info("received signal {}".format(signum))
     raise ShutdownException("shutdown")
+
+def main_signal_handler(signum, stack):
+    logging.info("received signal {}".format(signum))
+    try:
+        parent = psutil.Process(os.getpid())
+    except psutil.NoSuchProcess:
+        logging.error("main stop signal handler: parent pid error")
+    else:
+        children = parent.children(recursive=True)
+        for process in children:
+            process.send_signal(signal.SIGUSR2)
 
 def serialInit(ser,comPort,baudRate):
     isInitialized = False
@@ -449,6 +461,7 @@ def dispatcher(measurements_table, lock):
         mq = sysv_ipc.MessageQueue(42, sysv_ipc.IPC_CREX, 0777)
     except Exception, e:
         logging.error("cannot create message queue: " + str(e))
+        logging.error("measurements will not be available")
         return
 
     logging.info("successfully created msg queue %s", mq.id)
@@ -469,13 +482,14 @@ def dispatcher(measurements_table, lock):
             snd_msg = snd_data.encode()
             mq.send(snd_msg, type=2)
         except Exception:
+            if mq:
+                mq.remove()
             break
-    if mq:
-        mq.remove()
+
 
 def heat_solution(config, board, lock):
 
-    signal.signal(signal.SIGUSR1, signal_handler)
+    signal.signal(signal.SIGUSR2, signal_handler)
 
     logging.getLogger().setLevel(logging.INFO)
     logging.info("starting heating solution process")
@@ -529,7 +543,7 @@ if __name__ == '__main__':
         logging.error("board init fail")
         sys.exit(1)
 
-
+    signal.signal(signal.SIGUSR1, main_signal_handler)
 
 
     logging.info("starting workers")
