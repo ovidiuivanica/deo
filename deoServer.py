@@ -432,11 +432,11 @@ def temperatureControl(config, board, status, lock):
             lock.acquire()
             status.update(loop_status)
             lock.release()
-            try:
-                with open("measurements.json", "w") as fd:
-                    json.dump(status, fd, indent=4)
-            except Exception as msg:
-                logging.error("failed to write status data")
+            # try:
+            #     with open("measurements.json", "w") as fd:
+            #         json.dump(status, fd, indent=4)
+            # except Exception as msg:
+            #     logging.error("failed to write status data")
 
     except ShutdownException: # If CTRL+C is pressed, exit cleanly:
         logging.info("preparing to exit")
