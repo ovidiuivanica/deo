@@ -456,6 +456,9 @@ def temperatureControl(config, board, status, lock):
 
 def dispatcher(measurements_table, lock):
         # Create the message queue.
+    logging.info("clearing ALL message queues")
+    os.system("ipcrm --all=msg")
+
     logging.info("[dispatcher] starting msg dispatcher thread")
     try:
         mq = sysv_ipc.MessageQueue(42, sysv_ipc.IPC_CREX, 0777)
@@ -487,12 +490,15 @@ def dispatcher(measurements_table, lock):
                     mq.remove()
                 except:
                     pass
+            logging.info("[dispatcher] clearing message queue")
+            os.system("ipcrm --all=msg")
             break
         except Exception as msg:
             logging.error("[dispatcher] %s", msg)
             error_counter += 1
             if error_counter > 100:
                 logging.error("[dispatcher] too many queue reading failures")
+                os.system("ipcrm --all=msg")
                 break
         else:
             error_counter = 0
