@@ -456,16 +456,16 @@ def temperatureControl(config, board, status, lock):
 
 def dispatcher(measurements_table, lock):
         # Create the message queue.
-    logging.info("starting msg dispatcher thread")
+    logging.info("[dispatcher] starting msg dispatcher thread")
     try:
         mq = sysv_ipc.MessageQueue(42, sysv_ipc.IPC_CREX, 0777)
     except Exception, e:
-        logging.error("cannot create message queue: " + str(e))
-        logging.error("measurements will not be available")
+        logging.error("[dispatcher] cannot create message queue: " + str(e))
+        logging.error("[dispatcher] measurements will not be available")
         return
 
-    logging.info("successfully created msg queue %s", mq.id)
-
+    logging.info("[dispatcher] successfully created msg queue %s", mq.id)
+    error_counter = 0
     while True:
 
         try:
@@ -476,7 +476,7 @@ def dispatcher(measurements_table, lock):
             try:
                 snd_data = json.dumps(measurements_table)
             except Exception as msg:
-                logging.error("json conversion error %s", msg)
+                logging.error("[dispatcher] json conversion error %s", msg)
                 snd_data = "{}"
             lock.release()
             snd_msg = snd_data.encode()
@@ -490,6 +490,12 @@ def dispatcher(measurements_table, lock):
             break
         except Exception as msg:
             logging.error("[dispatcher] %s", msg)
+            error_counter += 1
+            if error_counter > 100:
+                logging.error("[dispatcher] too many queue reading failures")
+                break
+        else:
+            error_counter = 0
 
 
 
