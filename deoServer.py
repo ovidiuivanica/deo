@@ -430,7 +430,10 @@ def temperatureControl(config, board, status, lock):
                 controllerLogic(data, board)
                 if data.get("heater"):
                     heat_request = True
-                    logging.info("[%s] Heat request.. T:%s <> R:%s", name, data["temperature"], data["reference"])
+                    logging.info("[%s] Heat request.. T:%s <> R:%s",
+                                 name,
+                                 data["temperature"],
+                                 data["control"]["presets"]["day"])
                 loop_status[name]["temperature"] = data["temperature"]
                 loop_status[name]["humidity"] = data["humidity"]
                 loop_status[name]["heater"] = data["heater"]
@@ -543,7 +546,9 @@ def heat_solution(config_file_path, board, lock):
 
     config_lock = threading.Lock()
     config = {}
+    logging.info("[heat_solution] initial config loading..")
     update_config(config_file_path, config)
+    logging.info("[heat_solution] loaded")
 
     measurements_table = defaultdict(lambda: defaultdict(lambda: None))
 
