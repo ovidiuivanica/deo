@@ -212,14 +212,14 @@ def controllerLogic(room, board, prag=0.0):
         else:
             board.startRelay(room["actuator"]["id"])
             room["heater"] = True
-            logging.info("heater ON")
+            logging.info("[temperature control] heater ON")
     else:
         if room.get("heater") is False:
             logging.debug("heater already OFF")
         else:
             board.stopRelay(room["actuator"]["id"])
             room["heater"] = False
-            logging.info("heater OFF")
+            logging.info("[temperature control] heater OFF")
 
 
 def doorControllerLogic(door):
@@ -366,7 +366,7 @@ def get_usb_from_serial(serial):
 
 def temperatureControl(config, board, status, lock):
 
-    logging.info("starting temperature control thread")
+    logging.info("[temperature control] started")
     loop_status = defaultdict(lambda: defaultdict(lambda: None))
     permissive_init = True
 
@@ -385,12 +385,12 @@ def temperatureControl(config, board, status, lock):
                         port,
                         config["sensor_lib"][data.get("type")]["connection"]["baud"])
         except Exception as msg:
-                logging.warning('[%s] sensor init fail: %s', id, msg)
+                logging.warning('[temperature control][%s] sensor init fail: %s', id, msg)
                 if permissive_init:
-                    logging.warning('[%s] ignoring', id)
+                    logging.warning('[temperature control][%s] ignoring', id)
                     continue
                 else:
-                    logging.error("sensor init fail, aborting..")
+                    logging.error("[temperature control] sensor init fail, aborting..")
                     sys.exit(1)
 
     # temp sensors init. (a sensor is a resource that could be used by multiple rooms)
@@ -442,7 +442,7 @@ def temperatureControl(config, board, status, lock):
                 furnace.stop()
             loop_status["power_supplier"]["active"] = furnace.active
             if loop_status != status:
-                logging.info("updating status..")
+                logging.info("[temperature control] updating status..")
             lock.acquire()
             status.update(loop_status)
             lock.release()
@@ -515,14 +515,17 @@ def update_config(config_file_path, config):
 def config_monitor(conf_lock, config_file_path, config, refresh_interval=5):
     last_mtime = 0
     last_check_time = time.time()
+    logging.info("[conf monitor] started")
     while True:
         try:
             if time.time() - last_check_time > refresh_interval:
                 current_mtime = os.path.getmtime(config_file_path)
                 if os.path.getmtime(config_file_path) != last_mtime:
+                    logging.info("[conf monitor] update detected, time to reload")
                     last_mtime = current_mtime
                     with conf_lock:
                         update_config(config_file_path, config)
+                        logging.info("[conf monitor] reloaded")
 
             time.sleep(1)
         except (KeyboardInterrupt, SystemExit, ShutdownException) as msg:
