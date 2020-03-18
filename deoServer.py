@@ -204,15 +204,17 @@ def controllerLogic(room, board, prag=0.0):
 
     # logging.debug("room: %s", json.dumps(room, indent=4))
 
-    if (room.get("temperature") + prag) < room.get("reference"):
-        if room.get("heater") == True:
+    reference = room["control"]["presets"]["day"]
+
+    if (room.get("temperature") + prag) < reference:
+        if room.get("heater") is True:
             logging.debug("heater already ON")
         else:
             board.startRelay(room["actuator"]["id"])
             room["heater"] = True
             logging.info("heater ON")
     else:
-        if room.get("heater") == False:
+        if room.get("heater") is False:
             logging.debug("heater already OFF")
         else:
             board.stopRelay(room["actuator"]["id"])
@@ -392,19 +394,18 @@ def temperatureControl(config, board, status, lock):
                     sys.exit(1)
 
     # temp sensors init. (a sensor is a resource that could be used by multiple rooms)
-    logging.info("room init..")
-    for name, data in config.get("rooms").iteritems():
-        # attach sensor reader
-        data["sensor"]["reader"] = sensors.get(data["sensor"]["id"])
-        logging.info("[%s] attached sensor: %s", name, data["sensor"]["id"])
-        # set reference
-        data["reference"] = data["control"]["presets"]["day"]
-        logging.info("[%s][reference] set preset day value: %d", name, data["reference"])
+    # logging.info("room init..")
+    # for name, data in config.get("rooms").iteritems():
+    #     # attach sensor reader
+    #     data["sensor"]["reader"] = sensors.get(data["sensor"]["id"])
+    #     logging.info("[%s] attached sensor: %s", name, data["sensor"]["id"])
+    #     # set reference
+    #     data["reference"] = data["control"]["presets"]["day"]
+    #     logging.info("[%s][reference] set preset day value: %d", name, data["reference"])
 
     # furnace init
     furnace = Furnace(config['power_supplier']['actuator']['id'],
                      board)
-    logging.info("%s : %s init ok", name, data.get('type'))
 
     # main loop
     try:
@@ -414,17 +415,17 @@ def temperatureControl(config, board, status, lock):
             for name, data in config["rooms"].iteritems():
                 logging.debug("\n----------------------------------")
                 logging.debug("-- ROOM: %s", name)
-                reader = data["sensor"].get("reader")
+                reader = sensors.get(data["sensor"]["id"])
                 if not reader:
                     # skip room with no reader
                     logging.debug("skipping since no reader attached")
                     continue
 
-                logging.debug("Reference=%s", data.get("reference"))
                 data["temperature"] = reader.getTemperature()
                 data["humidity"] = reader.getHumidity()
                 logging.debug("Temperature =%s", data["temperature"])
                 logging.debug("Humidity =%s", data["humidity"])
+
                 logging.debug("Heater = %s", data.get("heater"))
                 controllerLogic(data, board)
                 if data.get("heater"):
@@ -433,6 +434,7 @@ def temperatureControl(config, board, status, lock):
                 loop_status[name]["temperature"] = data["temperature"]
                 loop_status[name]["humidity"] = data["humidity"]
                 loop_status[name]["heater"] = data["heater"]
+                loop_status[name]["reference"] = data["reference"]
 
             if heat_request:
                 furnace.start()
@@ -450,12 +452,13 @@ def temperatureControl(config, board, status, lock):
             # except Exception as msg:
             #     logging.error("failed to write status data")
 
-    except ShutdownException: # If CTRL+C is pressed, exit cleanly:
-        logging.info("preparing to exit")
-        GPIO.cleanup() # cleanup all GPIO
+    except ShutdownException:  # If CTRL+C is pressed, exit cleanly:
+        logging.info("[temperature control] preparing to exit")
+        GPIO.cleanup()  # cleanup all GPIO
+
 
 def dispatcher(measurements_table, lock):
-        # Create the message queue.
+    # Create the message queue.
     logging.info("clearing ALL message queues")
     os.system("ipcrm --all=msg")
 
@@ -490,7 +493,7 @@ def dispatcher(measurements_table, lock):
                     mq.remove()
                 except:
                     pass
-            logging.info("[dispatcher] clearing message queue")
+            logging.info("[dispatcher] exiting, clearing message queue")
             os.system("ipcrm --all=msg")
             break
         except Exception as msg:
@@ -504,22 +507,54 @@ def dispatcher(measurements_table, lock):
             error_counter = 0
 
 
+def update_config(config_file_path, config):
+    with open(config_file_path) as conf_handler:
+        config.update(json.load(conf_handler))
 
-def heat_solution(config, board, lock):
+
+def config_monitor(conf_lock, config_file_path, config, refresh_interval=5):
+    last_mtime = 0
+    last_check_time = time.time()
+    while True:
+        try:
+            if time.time() - last_check_time > refresh_interval:
+                current_mtime = os.path.getmtime(config_file_path)
+                if os.path.getmtime(config_file_path) != last_mtime:
+                    last_mtime = current_mtime
+                    with conf_lock:
+                        update_config(config_file_path, config)
+
+            time.sleep(1)
+        except (KeyboardInterrupt, SystemExit, ShutdownException) as msg:
+            logging.info("[conf monitor] shutting down %s", msg)
+            break
+        except Exception as msg:
+            logging.error("[conf monitor] %s", msg)
+
+
+def heat_solution(config_file_path, board, lock):
 
     signal.signal(signal.SIGUSR2, signal_handler)
-
     logging.getLogger().setLevel(logging.INFO)
     logging.info("starting heating solution process")
+
+    config_lock = threading.Lock()
+    config = {}
+    update_config(config_file_path, config)
+
     measurements_table = defaultdict(lambda: defaultdict(lambda: None))
+
+    monitoring = Thread(target=config_monitor, args=(config_lock, config_file_path, config))
     heating = Thread(target=temperatureControl, args=(config, board, measurements_table, lock,))
     cmd_listener = Thread(target=dispatcher, args=(measurements_table, lock,))
 
     heating.start()
     cmd_listener.start()
+    monitoring.start()
 
     heating.join()
     cmd_listener.join()
+    monitoring.join()
 
 
 if __name__ == '__main__':
@@ -549,13 +584,6 @@ if __name__ == '__main__':
 
     config_file_path = "status.json"
 
-    try:
-        with open(config_file_path) as conf_handler:
-            config = json.load(conf_handler)
-    except Exception as msg:
-        logging.error('config load error: %s', msg)
-        sys.exit(1)
-
     board = RelayBoard(gpio_lock)
     if not board.initialized:
         logging.error("board init fail")
@@ -565,7 +593,7 @@ if __name__ == '__main__':
 
 
     logging.info("starting workers")
-    measurements = Process(target=heat_solution, args=(config, board, status_lock))
+    measurements = Process(target=heat_solution, args=(config_file_path, board, status_lock))
     # appliances = Process(target=YardGateControl, args=(config, board, status_lock))
 
     # appliances.start()
