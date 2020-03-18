@@ -434,7 +434,7 @@ def temperatureControl(config, board, status, lock):
                 loop_status[name]["temperature"] = data["temperature"]
                 loop_status[name]["humidity"] = data["humidity"]
                 loop_status[name]["heater"] = data["heater"]
-                loop_status[name]["reference"] = data["reference"]
+                loop_status[name]["reference"] = data["control"]["presets"]["day"]
 
             if heat_request:
                 furnace.start()
