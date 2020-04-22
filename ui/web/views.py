@@ -3,6 +3,7 @@ from django.http import HttpResponse, JsonResponse
 
 from multiprocessing import Lock
 
+import rpyc
 import json
 import logging
 import sys
@@ -142,7 +143,9 @@ def cold(request):
     context = {'action' : 'cold set'}
     return render(request, 'web/done.html', context)
 def door(request):
-    res = deoServer.setPersistantData('1000',"door","state","1")
+    con = rpyc.connect("192.168.0.117", 18812)
+    con.root.gate_open()
+    con.close()
     context = {'action' : 'door_opened'}
     return render(request, 'web/done.html', context)
 
@@ -157,24 +160,12 @@ def light_stop(request):
 
 def on(request):
 
-    lck = Lock()
-    board = deoServer.RelayBoard(lck)
-    # activate raspberry control over main power relays
-    board.startRelay(8)
-
-    # enable 3 rooms expcept kitchen
-    board.startRelay(1)
-    board.startRelay(2)
-    board.startRelay(3)
+    con = rpyc.connect("192.168.0.117", 18812)
+    con.root.water_start()
+    con.close()
 
 def off(request):
 
-    lck = Lock()
-    board = RelayBoard(lck)
-    # activate raspberry control over main power relays
-    board.stopRelay(8)
-
-    # enable 3 rooms expcept kitchen
-    board.stopRelay(1)
-    board.stopRelay(2)
-    board.stopRelay(3)
+    con = rpyc.connect("192.168.0.117", 18812)
+    con.root.water_stop()
+    con.close()

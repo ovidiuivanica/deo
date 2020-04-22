@@ -88,38 +88,9 @@ function setReference(room_id, room_name){
 <p id="refresh"></p>
 
 <div style="overflow-x:auto;">
-<table>
-  <tr>
-      <th>ROOM</th><th>REF</th><th>TEMP</th><th>HUMIDITY</th><th>SET</th>
-  </tr>
-  {% for room in room_list %}
 
-  <tr>
-    <td>{{ room.name }}</td>
-    <td><p id="{{ room.name }}_reference"></p></td>
-    <td><p id="{{ room.name }}_temperature"></p></td>
-    <td><p id="{{ room.name }}_humidity"></p></td>
-    <td>REF_SET:<select id="{{ room.name }}_ref_selector">
-        {% for temp in room.ref_temp_list %}
-            {% if temp == room.reference %}
-              <option value="{{ temp }}" selected>{{ temp }}</option>
-            {% else %}
-              <option value="{{ temp }}">{{ temp }}</option>
-            {% endif %}
-        {% endfor %}
-      </select>
-      <button class="button_blue" type="button" onclick="setReference('{{ room.id }}', '{{ room.name }}')">SET</button>
-      </td>
-  </tr>
-
-  {% endfor %}
-</table>
 </div>
 
-    <button class="button_blue" type="button" onclick="sendRequest('/web/cold')">COLD</button>
-    <button class="button_red" type="button" onclick="sendRequest('/web/heat')">HEAT</button> <br />
-    <button class="button_gray" type="button" onclick="sendRequest('/web/light_start')">LIGHT_ON</button>
-    <button class="button_black" type="button" onclick="sendRequest('/web/light_stop')">LIGHT_OFF</button> <br />
     <button class="button_black" type="button" onclick="sendRequest('/web/on')">ON</button> <br />
     <button class="button_black" type="button" onclick="sendRequest('/web/off')">OFF</button> <br />
 
