@@ -1,26 +1,112 @@
-{% if room_list %}
-    <ul>
-    
-    
-    <table>
-    
-        {% for room in room_list %}
-    <tr>
-     <td>
-        <h3>{{ room.name }}</h3>
-     </td>
-     <td>
-         <tr>
-            <td><li>REFERENCE: {{ room.reference }}</li></td></tr>
-         <tr><td><li>temp: {{ room.temperature }}</li></td></tr>
-         <tr><td><li>humidity: {{ room.humidity }}</li></td></tr>
-     </td>
-     </tr>
-     
-    {% endfor %}
-    </table>
+<!DOCTYPE html>
+<head>
+  {% load static %}
+  <script src="{% static 'web/jquery-3.2.1.js' %}" ></script>
+    <style>
+        #table {
+            position: absolute;
+            border: 1;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+    <script>
 
-    </ul>
-{% else %}
-    <p>No container availabel</p>
-{% endif %}
+var myVar2 = setInterval(function(){ update() }, 10000);
+var local_cache;
+
+function data_init(){
+  // initial loading of data and drawing table structure
+  var obj, dbParam, xmlhttp, x, txt = "";
+
+  console.log("data init");
+  xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      local_cache = JSON.parse(this.responseText);
+      txt += "<table>"
+      txt += "<tr><th><p>" + "room" + "</p></th><th><p>" + "temp" + "</p></th><th><p>" + "reference" + "</p></th><th><p>" + "himidity" + "</p></th><th><p>" + "heater" + "</p></th></tr>";
+      for (x in local_cache) {
+        if (x == "power_supplier")
+          continue;
+        txt += "<tr><td>" + x + "</td>";
+        txt += "<td>" + "<p id=\"" + x + "_temperature" + "\">" + local_cache[x].temperature + "</p></td>";
+        txt += "<td>" + "<p id=\"" + x + "_reference" + "\">" + local_cache[x].reference + "</p></td>";
+        txt += "<td>" + "<p id=\"" + x + "_humidity" + "\">" + local_cache[x].humidity + "</p></td>";
+        txt += "<td>" + "<p id=\"" + x + "_heater" + "\">" + local_cache[x].heater + "</p></td>";
+        txt += "</tr>";
+      }
+      txt += "</table>"
+      document.getElementById("monitor_data_table").innerHTML = txt;
+    }
+  };
+  xmlhttp.open("GET", "/web/data", true);
+  xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xmlhttp.send();
+}
+
+function update(){
+  // the continuous refresing part
+  var refresher, fresh_data, x, el_id;
+  console.log("updater");
+  refresher = new XMLHttpRequest();
+    refresher.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        fresh_data = JSON.parse(this.responseText);
+
+        for (x in fresh_data) {
+          // skipping this leftover
+          if (x == "power_supplier")
+            continue;
+          // temp
+          if(local_cache[x].temperature != fresh_data[x].temperature){
+              local_cache[x].temperature = fresh_data[x].temperature;
+              el_id = x + "_temperature"
+              console.log(el_id);
+              document.getElementById(el_id).innerHTML = fresh_data[x].temperature
+          }
+
+          // reference
+          if(local_cache[x].reference != fresh_data[x].reference){
+            local_cache[x].reference = fresh_data[x].reference;
+            el_id = x + "_reference"
+            document.getElementById(el_id).innerHTML = fresh_data[x].reference
+          }
+
+          // humidity
+          if(local_cache[x].humidity != fresh_data[x].humidity){
+            local_cache[x].humidity = fresh_data[x].humidity;
+            el_id = x + "_humidity"
+            document.getElementById(el_id).innerHTML = fresh_data[x].humidity
+          }
+
+          // heater
+          if(local_cache[x].heater != fresh_data[x].heater){
+            local_cache[x].heater = fresh_data[x].heater;
+            el_id = x + "_heater"
+            document.getElementById(el_id).innerHTML = fresh_data[x].heater
+          }
+
+      }
+    }
+  };
+  refresher.open("GET", "/web/data", true);
+  refresher.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  refresher.send();
+}
+</script>
+</head>
+
+
+<body onload="data_init()">
+
+<h2>Deo place</h2>
+
+<p id="monitor_data_table"></p>
+
+</body>
+</html>

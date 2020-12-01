@@ -1,0 +1,30 @@
+{
+    "living": {
+        "heater": false, 
+        "temperature": 22.1, 
+        "humidity": 4
+    }, 
+    "copii": {
+        "heater": false, 
+        "temperature": 22.1, 
+        "humidity": 66
+    }, 
+    "dormitor": {
+        "heater": false, 
+        "temperature": 22.9, 
+        "humidity": 62
+    }, 
+    "hol": {
+        "heater": false, 
+        "temperature": 22.1, 
+        "humidity": 62
+    }, 
+    "bucatarie": {
+        "heater": false, 
+        "temperature": 22.1, 
+        "humidity": 61
+    }, 
+    "power_supplier": {
+        "active": false
+    }
+}

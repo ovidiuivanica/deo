@@ -1,0 +1,15 @@
+<html>
+    <head>
+
+{% load static %}
+
+
+</head>
+    {% if furnizor == "conectica" %}
+        <img src="{% static 'web/comanda_conectica.png' %}"/>
+    {% elif furnizor == "emag" %}
+        <img src="{% static 'web/comanda_emag.png' %}"/>
+    {% else %}
+        not available
+    {% endif %}
+</html>

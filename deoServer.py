@@ -3,13 +3,11 @@ import RPi.GPIO as GPIO
 import serial, time
 import os
 import sys
-from xml.dom import minidom
 import logging
-from datetime import datetime
-from datetime import date
+import logging.handlers
 import threading
 import signal
-from multiprocessing import Process, Lock, Manager
+from multiprocessing import Process, Lock
 from threading import Thread
 from subprocess import Popen, PIPE
 import rpyc
@@ -468,8 +466,8 @@ def dispatcher(measurements_table, lock):
     logging.info("[dispatcher] starting msg dispatcher thread")
     try:
         mq = sysv_ipc.MessageQueue(42, sysv_ipc.IPC_CREX, 0777)
-    except Exception, e:
-        logging.error("[dispatcher] cannot create message queue: " + str(e))
+    except Exception as e:
+        logging.error("[dispatcher] cannot create message queue: %s", e)
         logging.error("[dispatcher] measurements will not be available")
         return
 
@@ -569,7 +567,7 @@ if __name__ == '__main__':
     # logging.basicConfig(level=logging.INFO, format='%(relativeCreated)6d %(threadName)s %(message)s')
     # manager = Manager()
     # create file handler which logs even debug messages
-    fh = logging.FileHandler('deo.log')
+    fh = logging.handlers.RotatingFileHandler("deo.log", maxBytes=1048576)
     fh.setLevel(logging.INFO)
     # create console handler with a higher log level
     ch = logging.StreamHandler()

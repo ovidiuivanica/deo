@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta content="width=device-width; initial-scale=1.25; maximum-scale=2.0; user-scalable=1;" name="viewport"/>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'web/style.css' %}" />
+<script src="{% static 'web/jquery-3.2.1.js' %}" ></script>
+<script>
+
+function sendRequest(resource) {
+  var xhttp = new XMLHttpRequest();
+  document.getElementById("the_key").innerHTML == "opening..";
+  xhttp.onreadystatechange = function() {
+    if (this.readyState < 4){
+      document.getElementById("the_key").innerHTML == "opening..";
+    }
+    else if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("the_key").innerHTML = this.responseText;
+      document.getElementById("extra").innerHTML = "<a href=\"/web/access\">reload</a>";
+    }
+  };
+  xhttp.open("GET", resource, true);
+  xhttp.send();
+}
+
+</script>
+
+<style>
+  .container {
+    height: 200px;
+    position: relative;
+    border: 3px solid green;
+  }
+
+  .center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+  </style>
+
+</head>
+<body>
+
+{% if service_name %}
+    <ul>
+     <h3>{{ service_name }}</h3>
+    </ul>
+{% else %}
+    <p>no service_name available</p>
+{% endif %}
+
+
+
+
+
+<div class="container">
+  <div class="center">
+    <p id="the_key"><button class="button" type="button" onclick="sendRequest('/web/door')">DESCHIDE</button></p>
+    <p id="extra"></p>
+  </div>
+</div>
+
+
+</body>
+
+</html>

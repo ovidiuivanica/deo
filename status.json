@@ -72,7 +72,7 @@
                 "type" : "hysteresis",
                 "treshold" : 0.0,
                 "presets" : {
-                    "day" : 23,
+                    "day" : 22,
                     "night" : 18,
                     "freezing" : 7
                 }
@@ -110,7 +110,7 @@
                 "type" : "hysteresis",
                 "treshold" : 0.0,
                 "presets" : {
-                    "day" : 22,
+                    "day" : 21,
                     "night" : 18,
                     "freezing" : 7
                 }
@@ -148,7 +148,7 @@
                 "type" : "hysteresis",
                 "treshold" : 0.0,
                 "presets" : {
-                    "day" : 23,
+                    "day" : 22,
                     "night" : 18,
                     "freezing" : 7
                 }

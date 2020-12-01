@@ -1,0 +1,129 @@
+<head>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+      google.charts.load('current', {packages: ['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+  
+      function drawChart() {
+        // Define the chart to be drawn.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Element');
+        data.addColumn('number', 'Percentage');
+        data.addRows([
+          ['echipament', {{ total_cost }} ],
+          ['ramas', {{ ramas }}]
+        ]);
+  
+        // Instantiate and draw the chart.
+        var chart = new google.visualization.PieChart(document.getElementById('myPieChart'));
+        chart.draw(data, null);
+      }
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+    myPieChart {
+      width: auto;
+      height: 100%;
+    }
+    ul.lista {
+        list-style-type: square;
+    }
+    #customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+    </style>
+  </head>
+  <body>
+    <!-- Identify where the chart should be drawn. -->
+    <div><h1>donatii sistem video alexandria</h1></div>
+
+    <div>data limita 30 neoiembrie</div>
+
+    <div><table id="customers">
+      <tr>
+        <th>element</th>
+        <th>scop</th>
+        <th>sursa</th>
+        <th>status</th>
+        <th>pret</th>
+      </tr>
+      {% for item in buy_data %}
+          <tr>
+              <td>{{ item.element }}</td>
+              <td>{{ item.scop }}</td>
+              <td><a href="{{ item.sursa}}">link</a></td>
+              <td>{{ item.status }}</td>
+              <td>{{ item.pret }}</td>
+          </tr>
+      {% endfor %}
+      <tr>
+        <td>TOTAL</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>{{ total_cost }}</td>
+    </tr>
+    </table>
+  </div>
+
+    <div><table id="customers">
+        <tr>
+          <th>Modalitate</th>
+          <th>detalii</th>
+        </tr>
+        <tr>
+          <td>ING - cont RON</td>
+          <td>RO41INGB0000999909778549</td>
+        </tr>
+        <tr>
+          <td>Paypal</td>
+          <td>ovidiuivanica@yahoo.com</td>
+        </tr>
+        <tr>
+            <td>Revolut</td>
+            <td>0733928666</td>
+          </tr>
+      </table></div>
+    <div>situatia actuala (ultimul update {{ update_time_stamp }})</div>
+    <div>
+      <a href="tranzactii" class="button">donatii inregistrate</a>
+      <!-- <a href="achizitii" class="button">achizitii</a> -->
+    </div>
+
+    <div><h2>total propus {{ total }} RON</h2></div>
+    <div><h2>total strans {{ primit }} RON</h2></div>
+    <div id="myPieChart"/>
+
+    
+
+  </body>
+  
