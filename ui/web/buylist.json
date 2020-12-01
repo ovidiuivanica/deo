@@ -1,0 +1,66 @@
+[
+    {
+        "element" : "ecran",
+        "scop" : "afisare sala de sus",
+        "status" : "LIVRAT",
+        "sursa" : "https://altex.ro/televizor-smart-led-lg-75un70703ld-4k-ultra-hd-hdr10-191-cm/cpd/UHD75UN70703LD/",
+        "pret" : 3600
+    },
+    {
+        "element" : "video capture switcher",
+        "scop" : "transmisie online",
+        "status" : "LIVRAT",
+        "sursa" : "https://www.westbuy.ro/mixer-video-placi-mixer-pc/mixer-video-switcher/mixer-video/blackmagic-design-atem-mini-hdmi-live-stream-switcher.html",
+        "pret" : 1585
+    },
+    {
+        "element" : "camera",
+        "scop" : "afisare sala sus, transmisie online",
+        "status" : "LIVRAT",
+        "sursa" : "https://www.westbuy.ro/camere-video-profesionale/panasonic/camere-video-pro/panasonic-ag-ac30-full-hd-prosumer-handheld-camcorder-bonus.html",
+        "pret" : 5643
+    },
+    {
+        "element" : "trepied",
+        "scop" : "afisare sala sus, transmisie online",
+        "status" : "LIVRAT",
+        "sursa" : "https://www.westbuy.ro/trepiede-video-profesionale/kituri-trepiede-video/benro-kh25n-video-trepied-kit-155cm.html",
+        "pret" : 594
+    },
+    {
+        "element" : "calculator",
+        "scop" : "transmisie on-line",
+        "status" : "LIVRAT",
+        "sursa" : "https://www.it-sh.ro/magazin/calculatoare-second-hand/calculatoare-refurbished/workstation-dell-precision-t5810-intel-xeon-e5-1620-v3-32gb-ddr4-128gb-ssd-2tb-hdd-placa-nvidia-quadro-k4000-windows-10-pro/",
+        "pret" : 2599
+    },
+    {
+        "element" : "camera secundara",
+        "scop" : "transmisie on-line",
+        "status" : "LIVRAT",
+        "sursa" : "https://www.f64.ro/panasonic-hc-v380-camera-video/p",
+        "pret" : 1159
+    },
+    {
+        "element" : "cabluri hhmi legatura camera, TV",
+        "scop" : "transmisie on-line",
+        "status" : "LIVRAT",
+        "sursa" : "comanda/emag",
+        "pret" : 327
+    },
+    {
+        "element" : "cabluri conexiune calculator, amplificator semnal",
+        "scop" : "transmisie on-line",
+        "status" : "LIVRAT",
+        "sursa" : "comanda/conectica",
+        "pret" : 275
+    },
+    {
+        "element" : "orga",
+        "scop" : "echipament audio",
+        "status" : "CUMPARAT",
+        "sursa" : "https://www.soundstudio.ro/set-pian-digital-yamaha-p-125-bk.html",
+        "pret" : 3454
+    }
+]
+
