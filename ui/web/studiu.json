@@ -1,0 +1,102 @@
+{
+    "17_ianuarie" : {
+        "data" : "17 Ianuarie 2021",
+        "titlu" : "Putearea cuvântului omului lui Dumnezeu",
+        "pasaj" : "2 Împărați 5:1-19a",
+        "reference" : "2kings+5:1-19",
+        "verset" : "2 Împărați 5:14",
+        "idee" : "În orice împrejurare a vieții creștinii trebuie să fie o sursă de înțelegere și ajutor pentru cei care trec prin nevoi.",
+        "scop" : "Să ne ajute să ne înțelegem mai bine menirea: aceea de a fi oamenii prin care Dumnezeu să poată alina suferința celor din jurul nostru.",
+        "sectiuni" : [
+            {
+                "titlu" : "Fii milos!",
+                "pasaj" : "2 Împărați 5:1-5"
+            },
+            {
+                "titlu" : "Fii de ajutor!",
+                "pasaj" : "2 Împărați 5:6-14"
+            },
+            {
+                "titlu" : "Fii corect!",
+                "pasaj" : "2 Împărați 5:15-16"
+            },
+            {
+                "titlu" : "Fii lumină!",
+                "pasaj" : "2 Împărați 5:17-19a"
+            }
+        ]
+    },
+    "24_ianuarie" : {
+        "data" : "24 Ianuarie 2021",
+        "titlu" : "Pacea omului lui Dumnezeu",
+        "pasaj" : "2 Împărați 6:8-23",
+        "reference" : "2kings+6:8-23",
+        "verset" : "2 Împărați 6:16",
+        "idee" : "În mijlocul încercărilor care pot apărea în viața ta, credința te ajută să-L vezi pe Dumnezeu care ține toate lucrurile în mâna Sa.",
+        "scop" : "Să te încurajeze să te încrezi în Dumnezeu, chiar și atunci când ți se  pare că nu mai există nici o soluție pentru problema ta.",
+        "sectiuni" : [
+            {
+                "titlu" : "Credință și descoperire",
+                "pasaj" : "2 Împărați 6:8-12"
+            },
+            {
+                "titlu" : "Credință și ocrotire",
+                "pasaj" : "2 Împărați 6:13-17"
+            },
+            {
+                "titlu" : "Credință și milostivire",
+                "pasaj" : "2 Împărați 6:18-23"
+            }
+        ]
+    },
+    "7_februarie" : {
+        "data" : "7 Februarie 2021",
+        "titlu" : "Moartea omului lui Dumnezeu",
+        "pasaj" : "2 Împărați 13:14-25",
+        "reference" : "2kings+6:8-23",
+        "verset" : "Evrei 13:7",
+        "idee" : "Dumnezeu îi cheamă pe slujitorii Săi să Îl onoreze până la moarte, fiind în felul acesta un exemplu de credincioșie față de El pentru cei din jurul lor.",
+        "scop" : "Să ne încurajeze să rămânem credincioși lui Dumnezeu întreaga viață.",
+        "sectiuni" : [
+            {
+                "titlu" : "Acceptarea suferinței",
+                "pasaj" : "2 Împărați 13:14a"
+            },
+            {
+                "titlu" : "Pregătirea pentru dumul spre Casă",
+                "pasaj" : "2 Împărați 13:14b-19"
+            },
+            {
+                "titlu" : "Ce lași în urma ta?",
+                "pasaj" : "2 Împărați 13:20-25"
+            }
+        ]
+    },
+    "14_februarie" : {
+        "data" : "14 Februarie 2021",
+        "titlu" : "Conducătorul și ascultarea",
+        "pasaj" : "2 Împărați 11:1-20",
+        "reference" : "2kings+6:8-23",
+        "verset" : "Efeseni 5:17",
+        "idee" : "Credincioșii sunt chemați să își conformeze viața pentru a fi în armonie cu scopul general al lui Dumnezeu pentru întreaga lume și particular pentru viețile lor.",
+        "scop" : "Să te încurajeze să trăiești în conformitate cu planul lui Dumnezeu pentru viața ta.",
+        "sectiuni" : [
+            {
+                "titlu" : "O viață condusă de ambiții personale",
+                "pasaj" : "2 Împărați 11:1-3"
+            },
+            {
+                "titlu" : "O nouă speranță",
+                "pasaj" : "2 Împărați 11:4-12"
+            },
+            {
+                "titlu" : "Pe drumul cel bun",
+                "pasaj" : "2 Împărați 11:13-18a"
+            },
+            {
+                "titlu" : "Străjeri în casa Domnului",
+                "pasaj" : "2 Împărați 11:18b-20"
+            }
+        ]
+    }
+}

@@ -7,10 +7,11 @@ import logging
 import logging.handlers
 import threading
 import signal
-from multiprocessing import Process, Lock
+from multiprocessing import Process, Lock, Pipe
 from threading import Thread
 from subprocess import Popen, PIPE
 import rpyc
+from rpyc.utils.server import ThreadedServer
 import json
 from collections import defaultdict
 import psutil
@@ -26,6 +27,7 @@ REFERENCE   = 2
 ID          = 3
 ROOM_ID     = 0
 
+config_file_path = "status.json"
 
 DEFAULT_REFERENCE = 10
 
@@ -78,10 +80,10 @@ def serialInit(ser,comPort,baudRate):
     ser.writeTimeout = 2     #timeout for write
     try:
         ser.open()
-    except IOError, e:
-        logging.error("error open serial port: {0}".format(str(e)))
+    except IOError as msg:
+        logging.error("error open serial port: %s", msg)
     if ser.isOpen():
-        #ser.close()
+
         isInitialized = True
     return isInitialized
 
@@ -98,8 +100,8 @@ def serialRequest(ser,request,retryMax=5):
             logging.error("serial port not available")
             return None
     #    ser.open()
-    except IOError, e:
-        logging.debug("error open serial port: {0}".format(str(e)))
+    except IOError as msg:
+        logging.debug("error open serial port: %s", msg)
         return None
     try:
         ser.flushInput() #flush input buffer, discarding all its contents
@@ -121,8 +123,8 @@ def serialRequest(ser,request,retryMax=5):
             else:
                 break
         #ser.close()
-    except IOError, e1:
-        logging.error("com error : {0}".format(str(e1)))
+    except IOError as msg:
+        logging.error("com error : %s", msg)
     # else:
         # logging.debug("cannot open serial port ")
     # if ser.isOpen():
@@ -377,19 +379,19 @@ def temperatureControl(config, board, status, lock):
         port = get_usb_from_serial(id)
         try:
             sensors[id] = Sensor('/dev/{}'.format(port),
-                                config["sensor_lib"][data.get("type")]["connection"]["baud"])
+                                 config["sensor_lib"][data.get("type")]["connection"]["baud"])
             logging.info("[id:%s][port:%s][baud:%d] reader initialized",
-                        id,
-                        port,
-                        config["sensor_lib"][data.get("type")]["connection"]["baud"])
+                         id,
+                         port,
+                         config["sensor_lib"][data.get("type")]["connection"]["baud"])
         except Exception as msg:
-                logging.warning('[temperature control][%s] sensor init fail: %s', id, msg)
-                if permissive_init:
-                    logging.warning('[temperature control][%s] ignoring', id)
-                    continue
-                else:
-                    logging.error("[temperature control] sensor init fail, aborting..")
-                    sys.exit(1)
+            logging.warning('[temperature control][%s] sensor init fail: %s', id, msg)
+            if permissive_init:
+                logging.warning('[temperature control][%s] ignoring', id)
+                continue
+            else:
+                logging.error("[temperature control] sensor init fail, aborting..")
+                sys.exit(1)
 
     # temp sensors init. (a sensor is a resource that could be used by multiple rooms)
     # logging.info("room init..")
@@ -403,7 +405,7 @@ def temperatureControl(config, board, status, lock):
 
     # furnace init
     furnace = Furnace(config['power_supplier']['actuator']['id'],
-                     board)
+                      board)
 
     # main loop
     try:
@@ -413,29 +415,45 @@ def temperatureControl(config, board, status, lock):
             for name, data in config["rooms"].iteritems():
                 logging.debug("\n----------------------------------")
                 logging.debug("-- ROOM: %s", name)
-                reader = sensors.get(data["sensor"]["id"])
-                if not reader:
-                    # skip room with no reader
-                    logging.debug("skipping since no reader attached")
-                    continue
+                try:
+                    sensor_type = data["sensor"]["type"]
+                    if sensor_type == "watchport":
+                        reader = sensors.get(data["sensor"]["id"])
+                        data["temperature"] = reader.getTemperature()
+                        data["humidity"] = reader.getHumidity()
+                    elif sensor_type == "wifi":
+                        sensor = rpyc.connect(host = data["sensor"]["ip"], port = data["sensor"]["port"])
+                        reader = sensor.root
+                        data["humidity"], data["temperature"] = reader.read()
+                        sensor.close()
+                    if not reader:
+                        # skip room with no reader
+                        logging.debug("skipping since no reader attached")
+                        continue
 
-                data["temperature"] = reader.getTemperature()
-                data["humidity"] = reader.getHumidity()
-                logging.debug("Temperature =%s", data["temperature"])
-                logging.debug("Humidity =%s", data["humidity"])
+                    logging.debug("Temperature =%s", data["temperature"])
+                    logging.debug("Humidity =%s", data["humidity"])
 
-                logging.debug("Heater = %s", data.get("heater"))
-                controllerLogic(data, board)
-                if data.get("heater"):
-                    heat_request = True
-                    logging.info("[%s] Heat request.. T:%s <> R:%s",
-                                 name,
-                                 data["temperature"],
-                                 data["control"]["presets"]["day"])
-                loop_status[name]["temperature"] = data["temperature"]
-                loop_status[name]["humidity"] = data["humidity"]
-                loop_status[name]["heater"] = data["heater"]
-                loop_status[name]["reference"] = data["control"]["presets"]["day"]
+                    logging.debug("Heater = %s", data.get("heater"))
+                    controllerLogic(data, board)
+                    if data.get("heater"):
+                        heat_request = True
+                        logging.info("[%s] Heat request.. T:%s <> R:%s",
+                                     name,
+                                     data["temperature"],
+                                     data["control"]["presets"]["day"])
+                    try:
+                        loop_status[name]["temperature"] = round(data["temperature"], 1)
+                        loop_status[name]["humidity"] = round(data["humidity"], 1)
+                    except Exception as msg:
+                        logging.warning("[%s] data storing: %s, using default values", name, msg)
+                        loop_status[name]["temperature"] = data["temperature"]
+                        loop_status[name]["humidity"] = data["humidity"]
+
+                    loop_status[name]["heater"] = data["heater"]
+                    loop_status[name]["reference"] = data["control"]["presets"]["day"]
+                except Exception as msg:
+                    logging.error("[%s] sensor read failed: %s", name, msg)
 
             if heat_request:
                 furnace.start()
@@ -457,55 +475,120 @@ def temperatureControl(config, board, status, lock):
         logging.info("[temperature control] preparing to exit")
         GPIO.cleanup()  # cleanup all GPIO
 
+class DispatcherService(rpyc.Service):
 
-def dispatcher(measurements_table, lock):
+    def __init__(self, measurements_table):
+        self.measurements_table = measurements_table
+
+    def exposed_read(self):
+        try:
+            snd_data = json.dumps(self.measurements_table)
+        except Exception as msg:
+            logging.error("[dispatcher] json conversion error %s", msg)
+            snd_data = "{}"
+        finally:
+            lock.release()
+
+
+def dispatcher_unfinished(measurements_table, mq, lock):
     # Create the message queue.
-    logging.info("clearing ALL message queues")
-    os.system("ipcrm --all=msg")
 
-    logging.info("[dispatcher] starting msg dispatcher thread")
-    try:
-        mq = sysv_ipc.MessageQueue(42, sysv_ipc.IPC_CREX, 0777)
-    except Exception as e:
-        logging.error("[dispatcher] cannot create message queue: %s", e)
-        logging.error("[dispatcher] measurements will not be available")
-        return
-
-    logging.info("[dispatcher] successfully created msg queue %s", mq.id)
     error_counter = 0
     while True:
 
         try:
-            rcv_msg, _ = mq.receive(type=1)
-            rcv_data = rcv_msg.decode()
-            logging.info("read_request:%s", rcv_data)
-            lock.acquire()
-            try:
-                snd_data = json.dumps(measurements_table)
-            except Exception as msg:
-                logging.error("[dispatcher] json conversion error %s", msg)
-                snd_data = "{}"
-            lock.release()
-            snd_msg = snd_data.encode()
-            mq.send(snd_msg, type=2)
-        except (KeyboardInterrupt, SystemExit, ShutdownException):
-            if mq:
+            rcv_data = mq.recv()
+            logging.debug("read_request:%s", rcv_data)
+            if rcv_data == "read":
+                lock.acquire()
                 try:
-                    mq.remove()
-                except:
-                    pass
-            logging.info("[dispatcher] exiting, clearing message queue")
-            os.system("ipcrm --all=msg")
+                    snd_data = json.dumps(measurements_table)
+                except Exception as msg:
+                    logging.error("[dispatcher] json conversion error %s", msg)
+                    snd_data = "{}"
+                finally:
+                    lock.release()
+                mq.send(snd_data, type=2)
+        except (KeyboardInterrupt, SystemExit, ShutdownException):
             break
         except Exception as msg:
             logging.error("[dispatcher] %s", msg)
             error_counter += 1
             if error_counter > 100:
                 logging.error("[dispatcher] too many queue reading failures")
-                os.system("ipcrm --all=msg")
+
                 break
         else:
             error_counter = 0
+
+def dispatcher(measurements_table, lock):
+    # Create the message queue.
+    logging.info("[dispatcher] starting msg dispatcher thread")
+    error_counter = 0
+    INIT = 0
+    OPERATING = 1
+    ERROR = 2
+    CLOSING = 3
+    state = INIT
+    create_retry_max = 3
+    create_retry = 0
+    err_msg = None
+    while True:
+        if state == INIT:
+            logging.info("[dispatcher][INIT] clearing ALL message queues")
+            os.system("ipcrm --all=msg")
+            try:
+                mq = sysv_ipc.MessageQueue(42, sysv_ipc.IPC_CREX, 0777)
+            except Exception as e:
+                create_retry += 1
+                logging.error("[dispatcher][INIT] cannot create message queue: %s", e)
+                logging.error("[dispatcher][INIT] measurements will not be available")
+                if create_retry > create_retry_max:
+                    state = CLOSING
+            else:
+                logging.info("[dispatcher] successfully created msg queue %s", mq.id)
+                create_retry = 0
+                state = OPERATING
+        elif state == OPERATING:
+            try:
+                rcv_msg, _ = mq.receive(type=1)
+                rcv_data = rcv_msg.decode()
+                logging.debug("read_request:%s", rcv_data)
+                lock.acquire()
+                try:
+                    snd_data = json.dumps(measurements_table)
+                except Exception as msg:
+                    logging.error("[dispatcher] json conversion error %s", msg)
+                    snd_data = "{}"
+                lock.release()
+                snd_msg = snd_data.encode()
+                mq.send(snd_msg, type=2)
+            except (KeyboardInterrupt, SystemExit, ShutdownException):
+                state = CLOSING
+            except Exception as msg:
+                err_msg = str(msg)
+                state = ERROR
+            else:
+                error_counter = 0
+        elif state == ERROR:
+            if err_msg and "The queue no longer exists" in err_msg:
+                logging.warning("[dispatcher][ERROR] queue failed, recreating queue")
+                state = INIT
+            else:
+                error_counter += 1
+                logging.error("[dispatcher][ERROR][%d] %s", error_counter, err_msg)
+            if error_counter > 100:
+                logging.error("[dispatcher][ERROR] too many queue reading failures")
+                state = CLOSING
+        elif state == CLOSING:
+            logging.info("[dispatcher][CLOSING] exiting, clearing message queue")
+            if mq:
+                try:
+                    mq.remove()
+                except:
+                    pass
+            os.system("ipcrm --all=msg")
+            break
 
 
 def update_config(config_file_path, config):
@@ -563,6 +646,45 @@ def heat_solution(config_file_path, board, lock):
     monitoring.join()
 
 
+class ConfiguratorService(rpyc.Service):
+
+    @staticmethod
+    def add(a, b):
+        return a + b
+
+    @staticmethod
+    def substract(a, b):
+        return a - b
+
+    @staticmethod
+    def alter(room, operation):
+        with open(config_file_path) as fd:
+            data = json.load(fd)
+            value = data["rooms"][room]["control"]["presets"]["day"]
+            data["rooms"][room]["control"]["presets"]["day"] = operation(value, 0.5)
+        try:
+            with open(config_file_path, "w") as fd:
+                json.dump(data, fd, indent=4)
+        except Exception as msg:
+            with open("config_bkp.json", "w") as fd:
+                json.dump(data, fd)
+                logging.error("failed to save json data, creating bkp: config_bkp.json", msg)
+        else:
+            logging.info("[%s] new val set %s ", data["rooms"][room]["control"]["presets"]["day"])
+
+    def exposed_increase(self, room):
+        self.alter(room, self.add)
+
+    def exposed_decrease(self, room):
+        self.alter(room, self.substract)
+
+
+def configurator():
+    logging.basicConfig(level=logging.INFO)
+    server = ThreadedServer(ConfiguratorService, hostname="0.0.0.0", port=18861)
+    logging.info("configurator service starting")
+    server.start()
+
 if __name__ == '__main__':
     # logging.basicConfig(level=logging.INFO, format='%(relativeCreated)6d %(threadName)s %(message)s')
     # manager = Manager()
@@ -588,8 +710,6 @@ if __name__ == '__main__':
     pid = os.getpid()
     logging.info("starting service on pid{}".format(pid))
 
-    config_file_path = "status.json"
-
     board = RelayBoard(gpio_lock)
     if not board.initialized:
         logging.error("board init fail")
@@ -601,12 +721,16 @@ if __name__ == '__main__':
     logging.info("starting workers")
     measurements = Process(target=heat_solution, args=(config_file_path, board, status_lock))
     # appliances = Process(target=YardGateControl, args=(config, board, status_lock))
+    configuration = Process(target=configurator)
 
     # appliances.start()
     measurements.start()
+    configuration.start()
+    logging.info("all services started")
 
     # appliances.join()
     measurements.join()
+    configuration.join()
 
     exit(0)
 

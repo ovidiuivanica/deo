@@ -1,43 +1,107 @@
 <!DOCTYPE html>
 <head>
+  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
   {% load static %}
   <script src="{% static 'web/jquery-3.2.1.js' %}" ></script>
     <style>
-        #table {
-            position: absolute;
-            border: 1;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            width: 100%;
-        }
+table {
+  font-family: arial, sans-serif;
+  font-size: 300%;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 1px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+button {
+  background-color: gray;
+    border: none;
+    color: white;
+    padding: 16px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 32px;
+    margin: 2px 2px;
+    cursor: pointer;
+}
+
     </style>
     <script>
 
-var myVar2 = setInterval(function(){ update() }, 10000);
+var myVar2 = setInterval(function(){ update() }, 5000);
 var local_cache;
+
+function inc(room) {
+	//  jobsReq.onreadystatechange = jobPollChange;
+	  console.log(room);  
+    var url; 
+    url = "/web/set/inc/" + room;
+    console.log(url);
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", url , true);
+	  xmlhttp.send();
+}
+
+function dec(room) {
+	//  jobsReq.onreadystatechange = jobPollChange;
+	  console.log(room);  
+    var url; 
+    url = "/web/set/dec/" + room;
+    console.log(url);
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", url, true);
+	  xmlhttp.send();
+}
 
 function data_init(){
   // initial loading of data and drawing table structure
   var obj, dbParam, xmlhttp, x, txt = "";
-
+  var heater_symbol, room_symbol;
   console.log("data init");
   xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       local_cache = JSON.parse(this.responseText);
       txt += "<table>"
-      txt += "<tr><th><p>" + "room" + "</p></th><th><p>" + "temp" + "</p></th><th><p>" + "reference" + "</p></th><th><p>" + "himidity" + "</p></th><th><p>" + "heater" + "</p></th></tr>";
+      txt += "<tr><th><p>" + "room" + "</p></th><th><p class=\"" + "far fa-hand-point-down" + "\"></p></th><th><p class=\"" + "fas fa-temperature-low" + "\"></p></th><th><p class=\"" + "fas fa-temperature-high" + "\"></p></th><th><p class=\"" + "fas fa-cloud-rain" + "\"></p></th><th><p class=\"" + "far fa-sun " + "\"></p></th></tr>";
       for (x in local_cache) {
         if (x == "power_supplier")
           continue;
-        txt += "<tr><td>" + x + "</td>";
-        txt += "<td>" + "<p id=\"" + x + "_temperature" + "\">" + local_cache[x].temperature + "</p></td>";
-        txt += "<td>" + "<p id=\"" + x + "_reference" + "\">" + local_cache[x].reference + "</p></td>";
-        txt += "<td>" + "<p id=\"" + x + "_humidity" + "\">" + local_cache[x].humidity + "</p></td>";
-        txt += "<td>" + "<p id=\"" + x + "_heater" + "\">" + local_cache[x].heater + "</p></td>";
+        switch(x){
+          case "living" : 
+            room_symbol = "fas fa-user-friends";
+            break;
+          case "dormitor" : 
+            room_symbol = "fas fa-bed";
+            break;
+          case "copii" : 
+            room_symbol = "fas fa-baby";
+            break;
+          case "hol" : 
+            room_symbol = "fas fa-door-open";
+            break;
+          case "bucatarie" : 
+            room_symbol = "fas fa-coffee";
+            break;
+          default:
+            room_symbol = "far fa-file"
+        }
+        txt += "<tr><td><p class=\"" + room_symbol + "\"></p></td>";
+        txt += '<td><button onclick="dec(\'' + x + '\');"><p class="far fa-arrow-alt-circle-down"></button><button onclick="inc(\'' + x + '\');"><p class="far fa-arrow-alt-circle-up"></button></td>';
+        txt += "<td>" + "<p id=\"" + x + "_temperature" + "\">" + local_cache[x].temperature + "<span>&#176;</span></p></td>";
+        txt += "<td>" + "<p id=\"" + x + "_reference" + "\">" + local_cache[x].reference + "<span>&#176;</span></p></td>";
+        txt += "<td>" + "<p id=\"" + x + "_humidity" + "\">" + local_cache[x].humidity + "%</p></td>";
+        heater_symbol = local_cache[x].heater  ? "fas fa-sun fa-spin" : "fas fa-sun";
+        heater_color = local_cache[x].heater  ? "red" : "blue";
+        txt += "<td>" + "<p id=\"" + x + "_heater" + "\" class=\"" + heater_symbol + "\" style=\"color:" + heater_color + ";\"></p></td>";
         txt += "</tr>";
       }
       txt += "</table>"
@@ -52,6 +116,7 @@ function data_init(){
 function update(){
   // the continuous refresing part
   var refresher, fresh_data, x, el_id;
+  var heater_symbol, heater_color;
   console.log("updater");
   refresher = new XMLHttpRequest();
     refresher.onreadystatechange = function() {
@@ -67,30 +132,32 @@ function update(){
               local_cache[x].temperature = fresh_data[x].temperature;
               el_id = x + "_temperature"
               console.log(el_id);
-              document.getElementById(el_id).innerHTML = fresh_data[x].temperature
+              document.getElementById(el_id).innerHTML = fresh_data[x].temperature + "<span>&#176;</span>";
           }
 
           // reference
           if(local_cache[x].reference != fresh_data[x].reference){
             local_cache[x].reference = fresh_data[x].reference;
             el_id = x + "_reference"
-            document.getElementById(el_id).innerHTML = fresh_data[x].reference
+            document.getElementById(el_id).innerHTML = fresh_data[x].reference + "<span>&#176;</span>";
           }
 
           // humidity
           if(local_cache[x].humidity != fresh_data[x].humidity){
             local_cache[x].humidity = fresh_data[x].humidity;
             el_id = x + "_humidity"
-            document.getElementById(el_id).innerHTML = fresh_data[x].humidity
+            document.getElementById(el_id).innerHTML = fresh_data[x].humidity + "%";
           }
 
           // heater
           if(local_cache[x].heater != fresh_data[x].heater){
             local_cache[x].heater = fresh_data[x].heater;
             el_id = x + "_heater"
-            document.getElementById(el_id).innerHTML = fresh_data[x].heater
+            heater_symbol = fresh_data[x].heater ? "fas fa-sun fa-spin" : "fas fa-sun";
+            heater_color = fresh_data[x].heater ? "red" : "blue";
+            document.getElementById(el_id).setAttribute("class", heater_symbol)
+            document.getElementById(el_id).setAttribute("style", "color:" + heater_color + ";")
           }
-
       }
     }
   };
@@ -104,7 +171,7 @@ function update(){
 
 <body onload="data_init()">
 
-<h2>Deo place</h2>
+<!-- <h2>Deo place</h2> -->
 
 <p id="monitor_data_table"></p>
 

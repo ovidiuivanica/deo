@@ -1,0 +1,96 @@
+<head>
+    {% load static %}
+    {% static "" as baseUrl %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+    ul.lista {
+        list-style-type: square;
+    }
+    #customers {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    #customers td, #customers th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+    #customers tr:hover {background-color: #ddd;}
+
+    #customers th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #4CAF50;
+        color: white;
+    }
+    .button {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+    }
+    img {
+        width: 100%;
+        height: auto;
+    }
+    </style>
+  </head>
+  <body>
+    <!-- Identify where the chart should be drawn. -->
+    <div>
+        
+    </div>
+
+    <div><table id="customers">
+
+    <tr>
+        <td><img src="{{ baseUrl }}/web/familie/{{familie}}.jpeg"/></td>
+        
+        
+    </tr>
+    <tr>
+        <td><h1>Mai aproape</h1></td>
+    </tr>
+
+    {% for item, info in data.items %}
+        <tr><td>
+        <h3>{{ item }}</h3>
+        {% if "motive" in item or "abordat" in item or "copilarit" in item %}
+            <ul>
+                {% for sub_item in info %}
+                    <li>{{ sub_item }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+
+            {{ info }}
+        {% endif %}
+        </td></tr>
+    {% endfor %}
+
+    <tr>
+        <td><img src="{{ baseUrl }}/web/Familii_Golgota.png"/></td>
+    </tr>
+
+
+    </table>
+  </div>
+
+
+
+    
+
+  </body>
+  

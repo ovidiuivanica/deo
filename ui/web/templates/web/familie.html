@@ -1,0 +1,128 @@
+<head>
+    {% load static %}
+    {% static "" as baseUrl %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+    ul.lista {
+        list-style-type: square;
+    }
+    #customers {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    #customers td, #customers th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+    #customers tr:hover {background-color: #ddd;}
+
+    #customers th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #4CAF50;
+        color: white;
+    }
+    .button {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+    }
+    img {
+        width: 100%;
+        height: auto;
+    }
+    </style>
+  </head>
+  <body>
+    <!-- Identify where the chart should be drawn. -->
+    <div>
+        
+    </div>
+
+    <div><table id="customers">
+    <tr>
+        <td><h2>SĂPTĂMÂNA DE RUGĂCIUNE 2021</h2></td>
+        
+    </tr>
+    <tr>
+        <td><img src="{{ baseUrl }}/web/familie/online_prayer.png"/></td>
+        
+    </tr>
+    <tr>
+        <td><h1>PERSEVERENȚA pe calea Domnului</h1></td>
+        
+    </tr>
+    <tr>
+        <td><h2>{{ data.titlu }}</h2></td>
+    </tr>
+    <tr>
+        <td><span class="glyphicon glyphicon-book"></span>  {{ data.text }}</td>
+    </tr>
+    <tr>
+        <td><span class="glyphicon glyphicon-envelope"></span>  
+            {% for line in data.explicatie %}
+                {{ line }} <br />
+            {% endfor %}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <span class="glyphicon glyphicon-list"></span>
+            <b>Multumiri</b>
+            <ul>
+            {% for item in data.multumiri %}
+                <li>{{ item }}</li>
+            {% endfor %}
+            </ul>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <span class="glyphicon glyphicon-list"></span>
+            <b>Mijlociri</b>
+            <ul>
+            {% for item in data.mijlociri %}
+                <li>{{ item }}</li>
+            {% endfor %}
+            </ul>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <span class="glyphicon glyphicon-list"></span>
+            <b>Cereri</b>
+            <ul>
+            {% for item in data.cereri %}
+                <li>{{ item }}</li>
+            {% endfor %}
+            </ul>
+        </td>
+    </tr>
+
+
+    </table>
+  </div>
+
+
+
+    
+
+  </body>
+  
